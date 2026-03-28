@@ -1,0 +1,280 @@
+/* ========== PREMIUM & MINIMALIST DESIGN SYSTEM ========== */
+/* Zaman Optics Brand Design */
+/* Primary Color: #FF8C00 (Orange) */
+/* Text Color: #1A1A1A (Dark) */
+/* Background: #FFFFFF (White) */
+/* Surface: #F5F5F5 (Light Gray) */
+/* Border Radius: 10px (All cards and buttons) */
+
+:root {
+  /* Brand Colors */
+  --color-brand-primary: #FF8C00;
+  --color-text: #1A1A1A;
+  --color-background: #FFFFFF;
+  --color-surface: #F5F5F5;
+  --color-border-light: #E8E8E8;
+  
+  /* Border Radius */
+  --border-radius-default: 10px;
+  --border-radius-card: 10px;
+  --border-radius-button: 10px;
+  --border-radius-input: 10px;
+}
+
+/* Card elevation and refinement */
+.card--card,
+.product-card-wrapper .card,
+.collection-card-wrapper .card,
+.article-card-wrapper .card {
+  border-radius: var(--border-radius-card, 10px);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card--card:hover,
+.product-card-wrapper .card:hover,
+.collection-card-wrapper .card:hover,
+.article-card-wrapper .card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: rgba(255, 140, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+/* Premium text hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+p {
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* Primary accent color for links */
+a:not(.button):not(.link-with-icon) {
+  color: var(--color-brand-primary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+a:not(.button):not(.link-with-icon):hover {
+  opacity: 0.85;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* Premium button styling */
+.button,
+button,
+.shopify-challenge__button {
+  border-radius: var(--border-radius-button, 10px);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.button--primary,
+.button:not(.button--secondary):not(.button--tertiary) {
+  background-color: var(--color-brand-primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.15);
+  border: none;
+}
+
+.button--primary:hover,
+.button:not(.button--secondary):not(.button--tertiary):hover {
+  background-color: #E67E00;
+  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.button--secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-light);
+}
+
+.button--secondary:hover {
+  background-color: #EFEFEF;
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.button--tertiary {
+  color: var(--color-brand-primary);
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+.button--tertiary:hover {
+  background-color: rgba(255, 140, 0, 0.05);
+  border-color: var(--color-brand-primary);
+}
+
+/* Form inputs with premium styling */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"],
+textarea,
+select {
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-input, 10px);
+  background-color: white;
+  color: var(--color-text);
+  padding: 0.8rem 1.2rem;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+  outline: none;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: rgba(26, 26, 26, 0.4);
+}
+
+/* Premium section spacing and backgrounds */
+.section {
+  background-color: white;
+}
+
+.section:nth-child(even) {
+  background-color: var(--color-surface);
+}
+
+/* Media elements with border radius */
+.media,
+.media--square,
+.media--portrait,
+.media--landscape {
+  border-radius: var(--border-radius-default, 10px);
+  overflow: hidden;
+}
+
+.media {
+  background-color: var(--color-surface);
+}
+
+/* Text box premium styling */
+.content-container,
+.contains-content-container {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-default, 10px);
+  padding: 2rem;
+  border: 1px solid var(--color-border-light);
+  transition: all 0.3s ease;
+}
+
+.content-container:hover,
+.contains-content-container:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Badge styling with brand color */
+.badge {
+  background-color: var(--color-brand-primary);
+  color: white;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Product price and rating premium styling */
+.price,
+.rating {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.price-item {
+  font-size: 1.4rem;
+  color: var(--color-brand-primary);
+  font-weight: 600;
+}
+
+/* Minimalist divider */
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-border-light), transparent);
+  margin: 2rem 0;
+}
+
+/* Smooth transitions for interactive elements */
+button,
+a,
+input,
+select,
+textarea {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states with brand color */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Accessibility: High contrast for readability */
+body {
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+/* Remove default button styles for consistency */
+button {
+  border: none;
+  font-family: inherit;
+}
+
+/* Success and neutral states */
+.success {
+  color: #27AE60;
+}
+
+.error {
+  color: #E74C3C;
+}
+
+.neutral {
+  color: rgba(26, 26, 26, 0.6);
+}
+
+/* Premium spacing utilities */
+.section {
+  padding: 3rem 0;
+}
+
+@media screen and (min-width: 750px) {
+  .section {
+    padding: 4rem 0;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .section {
+    padding: 5rem 0;
+  }
+}
+
+/* ========== END PREMIUM DESIGN SYSTEM ========== */

@@ -1,0 +1,396 @@
+{% comment %}
+  PRESCRIPTION WORKFLOW SNIPPET
+  
+  Renders the complete prescription form workflow for eyeglasses, blue light, and kids products.
+  
+  This snippet provides:
+  1. Prescription data collection form (OD/OS fields)
+  2. Lens selection interface (Material, Coatings, etc.)
+  3. Multi-step form submission to cart
+  
+  Accepts:
+  - product: {Object} product object
+  - product_form_id: {String} form ID
+  - section_id: {String} section ID
+  - block: {Object} block settings
+  - show_dynamic_checkout: {Boolean} show payment button
+  - gift_card_recipient_feature_active: {Boolean} show gift card recipient form
+{% endcomment %}
+
+{{ 'section-prescription.css' | asset_url | stylesheet_tag }}
+
+<prescription-workflow
+  class="prescription-workflow"
+  data-section-id="{{ section_id }}"
+  data-form-id="{{ product_form_id }}"
+>
+  <div class="prescription-workflow__container">
+    <!-- STEP PROGRESS INDICATOR -->
+    <div class="prescription-steps">
+      <ol class="prescription-steps__list" aria-label="Prescription form steps">
+        <li class="prescription-steps__item prescription-steps__item--1 is-current" data-step="1">
+          <span class="prescription-steps__number">1</span>
+          <span class="prescription-steps__label">{{ 'products.prescription.step_1_label' | t: default: 'Prescription' }}</span>
+        </li>
+        <li class="prescription-steps__item prescription-steps__item--2" data-step="2">
+          <span class="prescription-steps__number">2</span>
+          <span class="prescription-steps__label">{{ 'products.prescription.step_2_label' | t: default: 'Lens Type' }}</span>
+        </li>
+        <li class="prescription-steps__item prescription-steps__item--3" data-step="3">
+          <span class="prescription-steps__number">3</span>
+          <span class="prescription-steps__label">{{ 'products.prescription.step_3_label' | t: default: 'Coatings' }}</span>
+        </li>
+        <li class="prescription-steps__item prescription-steps__item--4" data-step="4">
+          <span class="prescription-steps__number">4</span>
+          <span class="prescription-steps__label">{{ 'products.prescription.step_4_label' | t: default: 'Review' }}</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- PRESCRIPTION FORM WRAPPER -->
+    <product-form
+      class="product-form prescription-form"
+      data-hide-errors="false"
+      data-section-id="{{ section_id }}"
+      data-mode="prescription"
+    >
+      <div class="product-form__error-message-wrapper" role="alert" hidden>
+        <span class="svg-wrapper">
+          {{- 'icon-error.svg' | inline_asset_content -}}
+        </span>
+        <span class="product-form__error-message"></span>
+      </div>
+
+      {%- form 'product',
+        product,
+        id: product_form_id,
+        class: 'form prescription-form__form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <!-- HIDDEN VARIANT INPUT -->
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          class="product-variant-id"
+        >
+
+        <!-- STEP 1: PRESCRIPTION DATA -->
+        <fieldset class="prescription-step prescription-step--1 is-active" data-step="1">
+          <legend class="prescription-step__title">
+            <span class="prescription-step__heading">{{ 'products.prescription.step_1_title' | t: default: 'Enter Your Prescription' }}</span>
+            <span class="prescription-step__subtitle">{{ 'products.prescription.step_1_subtitle' | t: default: 'Please provide your OD and OS values' }}</span>
+          </legend>
+
+          <div class="prescription-form__section">
+            <h3 class="prescription-form__section-title">{{ 'products.prescription.right_eye_label' | t: default: 'Right Eye (OD)' }}</h3>
+            <div class="prescription-form__fields">
+              <div class="prescription-form__field">
+                <label for="od-sph-{{ section_id }}" class="form__label">
+                  {{ 'products.prescription.sph_label' | t: default: 'SPH (Sphere)' }}
+                  <span class="required">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="od-sph-{{ section_id }}"
+                  name="attributes[OD SPH]"
+                  placeholder="-0.00"
+                  step="0.25"
+                  required
+                  aria-required="true"
+                  class="prescription-form__input"
+                >
+              </div>
+              <div class="prescription-form__field">
+                <label for="od-cyl-{{ section_id }}" class="form__label">
+                  {{ 'products.prescription.cyl_label' | t: default: 'CYL (Cylinder)' }}
+                </label>
+                <input
+                  type="number"
+                  id="od-cyl-{{ section_id }}"
+                  name="attributes[OD CYL]"
+                  placeholder="-0.00"
+                  step="0.25"
+                  class="prescription-form__input"
+                >
+              </div>
+              <div class="prescription-form__field">
+                <label for="od-axis-{{ section_id }}" class="form__label">
+                  {{ 'products.prescription.axis_label' | t: default: 'AXIS' }}
+                </label>
+                <input
+                  type="number"
+                  id="od-axis-{{ section_id }}"
+                  name="attributes[OD AXIS]"
+                  placeholder="0"
+                  step="1"
+                  min="0"
+                  max="180"
+                  class="prescription-form__input"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="prescription-form__section">
+            <h3 class="prescription-form__section-title">{{ 'products.prescription.left_eye_label' | t: default: 'Left Eye (OS)' }}</h3>
+            <div class="prescription-form__fields">
+              <div class="prescription-form__field">
+                <label for="os-sph-{{ section_id }}" class="form__label">
+                  {{ 'products.prescription.sph_label' | t: default: 'SPH (Sphere)' }}
+                  <span class="required">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="os-sph-{{ section_id }}"
+                  name="attributes[OS SPH]"
+                  placeholder="-0.00"
+                  step="0.25"
+                  required
+                  aria-required="true"
+                  class="prescription-form__input"
+                >
+              </div>
+              <div class="prescription-form__field">
+                <label for="os-cyl-{{ section_id }}" class="form__label">
+                  {{ 'products.prescription.cyl_label' | t: default: 'CYL (Cylinder)' }}
+                </label>
+                <input
+                  type="number"
+                  id="os-cyl-{{ section_id }}"
+                  name="attributes[OS CYL]"
+                  placeholder="-0.00"
+                  step="0.25"
+                  class="prescription-form__input"
+                >
+              </div>
+              <div class="prescription-form__field">
+                <label for="os-axis-{{ section_id }}" class="form__label">
+                  {{ 'products.prescription.axis_label' | t: default: 'AXIS' }}
+                </label>
+                <input
+                  type="number"
+                  id="os-axis-{{ section_id }}"
+                  name="attributes[OS AXIS]"
+                  placeholder="0"
+                  step="1"
+                  min="0"
+                  max="180"
+                  class="prescription-form__input"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="prescription-form__section">
+            <div class="prescription-form__field">
+              <label for="pd-{{ section_id }}" class="form__label">
+                {{ 'products.prescription.pd_label' | t: default: 'Pupillary Distance (PD)' }}
+                <span class="form__label-info">({{ 'products.prescription.pd_unit' | t: default: 'mm' }})</span>
+                <span class="required">*</span>
+              </label>
+              <input
+                type="number"
+                id="pd-{{ section_id }}"
+                name="attributes[PD]"
+                placeholder="62.0"
+                step="0.5"
+                min="50"
+                max="80"
+                required
+                aria-required="true"
+                class="prescription-form__input"
+              >
+            </div>
+          </div>
+
+          <p class="prescription-form__help-text">
+            {{ 'products.prescription.prescription_help' | t: default: 'All fields marked with * are required' }}
+          </p>
+        </fieldset>
+
+        <!-- STEP 2: LENS TYPE SELECTION -->
+        <fieldset class="prescription-step prescription-step--2" data-step="2" hidden>
+          <legend class="prescription-step__title">
+            <span class="prescription-step__heading">{{ 'products.prescription.step_2_title' | t: default: 'Choose Your Lens Type' }}</span>
+            <span class="prescription-step__subtitle">{{ 'products.prescription.step_2_subtitle' | t: default: 'Select the lens type that fits your needs' }}</span>
+          </legend>
+
+          <div class="prescription-form__field">
+            <label for="lens-type-{{ section_id }}" class="form__label">
+              {{ 'products.prescription.lens_type_label' | t: default: 'Lens Type' }}
+              <span class="required">*</span>
+            </label>
+            <select
+              id="lens-type-{{ section_id }}"
+              name="attributes[Lens Type]"
+              required
+              aria-required="true"
+              class="prescription-form__select"
+            >
+              <option value="">{{ 'products.prescription.select_lens_type' | t: default: 'Select lens type...' }}</option>
+              <option value="Single Vision">{{ 'products.prescription.lens_type_single_vision' | t: default: 'Single Vision' }}</option>
+              <option value="Progressive">{{ 'products.prescription.lens_type_progressive' | t: default: 'Progressive (Bifocal)' }}</option>
+              <option value="Bifocal">{{ 'products.prescription.lens_type_bifocal' | t: default: 'Bifocal' }}</option>
+            </select>
+          </div>
+
+          <div class="prescription-form__field">
+            <label for="lens-material-{{ section_id }}" class="form__label">
+              {{ 'products.prescription.lens_material_label' | t: default: 'Lens Material' }}
+              <span class="required">*</span>
+            </label>
+            <select
+              id="lens-material-{{ section_id }}"
+              name="attributes[Lens Material]"
+              required
+              aria-required="true"
+              class="prescription-form__select"
+            >
+              <option value="">{{ 'products.prescription.select_material' | t: default: 'Select material...' }}</option>
+              <option value="Plastic">{{ 'products.prescription.material_plastic' | t: default: 'Plastic' }}</option>
+              <option value="Polycarbonate">{{ 'products.prescription.material_polycarbonate' | t: default: 'Polycarbonate' }}</option>
+              <option value="High Index">{{ 'products.prescription.material_high_index' | t: default: 'High Index' }}</option>
+              <option value="Glass">{{ 'products.prescription.material_glass' | t: default: 'Glass' }}</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3: COATINGS & TREATMENTS -->
+        <fieldset class="prescription-step prescription-step--3" data-step="3" hidden>
+          <legend class="prescription-step__title">
+            <span class="prescription-step__heading">{{ 'products.prescription.step_3_title' | t: default: 'Select Coatings & Treatments' }}</span>
+            <span class="prescription-step__subtitle">{{ 'products.prescription.step_3_subtitle' | t: default: 'Enhance your lenses with optional coatings' }}</span>
+          </legend>
+
+          <div class="prescription-form__checkboxes">
+            <label class="prescription-form__checkbox-label">
+              <input
+                type="checkbox"
+                name="attributes[Anti-Glare Coating]"
+                value="Yes"
+                class="prescription-form__checkbox"
+              >
+              <span class="prescription-form__checkbox-text">
+                {{ 'products.prescription.coating_anti_glare' | t: default: 'Anti-Glare Coating' }}
+              </span>
+            </label>
+
+            <label class="prescription-form__checkbox-label">
+              <input
+                type="checkbox"
+                name="attributes[Blue Light Protection]"
+                value="Yes"
+                class="prescription-form__checkbox"
+              >
+              <span class="prescription-form__checkbox-text">
+                {{ 'products.prescription.coating_blue_light' | t: default: 'Blue Light Protection' }}
+              </span>
+            </label>
+
+            <label class="prescription-form__checkbox-label">
+              <input
+                type="checkbox"
+                name="attributes[UV Protection]"
+                value="Yes"
+                class="prescription-form__checkbox"
+              >
+              <span class="prescription-form__checkbox-text">
+                {{ 'products.prescription.coating_uv' | t: default: 'UV Protection' }}
+              </span>
+            </label>
+
+            <label class="prescription-form__checkbox-label">
+              <input
+                type="checkbox"
+                name="attributes[Scratch Resistant]"
+                value="Yes"
+                class="prescription-form__checkbox"
+              >
+              <span class="prescription-form__checkbox-text">
+                {{ 'products.prescription.coating_scratch_resistant' | t: default: 'Scratch Resistant' }}
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- STEP 4: REVIEW & SUBMIT -->
+        <fieldset class="prescription-step prescription-step--4" data-step="4" hidden>
+          <legend class="prescription-step__title">
+            <span class="prescription-step__heading">{{ 'products.prescription.step_4_title' | t: default: 'Review Your Order' }}</span>
+            <span class="prescription-step__subtitle">{{ 'products.prescription.step_4_subtitle' | t: default: 'Verify all details before adding to cart' }}</span>
+          </legend>
+
+          <div class="prescription-form__review">
+            <div class="prescription-form__review-section">
+              <h4>{{ 'products.prescription.review_prescription' | t: default: 'Prescription' }}</h4>
+              <dl class="prescription-form__review-list">
+                <dt>OD SPH:</dt>
+                <dd class="prescription-review__value" data-field="od-sph">-</dd>
+
+                <dt>OS SPH:</dt>
+                <dd class="prescription-review__value" data-field="os-sph">-</dd>
+
+                <dt>PD:</dt>
+                <dd class="prescription-review__value" data-field="pd">-</dd>
+              </dl>
+            </div>
+
+            <div class="prescription-form__review-section">
+              <h4>{{ 'products.prescription.review_lens' | t: default: 'Lens Options' }}</h4>
+              <dl class="prescription-form__review-list">
+                <dt>{{ 'products.prescription.lens_type_label' | t: default: 'Lens Type' }}:</dt>
+                <dd class="prescription-review__value" data-field="lens-type">-</dd>
+
+                <dt>{{ 'products.prescription.lens_material_label' | t: default: 'Lens Material' }}:</dt>
+                <dd class="prescription-review__value" data-field="lens-material">-</dd>
+              </dl>
+            </div>
+
+            <p class="prescription-form__review-note">
+              {{ 'products.prescription.review_note' | t: default: 'Please review all information. You can still edit by going to previous steps.' }}
+            </p>
+          </div>
+        </fieldset>
+
+        <!-- FORM BUTTONS -->
+        <div class="prescription-form__buttons">
+          <button
+            type="button"
+            class="prescription-form__button prescription-form__button--prev button button--secondary"
+            data-action="prev"
+            hidden
+          >
+            {{ 'products.prescription.button_previous' | t: default: '← Previous' }}
+          </button>
+
+          <button
+            type="button"
+            class="prescription-form__button prescription-form__button--next button button--primary"
+            data-action="next"
+          >
+            {{ 'products.prescription.button_next' | t: default: 'Next →' }}
+          </button>
+
+          <button
+            type="submit"
+            name="add"
+            class="prescription-form__button prescription-form__submit button button--primary"
+            data-action="submit"
+            hidden
+          >
+            <span>{{ 'products.product.add_to_cart' | t }}</span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        </div>
+
+        {%- if gift_card_recipient_feature_active -%}
+          {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
+        {%- endif -%}
+      {%- endform -%}
+    </product-form>
+  </div>
+</prescription-workflow>
+
+<script src="{{ 'product-mode.js' | asset_url }}" defer="defer"></script>

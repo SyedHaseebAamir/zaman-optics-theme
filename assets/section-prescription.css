@@ -1,0 +1,611 @@
+/* ====================================
+   PRESCRIPTION FORM STYLING
+   Zaman Optics - Premium Design System
+   ==================================== */
+
+:root {
+  --prescription-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --prescription-step-width: calc((100% - 60px) / 4);
+}
+
+/* ====================================
+   STEP PROGRESS INDICATOR
+   ==================================== */
+
+.prescription-steps {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background: var(--color-surface, #F5F5F5);
+  border-radius: var(--border-radius-default, 10px);
+}
+
+.prescription-steps__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  position: relative;
+}
+
+.prescription-steps__list::before {
+  content: '';
+  position: absolute;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-border-light, #E8E8E8);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.prescription-steps__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  cursor: pointer;
+  transition: var(--prescription-transition);
+}
+
+.prescription-steps__number {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid var(--color-border-light, #E8E8E8);
+  color: var(--color-text, #1A1A1A);
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  transition: var(--prescription-transition);
+}
+
+.prescription-steps__label {
+  font-size: 0.75rem;
+  color: rgba(26, 26, 26, 0.6);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 80px;
+  transition: var(--prescription-transition);
+}
+
+/* Active step styling */
+.prescription-steps__item.is-current .prescription-steps__number {
+  background: var(--color-brand-primary, #FF8C00);
+  border-color: var(--color-brand-primary, #FF8C00);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
+}
+
+.prescription-steps__item.is-current .prescription-steps__label {
+  color: var(--color-text, #1A1A1A);
+  font-weight: 600;
+}
+
+/* Completed step styling */
+.prescription-steps__item.is-completed .prescription-steps__number {
+  background: var(--color-brand-primary, #FF8C00);
+  border-color: var(--color-brand-primary, #FF8C00);
+  color: #FFFFFF;
+}
+
+.prescription-steps__item.is-completed .prescription-steps__number::after {
+  content: '✓';
+  margin-left: 0.25rem;
+}
+
+/* ====================================
+   PRESCRIPTION WORKFLOW CONTAINER
+   ==================================== */
+
+.prescription-workflow__container {
+  width: 100%;
+}
+
+/* ====================================
+   FORM STRUCTURE
+   ==================================== */
+
+.prescription-form {
+  width: 100%;
+}
+
+.prescription-form__form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ====================================
+   FORM STEPS
+   ==================================== */
+
+.prescription-step {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prescription-step[hidden] {
+  display: none;
+}
+
+.prescription-step.is-active {
+  display: block;
+}
+
+.prescription-step__title {
+  border: none;
+  margin: 0 0 2rem 0;
+  padding: 0;
+}
+
+.prescription-step__heading {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text, #1A1A1A);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+
+.prescription-step__subtitle {
+  display: block;
+  font-size: 0.95rem;
+  color: rgba(26, 26, 26, 0.6);
+  line-height: 1.5;
+}
+
+/* ====================================
+   FORM SECTIONS & FIELDS
+   ==================================== */
+
+.prescription-form__section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border-light, #E8E8E8);
+}
+
+.prescription-form__section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.prescription-form__section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text, #1A1A1A);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.prescription-form__fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.25rem;
+}
+
+.prescription-form__field {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ====================================
+   FORM LABELS & INPUTS
+   ==================================== */
+
+.form__label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text, #1A1A1A);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.form__label-info {
+  font-size: 0.75rem;
+  color: rgba(26, 26, 26, 0.5);
+  font-weight: 400;
+  margin-left: 0.25rem;
+}
+
+.required {
+  color: #D32F2F;
+  margin-left: 0.25rem;
+}
+
+.prescription-form__input,
+.prescription-form__select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border-light, #E8E8E8);
+  border-radius: var(--border-radius-input, 10px);
+  background: #FFFFFF;
+  color: var(--color-text, #1A1A1A);
+  font-size: 0.95rem;
+  transition: var(--prescription-transition);
+  font-family: inherit;
+}
+
+.prescription-form__input:focus,
+.prescription-form__select:focus {
+  outline: none;
+  border-color: var(--color-brand-primary, #FF8C00);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+}
+
+.prescription-form__input::placeholder {
+  color: rgba(26, 26, 26, 0.5);
+}
+
+.prescription-form__input:invalid:not(:placeholder-shown),
+.prescription-form__select:invalid:not(:placeholder-shown) {
+  border-color: #D32F2F;
+  background: rgba(211, 47, 47, 0.05);
+}
+
+.prescription-form__input:invalid:not(:placeholder-shown):focus,
+.prescription-form__select:invalid:not(:placeholder-shown):focus {
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
+/* ====================================
+   CHECKBOXES
+   ==================================== */
+
+.prescription-form__checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.prescription-form__checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--prescription-transition);
+  padding: 0.75rem;
+  border-radius: var(--border-radius-input, 10px);
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+}
+
+.prescription-form__checkbox-label:hover {
+  background: var(--color-surface, #F5F5F5);
+}
+
+.prescription-form__checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  accent-color: var(--color-brand-primary, #FF8C00);
+}
+
+.prescription-form__checkbox-text {
+  font-size: 0.95rem;
+  color: var(--color-text, #1A1A1A);
+  user-select: none;
+}
+
+/* ====================================
+   HELP TEXT & NOTES
+   ==================================== */
+
+.prescription-form__help-text {
+  font-size: 0.85rem;
+  color: rgba(26, 26, 26, 0.6);
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border-light, #E8E8E8);
+  line-height: 1.5;
+}
+
+/* ====================================
+   REVIEW SECTION (STEP 4)
+   ==================================== */
+
+.prescription-form__review {
+  background: var(--color-surface, #F5F5F5);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-card, 10px);
+}
+
+.prescription-form__review-section {
+  margin-bottom: 1.5rem;
+}
+
+.prescription-form__review-section:last-child {
+  margin-bottom: 0;
+}
+
+.prescription-form__review-section h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text, #1A1A1A);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.prescription-form__review-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.prescription-form__review-list dt {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(26, 26, 26, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.prescription-form__review-list dd {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text, #1A1A1A);
+  font-weight: 500;
+}
+
+.prescription-review__value {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-border-light, #E8E8E8);
+}
+
+.prescription-form__review-note {
+  font-size: 0.85rem;
+  color: rgba(26, 26, 26, 0.6);
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border-light, #E8E8E8);
+  line-height: 1.5;
+}
+
+/* ====================================
+   FORM BUTTONS
+   ==================================== */
+
+.prescription-form__buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border-light, #E8E8E8);
+}
+
+.prescription-form__button {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-button, 10px);
+  border: none;
+  cursor: pointer;
+  transition: var(--prescription-transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  user-select: none;
+  letter-spacing: 0.01em;
+}
+
+.prescription-form__button[hidden] {
+  display: none;
+}
+
+/* Primary Button (Next/Submit) */
+.button--primary {
+  background: var(--color-brand-primary, #FF8C00);
+  color: #FFFFFF;
+  border: 2px solid var(--color-brand-primary, #FF8C00);
+}
+
+.button--primary:hover:not(:disabled) {
+  background: #E67E00;
+  border-color: #E67E00;
+  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.button--primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Secondary Button (Previous) */
+.button--secondary {
+  background: var(--color-surface, #F5F5F5);
+  color: var(--color-text, #1A1A1A);
+  border: 2px solid var(--color-border-light, #E8E8E8);
+}
+
+.button--secondary:hover:not(:disabled) {
+  background: #EFEFEF;
+  border-color: var(--color-brand-primary, #FF8C00);
+  color: var(--color-brand-primary, #FF8C00);
+}
+
+.button--secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Submit Button Loading State */
+.prescription-form__submit.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.prescription-form__submit.loading .loading__spinner {
+  display: inline-block;
+}
+
+/* ====================================
+   ERROR MESSAGES
+   ==================================== */
+
+.product-form__error-message-wrapper {
+  background: rgba(211, 47, 47, 0.05);
+  border: 1px solid #D32F2F;
+  border-radius: var(--border-radius-input, 10px);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #D32F2F;
+  font-size: 0.9rem;
+}
+
+.product-form__error-message-wrapper[hidden] {
+  display: none;
+}
+
+.product-form__error-message-wrapper .svg-wrapper {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #D32F2F;
+}
+
+/* ====================================
+   RESPONSIVE DESIGN
+   ==================================== */
+
+@media (max-width: 749px) {
+  .prescription-steps {
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .prescription-steps__list {
+    gap: 0.5rem;
+  }
+
+  .prescription-steps__number {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .prescription-steps__label {
+    font-size: 0.65rem;
+    max-width: 60px;
+  }
+
+  .prescription-step__heading {
+    font-size: 1.25rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .prescription-step__subtitle {
+    font-size: 0.85rem;
+  }
+
+  .prescription-form__section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .prescription-form__fields {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .prescription-form__buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .prescription-form__button {
+    padding: 0.875rem 1rem;
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+
+  .prescription-form__review-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ====================================
+   ACCESSIBILITY
+   ==================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .prescription-steps__item,
+  .prescription-steps__number,
+  .prescription-steps__label,
+  .prescription-form__input,
+  .prescription-form__select,
+  .prescription-form__checkbox-label,
+  .prescription-form__button {
+    transition: none;
+  }
+
+  .prescription-step {
+    animation: none;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+.prescription-form__input:focus-visible,
+.prescription-form__select:focus-visible,
+.prescription-form__checkbox:focus-visible,
+.prescription-form__button:focus-visible {
+  outline: 2px solid var(--color-brand-primary, #FF8C00);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  .prescription-form__input,
+  .prescription-form__select {
+    border-width: 2px;
+  }
+
+  .prescription-steps__number {
+    border-width: 2px;
+  }
+
+  .button--primary {
+    border-width: 2px;
+  }
+
+  .button--secondary {
+    border-width: 2px;
+  }
+}
