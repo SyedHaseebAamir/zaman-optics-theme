@@ -104,7 +104,34 @@
     "product_title": "Example product title",
     "collection_title": "Your collection's name"
   },
-  "products": {
+    "products": {
+    "prescription": {
+      "step_1_label": "Step 1",
+      "step_2_label": "Step 2", 
+      "step_3_label": "Step 3",
+      "step_4_label": "Step 4",
+      "step_1_title": "Enter Your Prescription",
+      "step_1_subtitle": "Enter the values exactly as written on your prescription slip",
+      "step_2_title": "Choose Lens Type",
+      "step_2_subtitle": "Select the type of lenses you need",
+      "step_3_title": "Lens Coatings",
+      "step_3_subtitle": "Optional upgrades for your lenses",
+      "step_4_title": "Review & Confirm",
+      "step_4_subtitle": "Please review your prescription before adding to cart",
+      "right_eye_label": "Right Eye (OD)",
+      "left_eye_label": "Left Eye (OS)",
+      "sph_label": "SPH (Sphere)",
+      "cyl_label": "CYL (Cylinder)",
+      "axis_label": "AXIS",
+      "pd_label": "PD (Pupillary Distance)",
+      "pd_unit": "mm",
+      "prescription_help": "Not sure about your values? Enter 0.00 for fields you are unsure about or upload your prescription image below.",
+      "button_next": "Continue ?",
+      "button_back": "? Back",
+      "button_add_to_cart": "Add to Cart",
+      "upload_label": "Upload Prescription Image (Optional)",
+      "upload_help": "Accepted formats: JPG, PNG, PDF"
+    },
     "product": {
       "add_to_cart": "Add to cart",
       "choose_options": "Choose options",
