@@ -1,36 +1,30 @@
-﻿<nav class="category-nav" id="categoryNav">
+<nav class="category-nav" id="categoryNav">
   <div class="category-nav__container">
     <ul class="category-nav__list">
-      <li><a href="/collections/all" class="category-nav__link active" data-category="all">All Products</a></li>
-      <li><a href="/collections/men-frames" class="category-nav__link" data-category="men-frames">Men's Frames</a></li>
-      <li><a href="/collections/women-frames" class="category-nav__link" data-category="women-frames">Women's Frames</a></li>
-      <li><a href="/collections/blue-cut-lenses" class="category-nav__link" data-category="blue-cut-lenses">Blue Cut Lenses</a></li>
-      <li><a href="/collections/progressive-lenses" class="category-nav__link" data-category="progressive-lenses">Progressive Lenses</a></li>
-      <li><a href="/collections/accessories" class="category-nav__link" data-category="accessories">Accessories</a></li>
+      <li><a href="/collections/eyeglasses" class="category-nav__link active" data-category="eyeglasses">Eyeglasses</a></li>
+      <li><a href="/collections/sunglasses" class="category-nav__link" data-category="sunglasses">Sunglasses</a></li>
+      <li><a href="/collections/blue-light-glasses" class="category-nav__link" data-category="blue-light-glasses">Blue Light Glasses</a></li>
+      <li><a href="/collections/kids-glasses" class="category-nav__link" data-category="kids-glasses">Kids Glasses</a></li>
+      <li><a href="/collections/contact-lenses" class="category-nav__link" data-category="contact-lenses">Contact Lenses</a></li>
     </ul>
   </div>
 </nav>
 
 <style>
   .category-nav {
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #E8E8E8;
-    position: sticky;
-    top: 64px; /* Below header */
-    z-index: 10;
+    background-color: transparent;
+    padding: 10px 0;
     width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-  }
-  .category-nav::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
+    border: none; /* No border */
   }
 
   .category-nav__container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 40px;
+    display: flex;
+    justify-content: center; /* Center links horizontally */
   }
 
   .category-nav__list {
@@ -38,67 +32,76 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    white-space: nowrap;
-    gap: 32px;
+    align-items: center;
+    gap: 40px; /* Space between links */
   }
 
   .category-nav__link {
-    display: flex;
-    align-items: center;
     color: #1A1A1A;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
-    padding: 16px 0;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
+    padding-bottom: 4px; /* Space for underline */
+    position: relative;
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
   }
 
+  /* Expandable elegant underline effect on hover */
+  .category-nav__link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background-color: #1A1A1A;
+    transition: width 0.3s ease;
+  }
+  
   .category-nav__link:hover {
-    color: #AFDCEC;
+    color: #000;
+  }
+  
+  .category-nav__link:hover::after,
+  .category-nav__link.active::after {
+    width: 100%; 
   }
 
-  .category-nav__link.active {
-    color: #1A1A1A;
-    border-bottom-color: #AFDCEC;
-  }
-
+  /* Responsive fixes */
   @media screen and (max-width: 749px) {
     .category-nav__container {
       padding: 0 16px;
+      justify-content: flex-start; /* Stack/slide on mobile */
     }
     .category-nav__list {
-      gap: 24px;
+      gap: 20px;
     }
     .category-nav__link {
-      font-size: 13px;
-      padding: 12px 0;
+      font-size: 14px;
     }
   }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener("DOMContentLoaded", function () {
     const currentPath = window.location.pathname;
-    const links = document.querySelectorAll('.category-nav__link');
-    
-    links.forEach(link => {
-      // Remove active from all
-      link.classList.remove('active');
-      
-      // Match path exactly to set active state
-      if (link.getAttribute('href') === currentPath) {
-        link.classList.add('active');
-        
-        // Scroll active item into view if off-screen
-        link.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+    const links = document.querySelectorAll(".category-nav__link");
+    let matchFound = false;
+
+    links.forEach((link) => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("active");
+        matchFound = true;
+        link.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
       }
     });
 
-    // Default to 'all products' if no exact match (optional)
-    if (!document.querySelector('.category-nav__link.active')) {
-      const defaultLink = document.querySelector('[data-category="all"]');
-      if (defaultLink) defaultLink.classList.add('active');
+    if (!matchFound && currentPath === "/") {
+      const defaultLink = document.querySelector("[data-category='eyeglasses']");
+      if (defaultLink) defaultLink.classList.add("active");
     }
   });
 </script>

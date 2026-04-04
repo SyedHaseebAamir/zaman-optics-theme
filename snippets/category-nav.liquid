@@ -1,81 +1,107 @@
-﻿{%- style -%}
-.category-nav-wrapper {
-  background: #FFFFFF;
-  border-top: 1px solid #E8E8E8;
-  border-bottom: 1px solid #E8E8E8;
-  padding: 12px 40px;
-  position: sticky;
-  top: 64px;
-  z-index: 100;
-}
-
-.category-nav-inner {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  flex-wrap: nowrap;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.category-nav-inner::-webkit-scrollbar { display: none; }
-
-.cat-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 9px 20px;
-  border-radius: 50px;
-  border: 2px solid #AFDCEC;
-  background: #FFFFFF;
-  color: #1A1A1A;
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  line-height: 1;
-}
-
-.cat-btn:hover,
-.cat-btn.active {
-  background: #AFDCEC;
-  color: #1A1A1A;
-  border-color: #AFDCEC;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(175, 220, 236, 0.45);
-  text-decoration: none;
-}
-{%- endstyle -%}
-
-<nav class="category-nav-wrapper" role="navigation" aria-label="Category Navigation">
-  <div class="category-nav-inner">
-    <a href="/collections/eyeglasses" class="cat-btn{% if collection.handle == 'eyeglasses' and request.query_string contains 'Men' %} active{% endif %}">
-      Men Glasses
-    </a>
-    <a href="/collections/eyeglasses" class="cat-btn{% if collection.handle == 'eyeglasses' and request.query_string contains 'Women' %} active{% endif %}">
-      Women Glasses
-    </a>
-    <a href="/collections/blue-light-glasses" class="cat-btn{% if collection.handle == 'blue-light-glasses' %} active{% endif %}">
-      Blue Light Glasses
-    </a>
-    <a href="/collections/kids-glasses" class="cat-btn{% if collection.handle == 'kids-glasses' %} active{% endif %}">
-      Kids Glasses
-    </a>
-    <a href="/collections/sunglasses" class="cat-btn{% if collection.handle == 'sunglasses' %} active{% endif %}">
-      Sunglasses
-    </a>
-    <a href="/collections/contact-lenses" class="cat-btn{% if collection.handle == 'contact-lenses' %} active{% endif %}">
-      Contact Lenses
-    </a>
-    <a href="/collections/all?sort_by=created-descending" class="cat-btn{% if collection.handle == 'all' and request.query_string contains 'created-descending' %} active{% endif %}">
-      New Arrivals
-    </a>
-    <a href="/collections/all?sort_by=best-selling" class="cat-btn{% if collection.handle == 'all' and request.query_string contains 'best-selling' %} active{% endif %}">
-      Best Sellers
-    </a>
+<nav class="category-nav" id="categoryNav">
+  <div class="category-nav__container">
+    <ul class="category-nav__list">
+      <li><a href="/collections/eyeglasses" class="category-nav__link active" data-category="eyeglasses">Eyeglasses</a></li>
+      <li><a href="/collections/sunglasses" class="category-nav__link" data-category="sunglasses">Sunglasses</a></li>
+      <li><a href="/collections/blue-light-glasses" class="category-nav__link" data-category="blue-light-glasses">Blue Light Glasses</a></li>
+      <li><a href="/collections/kids-glasses" class="category-nav__link" data-category="kids-glasses">Kids Glasses</a></li>
+      <li><a href="/collections/contact-lenses" class="category-nav__link" data-category="contact-lenses">Contact Lenses</a></li>
+    </ul>
   </div>
 </nav>
+
+<style>
+  .category-nav {
+    background-color: transparent;
+    padding: 10px 0;
+    width: 100%;
+    overflow-x: auto;
+    border: none; /* No border */
+  }
+
+  .category-nav__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: center; /* Center links horizontally */
+  }
+
+  .category-nav__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+    gap: 40px; /* Space between links */
+  }
+
+  .category-nav__link {
+    color: #1A1A1A;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    padding-bottom: 4px; /* Space for underline */
+    position: relative;
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+  }
+
+  /* Expandable elegant underline effect on hover */
+  .category-nav__link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background-color: #1A1A1A;
+    transition: width 0.3s ease;
+  }
+  
+  .category-nav__link:hover {
+    color: #000;
+  }
+  
+  .category-nav__link:hover::after,
+  .category-nav__link.active::after {
+    width: 100%; 
+  }
+
+  /* Responsive fixes */
+  @media screen and (max-width: 749px) {
+    .category-nav__container {
+      padding: 0 16px;
+      justify-content: flex-start; /* Stack/slide on mobile */
+    }
+    .category-nav__list {
+      gap: 20px;
+    }
+    .category-nav__link {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname;
+    const links = document.querySelectorAll(".category-nav__link");
+    let matchFound = false;
+
+    links.forEach((link) => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("active");
+        matchFound = true;
+        link.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+      }
+    });
+
+    if (!matchFound && currentPath === "/") {
+      const defaultLink = document.querySelector("[data-category='eyeglasses']");
+      if (defaultLink) defaultLink.classList.add("active");
+    }
+  });
+</script>
