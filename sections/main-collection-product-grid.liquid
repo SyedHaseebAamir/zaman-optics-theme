@@ -1,583 +1,399 @@
-<!-- 
-FILTER SETUP REQUIRED IN SHOPIFY ADMIN:
-To enable custom filters, go to:
-Shopify Admin ? Search & Discovery app ? Filters
-Add these filters:
-1. Product metafield: custom.frame_shape (Label: "Frame Shape")
-2. Product metafield: custom.material (Label: "Material") 
-3. Product metafield: custom.gender (Label: "Gender")
-4. Product metafield: custom.size (Label: "Size")
+{% comment %} Zaman Optics - Collection Page {% endcomment %}
 
-Also go to Settings ? Custom data ? Products and create 
-these metafields:
-- custom.frame_shape (type: Single line text)
-- custom.material (type: Single line text)
-- custom.gender (type: Single line text)  
-- custom.size (type: Single line text)
--->
-{{ 'template-collection.css' | asset_url | stylesheet_tag }}
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-price.css' | asset_url | stylesheet_tag }}
-{{ 'collection-filters-enhanced.css' | asset_url | stylesheet_tag }}
-{{ 'collection-grid-enhanced.css' | asset_url | stylesheet_tag }}
-{{ 'collection-filters-sidebar.css' | asset_url | stylesheet_tag }}
-{{ 'collection-custom-filters.css' | asset_url | stylesheet_tag }}
+<!-- Collection Hero Banner -->
+<div class="zaman-collection-hero">
+  <div class="zaman-collection-hero-inner">
+    <div class="zaman-collection-breadcrumb">
+      <a href="/">Home</a>
+      <span>›</span>
+      <span>{{ collection.title }}</span>
+    </div>
+    <h1 class="zaman-collection-title">
+      {{ collection.title }}
+    </h1>
+    <p class="zaman-collection-desc">
+      {% if collection.description != blank %}
+        {{ collection.description }}
+      {% else %}
+        Explore our premium collection of 
+        {{ collection.title | downcase }} — 
+        crafted for style and clarity.
+      {% endif %}
+    </p>
+    <div class="zaman-collection-meta">
+      <span class="zaman-product-count">
+        {{ collection.products_count }} Products
+      </span>
+    </div>
+  </div>
+</div>
 
-{% if section.settings.image_shape == 'blob' %}
-  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
+<!-- Main Collection Layout -->
+<div class="zaman-collection-page">
 
-{%- unless section.settings.quick_add == 'none' -%}
-  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
-{%- endunless -%}
+  <!-- LEFT: Filter Sidebar -->
+  <aside class="zaman-filter-sidebar">
+    <form id="ZamanFilterForm" 
+          action="{{ collection.url }}" 
+          method="get">
+      
+      <!-- Hidden sort preserve -->
+      <input type="hidden" 
+             name="sort_by" 
+             value="{{ collection.sort_by }}">
 
-{%- if section.settings.quick_add == 'standard' -%}
-  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
+      <div class="zaman-filter-card">
+        
+        <div class="zaman-filter-header">
+          <div class="zaman-filter-title-row">
+            <svg width="18" height="18" fill="none" 
+                 viewBox="0 0 24 24" stroke="#FF8C00" 
+                 stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 
+                               10 19 14 21 14 12.46 
+                               22 3"/>
+            </svg>
+            <h3>Filters</h3>
+          </div>
+          <a href="{{ collection.url }}" 
+             class="zaman-clear-all">
+            Clear All
+          </a>
+        </div>
 
-{%- if section.settings.quick_add == 'bulk' -%}
-  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
+        <!-- FRAME SHAPE -->
+        <details class="zaman-filter-group" open>
+          <summary class="zaman-filter-group-title">
+            Frame Shape
+            <span class="zaman-filter-arrow">▼</span>
+          </summary>
+          <div class="zaman-filter-options">
+            {% assign shapes = 'Round,Square,Rectangle,Aviator,Cat Eye' | split: ',' %}
+            {% for shape in shapes %}
+            <label class="zaman-filter-option">
+              <input type="checkbox"
+                name="filter.p.m.custom.frame_shape"
+                value="{{ shape }}"
+                class="zaman-filter-check"
+                {% if current_tags contains shape %}
+                  checked
+                {% endif %}
+                onchange="document.getElementById(
+                  'ZamanFilterForm').submit()">
+              <span class="zaman-check-box"></span>
+              <span class="zaman-filter-text">
+                {{ shape }}
+              </span>
+            </label>
+            {% endfor %}
+          </div>
+        </details>
 
-<script src="{{ 'collection-filters-enhanced.js' | asset_url }}" defer="defer"></script>
+        <!-- MATERIAL -->
+        <details class="zaman-filter-group" open>
+          <summary class="zaman-filter-group-title">
+            Material
+            <span class="zaman-filter-arrow">▼</span>
+          </summary>
+          <div class="zaman-filter-options">
+            {% assign materials = 'Metal,Acetate,Plastic' | split: ',' %}
+            {% for material in materials %}
+            <label class="zaman-filter-option">
+              <input type="checkbox"
+                name="filter.p.m.custom.material"
+                value="{{ material }}"
+                class="zaman-filter-check"
+                {% if current_tags contains material %}
+                  checked
+                {% endif %}
+                onchange="document.getElementById(
+                  'ZamanFilterForm').submit()">
+              <span class="zaman-check-box"></span>
+              <span class="zaman-filter-text">
+                {{ material }}
+              </span>
+            </label>
+            {% endfor %}
+          </div>
+        </details>
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
+        <!-- GENDER -->
+        <details class="zaman-filter-group" open>
+          <summary class="zaman-filter-group-title">
+            Gender
+            <span class="zaman-filter-arrow">▼</span>
+          </summary>
+          <div class="zaman-filter-options">
+            {% assign genders = 'Men,Women,Unisex,Kids' | split: ',' %}
+            {% for gender in genders %}
+            <label class="zaman-filter-option">
+              <input type="checkbox"
+                name="filter.p.m.custom.gender"
+                value="{{ gender }}"
+                class="zaman-filter-check"
+                {% if current_tags contains gender %}
+                  checked
+                {% endif %}
+                onchange="document.getElementById(
+                  'ZamanFilterForm').submit()">
+              <span class="zaman-check-box"></span>
+              <span class="zaman-filter-text">
+                {{ gender }}
+              </span>
+            </label>
+            {% endfor %}
+          </div>
+        </details>
 
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
+        <!-- SIZE -->
+        <details class="zaman-filter-group" open>
+          <summary class="zaman-filter-group-title">
+            Size
+            <span class="zaman-filter-arrow">▼</span>
+          </summary>
+          <div class="zaman-filter-options">
+            {% assign sizes = 'Medium,Wide' | split: ',' %}
+            {% for size in sizes %}
+            <label class="zaman-filter-option">
+              <input type="checkbox"
+                name="filter.p.m.custom.size"
+                value="{{ size }}"
+                class="zaman-filter-check"
+                {% if current_tags contains size %}
+                  checked
+                {% endif %}
+                onchange="document.getElementById(
+                  'ZamanFilterForm').submit()">
+              <span class="zaman-check-box"></span>
+              <span class="zaman-filter-text">
+                {{ size }}
+              </span>
+            </label>
+            {% endfor %}
+          </div>
+        </details>
 
-<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
-  {%- paginate collection.products by section.settings.products_per_page -%}
-    {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
-    {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
-      <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
-        <form class="facets-vertical-form" id="FacetSortForm">
-          <div class="facet-filters sorting caption">
-            <div class="facet-filters__field">
-              <h2 class="facet-filters__label caption-large text-body">
-                <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
-              </h2>
-              <div class="select">
-                {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-                <select
-                  name="sort_by"
-                  class="facet-filters__sort select__select caption-large"
-                  id="SortBy"
-                  aria-describedby="a11y-refresh-page-message"
-                >
-                  {%- for option in collection.sort_options -%}
-                    <option
-                      value="{{ option.value | escape }}"
-                      {% if option.value == sort_by %}
-                        selected="selected"
-                      {% endif %}
-                    >
-                      {{ option.name | escape }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-                <span class="svg-wrapper">
-                  {{- 'icon-caret.svg' | inline_asset_content -}}
-                </span>
+        <!-- PRICE -->
+        <details class="zaman-filter-group">
+          <summary class="zaman-filter-group-title">
+            Price Range
+            <span class="zaman-filter-arrow">▼</span>
+          </summary>
+          <div class="zaman-filter-options">
+            <div class="zaman-price-inputs">
+              <div class="zaman-price-field">
+                <label>Min (Rs)</label>
+                <input type="number" 
+                       name="filter.v.price.gte"
+                       placeholder="0"
+                       class="zaman-price-input">
+              </div>
+              <span class="zaman-price-dash">—</span>
+              <div class="zaman-price-field">
+                <label>Max (Rs)</label>
+                <input type="number"
+                       name="filter.v.price.lte"
+                       placeholder="10000"
+                       class="zaman-price-input">
               </div>
             </div>
-          </div>
-
-          <div class="product-count-vertical light" role="status">
-            <h2 class="product-count__text text-body">
-              <span id="ProductCountDesktop">
-                {%- if collection.results_count -%}
-                  {{
-                    'templates.search.results_with_count'
-                    | t: terms: collection.terms, count: collection.results_count
-                  }}
-                {%- elsif collection.products_count == collection.all_products_count -%}
-                  {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
-                {%- else -%}
-                  {{
-                    'products.facets.product_count'
-                    | t: product_count: collection.products_count, count: collection.all_products_count
-                  }}
-                {%- endif -%}
-              </span>
-            </h2>
-            {%- render 'loading-spinner' -%}
-          </div>
-        </form>
-      </facet-filters-form>
-    {%- endif -%}
-
-    <!-- Mobile Filter & Sort Button -->
-    {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
-      <div class="page-width mobile-filter-sort-container">
-        <button type="button" class="mobile-filter-sort-button">
-          <svg class="filter-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 6H21M5 12H19M8 18H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <span>{{ 'products.facets.filter_by_label' | t }}</span>
-          <span class="filter-count-badge" style="display: none;">0</span>
-        </button>
-      </div>
-    {%- endif -%}
-
-    <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
-      {{ 'component-facets.css' | asset_url | stylesheet_tag }}
-      <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
-      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
-        <aside
-          aria-labelledby="verticalTitle"
-          class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
-          id="main-collection-filters"
-          data-id="{{ section.id }}"
-        >          <!-- Mobile Filter Header -->
-          <div class="filters-header">
-            <h2 class="filters-header__title">{{ 'products.facets.filter_by_label' | t }}</h2>
-            <button type="button" class="filters-header__close" aria-label="{{ 'Close' | t }}">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
+            <button type="submit" 
+                    class="zaman-price-apply">
+              Apply Price
             </button>
           </div>
+        </details>
 
-          <!-- CUSTOM FILTERS FALLBACK -->
-          <div class="custom-filters-card">
-            <div class="custom-filters-card-header">
-              <h3>Filters</h3>
-            </div>
-            <div class="custom-filters-card-body">
-            
-            <details class="facets__disclosure" open>
-              <summary class="facets__summary">
-                Frame Shape
-                <svg class="filter-arrow" width="12" height="12" viewBox="0 0 12 12" 
-                     fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="#999999" 
-                        stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </summary>
-              <ul class="facets__list">
-                {% assign shapes = 'Round,Square,Rectangle,Aviator,Cat Eye' 
-                   | split: ',' %}
-                {% for shape in shapes %}
-                <li class="facets__item">
-                  <label>
-                    <input type="checkbox" 
-                      class="facets__checkbox"
-                      name="filter.p.m.custom.frame_shape"
-                      value="{{ shape }}"
-                      {% if current_tags contains shape %}
-                        checked
-                      {% endif %}
-                      onchange="this.closest('form').submit()">
-                    <span class="facets__label-text">
-                      {{ shape }}
-                    </span>
-                  </label>
-                </li>
-                {% endfor %}
-              </ul>
-            </details>
+      </div><!-- end zaman-filter-card -->
+    </form>
+  </aside>
 
-            <details class="facets__disclosure" open>
-              <summary class="facets__summary">
-                Material
-                <svg class="filter-arrow" width="12" height="12" viewBox="0 0 12 12" 
-                     fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="#999999" 
-                        stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </summary>
-              <ul class="facets__list">
-                {% assign materials = 'Metal,Acetate,Plastic' 
-                   | split: ',' %}
-                {% for material in materials %}
-                <li class="facets__item">
-                  <label>
-                    <input type="checkbox"
-                      class="facets__checkbox"
-                      name="filter.p.m.custom.material"
-                      value="{{ material }}"
-                      {% if current_tags contains material %}
-                        checked
-                      {% endif %}
-                      onchange="this.closest('form').submit()">
-                    <span class="facets__label-text">
-                      {{ material }}
-                    </span>
-                  </label>
-                </li>
-                {% endfor %}
-              </ul>
-            </details>
-
-            <details class="facets__disclosure" open>
-              <summary class="facets__summary">
-                Gender
-                <svg class="filter-arrow" width="12" height="12" viewBox="0 0 12 12" 
-                     fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="#999999" 
-                        stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </summary>
-              <ul class="facets__list">
-                {% assign genders = 'Men,Women,Unisex,Kids' 
-                   | split: ',' %}
-                {% for gender in genders %}
-                <li class="facets__item">
-                  <label>
-                    <input type="checkbox"
-                      class="facets__checkbox"
-                      name="filter.p.m.custom.gender"
-                      value="{{ gender }}"
-                      {% if current_tags contains gender %}
-                        checked
-                      {% endif %}
-                      onchange="this.closest('form').submit()">
-                    <span class="facets__label-text">
-                      {{ gender }}
-                    </span>
-                  </label>
-                </li>
-                {% endfor %}
-              </ul>
-            </details>
-
-            <details class="facets__disclosure" open>
-              <summary class="facets__summary">
-                Size
-                <svg class="filter-arrow" width="12" height="12" viewBox="0 0 12 12" 
-                     fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="#999999" 
-                        stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </summary>
-              <ul class="facets__list">
-                {% assign sizes = 'Medium,Wide' | split: ',' %}
-                {% for size in sizes %}
-                <li class="facets__item">
-                  <label>
-                    <input type="checkbox"
-                      class="facets__checkbox"
-                      name="filter.p.m.custom.size"
-                      value="{{ size }}"
-                      {% if current_tags contains size %}
-                        checked
-                      {% endif %}
-                      onchange="this.closest('form').submit()">
-                    <span class="facets__label-text">
-                      {{ size }}
-                    </span>
-                  </label>
-                </li>
-            </div>
-                {% endfor %}
-              </ul>
-            </details>
-
-          </div>
-        </aside>
-      {%- endif -%}
-
-      <div
-        class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        id="ProductGridContainer"
-        {% if settings.animations_reveal_on_scroll %}
-          data-cascade
-        {% endif %}
-      >
-        {%- if collection.products.size == 0 -%}
-          <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
-            <div class="loading-overlay gradient"></div>
-            <div class="title-wrapper center">
-              <h2 class="title title--primary">
-                {{ 'sections.collection_template.empty' | t -}}
-                <br>
-                {{
-                  'sections.collection_template.use_fewer_filters_html'
-                  | t: link: collection.url, class: 'underlined-link link'
-                }}
-              </h2>
-            </div>
-          </div>
-        {%- else -%}
-          <div
-            class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
-          >
-            <div class="loading-overlay gradient"></div>
-            <ul
-              id="product-grid"
-              data-id="{{ section.id }}"
-              class="
-                grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
-                grid--{{ section.settings.columns_desktop }}-col-desktop
-                {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
-              "
-            >
-              {% assign skip_card_product_styles = false %}
-              {%- for product in collection.products -%}
-                {% assign lazy_load = false %}
-                {%- if forloop.index > 2 -%}
-                  {%- assign lazy_load = true -%}
-                {%- endif -%}
-                <li
-                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                  {% if settings.animations_reveal_on_scroll %}
-                    data-cascade
-                    style="--animation-order: {{ forloop.index }};"
-                  {% endif %}
-                >
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id
-                  %}
-                </li>
-                {%- assign skip_card_product_styles = true -%}
-              {%- endfor -%}
-            </ul>
-
-            {%- if paginate.pages > 1 -%}
-              {% render 'pagination', paginate: paginate, anchor: '' %}
-            {%- endif -%}
-          </div>
-        {%- endif -%}
+  <!-- RIGHT: Products Area -->
+  <div class="zaman-products-area">
+    
+    <!-- Sort + Count Bar -->
+    <div class="zaman-sort-bar">
+      <span class="zaman-results-count">
+        <strong>{{ collection.products_count }}</strong> 
+        products found
+      </span>
+      <div class="zaman-sort-wrap">
+        <label for="ZamanSortBy">Sort by:</label>
+        <select id="ZamanSortBy" 
+                name="sort_by"
+                class="zaman-sort-select"
+                onchange="window.location.href = 
+                  '{{ collection.url }}?sort_by=' + 
+                  this.value">
+          <option value="best-selling" 
+            {% if collection.sort_by == 'best-selling' %}
+              selected{% endif %}>
+            Best Selling
+          </option>
+          <option value="title-ascending"
+            {% if collection.sort_by == 'title-ascending' %}
+              selected{% endif %}>
+            Name: A–Z
+          </option>
+          <option value="title-descending"
+            {% if collection.sort_by == 'title-descending' %}
+              selected{% endif %}>
+            Name: Z–A
+          </option>
+          <option value="price-ascending"
+            {% if collection.sort_by == 'price-ascending' %}
+              selected{% endif %}>
+            Price: Low to High
+          </option>
+          <option value="price-descending"
+            {% if collection.sort_by == 'price-descending' %}
+              selected{% endif %}>
+            Price: High to Low
+          </option>
+          <option value="created-descending"
+            {% if collection.sort_by == 'created-descending' %}
+              selected{% endif %}>
+            Newest First
+          </option>
+        </select>
       </div>
     </div>
-  {%- endpaginate -%}
-  {% if section.settings.image_shape == 'arch' %}
-    {{ 'mask-arch.svg' | inline_asset_content }}
-  {%- endif -%}
-</div>
+
+    <!-- Product Grid -->
+    {% if collection.products.size > 0 %}
+    <div class="zaman-product-grid">
+      {% for product in collection.products %}
+      <a href="{{ product.url }}" 
+         class="zaman-product-card">
+        
+        <!-- Badge -->
+        {% if product.available == false %}
+        <div class="zaman-card-badge zaman-badge-sold">
+          Sold Out
+        </div>
+        {% elsif product.compare_at_price > product.price %}
+        <div class="zaman-card-badge zaman-badge-sale">
+          Sale
+        </div>
+        {% else %}
+        <div class="zaman-card-badge zaman-badge-new">
+          New
+        </div>
+        {% endif %}
+
+        <!-- Image -->
+        <div class="zaman-card-image">
+          {% if product.featured_image %}
+          <img src="{{ product.featured_image 
+                       | img_url: '500x400' }}"
+               alt="{{ product.title }}"
+               loading="lazy">
+          {% else %}
+          <div class="zaman-card-no-image">
+            <svg width="48" height="48" fill="none" 
+                 viewBox="0 0 24 24" stroke="#CCCCCC" 
+                 stroke-width="1">
+              <rect x="3" y="3" width="18" height="18" 
+                    rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span>No Image</span>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Info -->
+        <div class="zaman-card-info">
+          <div class="zaman-card-category">
+            {{ collection.title }}
+          </div>
+          <h3 class="zaman-card-title">
+            {{ product.title }}
+          </h3>
+          <div class="zaman-card-price-row">
+            <span class="zaman-card-price">
+              {{ product.price | money }}
+            </span>
+            {% if product.compare_at_price > product.price %}
+            <span class="zaman-card-compare">
+              {{ product.compare_at_price | money }}
+            </span>
+            {% endif %}
+          </div>
+          <div class="zaman-card-footer">
+            <span class="zaman-card-cta">
+              View Details →
+            </span>
+            {% unless product.available %}
+            <span class="zaman-card-unavailable">
+              Out of Stock
+            </span>
+            {% endunless %}
+          </div>
+        </div>
+
+      </a>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Empty state -->
+    <div class="zaman-empty-state">
+      <svg width="64" height="64" fill="none" 
+           viewBox="0 0 24 24" stroke="#DDDDDD" 
+           stroke-width="1">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35" 
+              stroke-linecap="round"/>
+      </svg>
+      <h3>No products found</h3>
+      <p>Try adjusting your filters or 
+         <a href="{{ collection.url }}">clear all</a>
+      </p>
+    </div>
+    {% endif %}
+
+    <!-- Pagination -->
+    {% if paginate.pages > 1 %}
+    <div class="zaman-pagination">
+      {% if paginate.previous %}
+      <a href="{{ paginate.previous.url }}" 
+         class="zaman-page-btn">← Previous</a>
+      {% endif %}
+      {% for part in paginate.parts %}
+        {% if part.is_link %}
+        <a href="{{ part.url }}" 
+           class="zaman-page-btn">{{ part.title }}</a>
+        {% else %}
+        <span class="zaman-page-btn zaman-page-current">
+          {{ part.title }}
+        </span>
+        {% endif %}
+      {% endfor %}
+      {% if paginate.next %}
+      <a href="{{ paginate.next.url }}" 
+         class="zaman-page-btn">Next →</a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div><!-- end products area -->
+
+</div><!-- end collection page -->
 
 {% schema %}
 {
-  "name": "t:sections.main-collection-product-grid.name",
-  "class": "section",
+  "name": "Collection Grid",
   "settings": [
     {
       "type": "range",
       "id": "products_per_page",
       "min": 8,
-      "max": 36,
+      "max": 24,
       "step": 4,
-      "default": 16,
-      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
-    },
-    {
-      "type": "range",
-      "id": "columns_desktop",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 4,
-      "label": "t:sections.main-collection-product-grid.settings.columns_desktop.label"
-    },
-    {
-      "type": "select",
-      "id": "columns_mobile",
-      "default": "2",
-      "label": "t:sections.main-collection-product-grid.settings.columns_mobile.label",
-      "options": [
-        {
-          "value": "1",
-          "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__1.label"
-        },
-        {
-          "value": "2",
-          "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__2.label"
-        }
-      ]
-    },    
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "info": "t:sections.all.colors.has_cards_info",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.main-collection-product-grid.settings.header__3.content"
-    },
-    {
-      "type": "select",
-      "id": "image_ratio",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "portrait",
-          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "square",
-          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
-        }
-      ],
-      "default": "adapt",
-      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
-    },
-    {
-      "type": "select",
-      "id": "image_shape",
-      "options": [
-        {
-          "value": "default",
-          "label": "t:sections.all.image_shape.options__1.label"
-        },
-        {
-          "value": "arch",
-          "label": "t:sections.all.image_shape.options__2.label"
-        },
-        {
-          "value": "blob",
-          "label": "t:sections.all.image_shape.options__3.label"
-        },
-        {
-          "value": "chevronleft",
-          "label": "t:sections.all.image_shape.options__4.label"
-        },
-        {
-          "value": "chevronright",
-          "label": "t:sections.all.image_shape.options__5.label"
-        },
-        {
-          "value": "diamond",
-          "label": "t:sections.all.image_shape.options__6.label"
-        },
-        {
-          "value": "parallelogram",
-          "label": "t:sections.all.image_shape.options__7.label"
-        },
-        {
-          "value": "round",
-          "label": "t:sections.all.image_shape.options__8.label"
-        }
-      ],
-      "default": "default",
-      "label": "t:sections.all.image_shape.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "default": false,
-      "label": "t:sections.main-collection-product-grid.settings.show_secondary_image.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "default": false,
-      "label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "default": false,
-      "label": "t:sections.main-collection-product-grid.settings.show_rating.label",
-      "info": "t:sections.main-collection-product-grid.settings.show_rating.info"
-    },
-    {
-      "type": "select",
-      "id": "quick_add",
-      "default": "none",
-      "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
-      "options": [
-        {
-          "value": "none",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1"
-        },
-        {
-          "value": "standard",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2"
-        },
-        {
-          "value": "bulk",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
-        }
-      ]
-    },
-    {
-      "type": "header",
-      "content": "t:sections.main-collection-product-grid.settings.header__1.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_filtering",
-      "default": true,
-      "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
-      "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
-    },
-    {
-      "type": "select",
-      "id": "filter_type",
-      "options": [
-        {
-          "value": "horizontal",
-          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__1.label"
-        },
-        {
-          "value": "vertical",
-          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__2.label"
-        },
-        {
-          "value": "drawer",
-          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__3.label"
-        }
-      ],
-      "default": "vertical",
-      "label": "t:sections.main-collection-product-grid.settings.filter_type.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sorting",
-      "default": true,
-      "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "default": 12,
+      "label": "Products per page"
     }
   ]
 }
