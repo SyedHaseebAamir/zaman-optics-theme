@@ -1,0 +1,184 @@
+/* ===== COLLECTION GRID LAYOUT ===== */
+.collection-grid-wrapper {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  padding: 32px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* Product grid — 3 columns */
+.product-grid,
+.collection__grid,
+ul.grid.product-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 24px !important;
+}
+
+@media (max-width: 1100px) {
+  .product-grid,
+  .collection__grid,
+  ul.grid.product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 600px) {
+  .product-grid,
+  .collection__grid,
+  ul.grid.product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  .collection-grid-wrapper {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+}
+
+/* ===== PRODUCT CARD ===== */
+.card-wrapper,
+.product-card-wrapper {
+  background: #FFFFFF !important;
+  border: 2px solid #EEEEEE !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+  cursor: pointer !important;
+}
+.card-wrapper:hover,
+.product-card-wrapper:hover {
+  border-color: #FF8C00 !important;
+  box-shadow: 0 8px 28px rgba(255,140,0,0.15) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Card image container */
+.card__media,
+.card-wrapper .media,
+.product-card-wrapper .media {
+  height: 240px !important;
+  background: #F8F8F8 !important;
+  overflow: hidden !important;
+  border-radius: 14px 14px 0 0 !important;
+}
+.card__media img,
+.card-wrapper .media img,
+.product-card-wrapper .media img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  padding: 16px !important;
+  transition: transform 0.3s ease !important;
+}
+.card-wrapper:hover .media img,
+.product-card-wrapper:hover .media img {
+  transform: scale(1.06) !important;
+}
+
+/* Card content area */
+.card__content,
+.card__information {
+  padding: 16px 18px 18px !important;
+  border-top: 1px solid #F0F0F0 !important;
+}
+
+/* Product title */
+.card__heading,
+.card__heading a,
+.card-information__text,
+.card-information .card__heading {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #1A1A1A !important;
+  line-height: 1.4 !important;
+  margin: 0 0 8px 0 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-decoration: none !important;
+}
+.card__heading a:hover {
+  color: #FF8C00 !important;
+  text-decoration: none !important;
+}
+
+/* Price */
+.price,
+.price__container,
+.price-item,
+.price-item--regular,
+.card-information .price {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #1A1A1A !important;
+  margin: 0 0 12px 0 !important;
+}
+.price__regular,
+.price-item--regular {
+  color: #1A1A1A !important;
+}
+
+/* Add to Cart button on card */
+.card__add-to-cart,
+.quick-add,
+.quick-add__submit {
+  width: 100% !important;
+  padding: 11px !important;
+  background: #FF8C00 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: background 0.2s !important;
+  text-align: center !important;
+}
+.card__add-to-cart:hover,
+.quick-add:hover,
+.quick-add__submit:hover {
+  background: #E07800 !important;
+}
+
+/* Collection page title */
+.collection-hero__title,
+.collection .title {
+  font-size: 36px !important;
+  font-weight: 800 !important;
+  color: #1A1A1A !important;
+  padding: 32px 40px 0 !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+}
+
+/* Sort bar */
+.facets__header,
+.collection-filters-and-sort {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 16px 0 !important;
+  border-bottom: 2px solid #F0F0F0 !important;
+  margin-bottom: 24px !important;
+}
+.facets-sort select,
+select#SortBy {
+  padding: 10px 16px !important;
+  border: 2px solid #E8E8E8 !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #1A1A1A !important;
+  background: #FFFFFF !important;
+  cursor: pointer !important;
+}
+.facets-sort select:focus,
+select#SortBy:focus {
+  border-color: #FF8C00 !important;
+  outline: none !important;
+}

@@ -1,0 +1,163 @@
+/* Filter sidebar card */
+.facets__wrapper,
+.facets-vertical,
+#FacetFiltersForm,
+.facets {
+  background: #FFFFFF !important;
+  border: 2px solid #EEEEEE !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  position: sticky !important;
+  top: 80px !important;
+  max-height: calc(100vh - 100px) !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin !important;
+}
+
+/* Filter sidebar title */
+.facets__wrapper::before {
+  content: 'Filters';
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  color: #1A1A1A;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #F0F0F0;
+  margin-bottom: 20px;
+  letter-spacing: -0.2px;
+}
+
+/* Each filter group */
+.facets__display,
+details.facets__disclosure {
+  margin-bottom: 4px !important;
+  border-bottom: 1px solid #F5F5F5 !important;
+  padding-bottom: 4px !important;
+}
+
+/* Filter group header/toggle */
+.facets__summary,
+details.facets__disclosure > summary,
+.facets-accordion__header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 14px 0 !important;
+  cursor: pointer !important;
+  list-style: none !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #1A1A1A !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  user-select: none !important;
+}
+.facets__summary::-webkit-details-marker,
+details > summary::-webkit-details-marker {
+  display: none !important;
+}
+
+/* Filter options list */
+.facets__item,
+.list-unstyled.facets__list {
+  padding: 8px 0 14px !important;
+}
+
+/* Each filter option row */
+.facets__item label,
+.facets__list .facets__item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 7px 8px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  color: #333333 !important;
+  transition: background 0.15s !important;
+  margin-bottom: 2px !important;
+}
+.facets__item label:hover,
+.facets__list .facets__item:hover {
+  background: #FFF3E0 !important;
+  color: #1A1A1A !important;
+}
+
+/* Checkboxes */
+.facets__checkbox,
+input[type="checkbox"].facets__checkbox {
+  width: 17px !important;
+  height: 17px !important;
+  border: 2px solid #CCCCCC !important;
+  border-radius: 5px !important;
+  accent-color: #FF8C00 !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+input[type="checkbox"]:checked {
+  accent-color: #FF8C00 !important;
+}
+
+/* Option label text */
+.facets__label-text {
+  font-size: 14px !important;
+  color: #333333 !important;
+  flex: 1 !important;
+}
+
+/* Option count */
+.facets__count {
+  font-size: 12px !important;
+  color: #AAAAAA !important;
+}
+
+/* Active filter tags above grid */
+.active-facets {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-bottom: 20px !important;
+}
+.active-facets__button {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  background: #FFF3E0 !important;
+  border: 1.5px solid #FF8C00 !important;
+  border-radius: 50px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #1A1A1A !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}
+.active-facets__button:hover {
+  background: #FF8C00 !important;
+  color: #FFFFFF !important;
+}
+.active-facets__button-remove {
+  font-size: 14px !important;
+  line-height: 1 !important;
+  opacity: 0.6 !important;
+}
+
+/* Price range inputs */
+.facets__price {
+  display: flex !important;
+  gap: 10px !important;
+  align-items: center !important;
+  padding: 8px 0 !important;
+}
+.facets__price input {
+  width: 90px !important;
+  padding: 9px 12px !important;
+  border: 2px solid #E8E8E8 !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  color: #1A1A1A !important;
+}
+.facets__price input:focus {
+  border-color: #FF8C00 !important;
+  outline: none !important;
+}

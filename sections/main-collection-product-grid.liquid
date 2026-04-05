@@ -19,6 +19,9 @@ these metafields:
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'collection-filters-enhanced.css' | asset_url | stylesheet_tag }}
+{{ 'collection-grid-enhanced.css' | asset_url | stylesheet_tag }}
+{{ 'collection-filters-sidebar.css' | asset_url | stylesheet_tag }}
+{{ 'collection-custom-filters.css' | asset_url | stylesheet_tag }}
 
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
@@ -139,8 +142,7 @@ these metafields:
           class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
           id="main-collection-filters"
           data-id="{{ section.id }}"
-        >
-          <!-- Mobile Filter Header -->
+        >          <!-- Mobile Filter Header -->
           <div class="filters-header">
             <h2 class="filters-header__title">{{ 'products.facets.filter_by_label' | t }}</h2>
             <button type="button" class="filters-header__close" aria-label="{{ 'Close' | t }}">
@@ -148,6 +150,138 @@ these metafields:
                 <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               </svg>
             </button>
+          </div>
+
+          <!-- CUSTOM FILTERS FALLBACK -->
+          <div class="custom-filters-card">
+            
+            <details class="facets__disclosure" open>
+              <summary class="facets__summary">
+                Frame Shape
+                <svg width="12" height="12" viewBox="0 0 12 12" 
+                     fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="#1A1A1A" 
+                        stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </summary>
+              <ul class="facets__list">
+                {% assign shapes = 'Round,Square,Rectangle,Aviator,Cat Eye' 
+                   | split: ',' %}
+                {% for shape in shapes %}
+                <li class="facets__item">
+                  <label>
+                    <input type="checkbox" 
+                      class="facets__checkbox"
+                      name="filter.p.m.custom.frame_shape"
+                      value="{{ shape }}"
+                      {% if current_tags contains shape %}
+                        checked
+                      {% endif %}
+                      onchange="this.closest('form').submit()">
+                    <span class="facets__label-text">
+                      {{ shape }}
+                    </span>
+                  </label>
+                </li>
+                {% endfor %}
+              </ul>
+            </details>
+
+            <details class="facets__disclosure" open>
+              <summary class="facets__summary">
+                Material
+                <svg width="12" height="12" viewBox="0 0 12 12" 
+                     fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="#1A1A1A" 
+                        stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </summary>
+              <ul class="facets__list">
+                {% assign materials = 'Metal,Acetate,Plastic' 
+                   | split: ',' %}
+                {% for material in materials %}
+                <li class="facets__item">
+                  <label>
+                    <input type="checkbox"
+                      class="facets__checkbox"
+                      name="filter.p.m.custom.material"
+                      value="{{ material }}"
+                      {% if current_tags contains material %}
+                        checked
+                      {% endif %}
+                      onchange="this.closest('form').submit()">
+                    <span class="facets__label-text">
+                      {{ material }}
+                    </span>
+                  </label>
+                </li>
+                {% endfor %}
+              </ul>
+            </details>
+
+            <details class="facets__disclosure" open>
+              <summary class="facets__summary">
+                Gender
+                <svg width="12" height="12" viewBox="0 0 12 12" 
+                     fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="#1A1A1A" 
+                        stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </summary>
+              <ul class="facets__list">
+                {% assign genders = 'Men,Women,Unisex,Kids' 
+                   | split: ',' %}
+                {% for gender in genders %}
+                <li class="facets__item">
+                  <label>
+                    <input type="checkbox"
+                      class="facets__checkbox"
+                      name="filter.p.m.custom.gender"
+                      value="{{ gender }}"
+                      {% if current_tags contains gender %}
+                        checked
+                      {% endif %}
+                      onchange="this.closest('form').submit()">
+                    <span class="facets__label-text">
+                      {{ gender }}
+                    </span>
+                  </label>
+                </li>
+                {% endfor %}
+              </ul>
+            </details>
+
+            <details class="facets__disclosure" open>
+              <summary class="facets__summary">
+                Size
+                <svg width="12" height="12" viewBox="0 0 12 12" 
+                     fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="#1A1A1A" 
+                        stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </summary>
+              <ul class="facets__list">
+                {% assign sizes = 'Medium,Wide' | split: ',' %}
+                {% for size in sizes %}
+                <li class="facets__item">
+                  <label>
+                    <input type="checkbox"
+                      class="facets__checkbox"
+                      name="filter.p.m.custom.size"
+                      value="{{ size }}"
+                      {% if current_tags contains size %}
+                        checked
+                      {% endif %}
+                      onchange="this.closest('form').submit()">
+                    <span class="facets__label-text">
+                      {{ size }}
+                    </span>
+                  </label>
+                </li>
+                {% endfor %}
+              </ul>
+            </details>
+
           </div>
 
           {% render 'facets',
