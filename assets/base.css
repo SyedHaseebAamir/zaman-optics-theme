@@ -169,87 +169,6 @@
   border-radius: 4px;
 }
 
-/* ===== COLLECTION LAYOUT OVERRIDES ===== */
-/* Force correct two-column layout (sidebar + grid) */
-.facets-vertical,
-.facets-vertical__wrapper,
-[class*="facets-vertical"] {
-  display: grid !important;
-  grid-template-columns: 260px 1fr !important;
-  gap: 32px !important;
-  align-items: start !important;
-  max-width: 1400px !important;
-  margin: 0 auto !important;
-  padding: 24px 40px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-/* Make sure product grid does not overflow */
-.product-grid,
-ul.grid.product-grid,
-.collection__grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 20px !important;
-  width: 100% !important;
-  overflow: visible !important;
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* Product grid items must not overflow */
-.product-grid li,
-ul.grid.product-grid li,
-.grid__item {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-}
-
-/* Card itself */
-.card-wrapper,
-.product-card-wrapper {
-  width: 100% !important;
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-}
-
-/* Sidebar */
-.facets-vertical .facets__wrapper,
-.facets-vertical > form,
-.facets-vertical > div:first-child {
-  width: 260px !important;
-  min-width: 260px !important;
-  max-width: 260px !important;
-  flex-shrink: 0 !important;
-}
-
-/* Mobile: stack vertically */
-@media (max-width: 768px) {
-  .facets-vertical,
-  .facets-vertical__wrapper,
-  [class*="facets-vertical"] {
-    grid-template-columns: 1fr !important;
-    padding: 16px !important;
-    gap: 20px !important;
-  }
-  .facets-vertical .facets__wrapper,
-  .facets-vertical > form,
-  .facets-vertical > div:first-child {
-    width: 100% !important;
-    min-width: unset !important;
-    max-width: 100% !important;
-  }
-  .product-grid,
-  ul.grid.product-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
 .contains-content-container,
 .content-container {
   --border-radius: var(--border-radius-default, 10px);
@@ -3779,6 +3698,557 @@ details-disclosure > details {
   .animate--hover-vertical-lift .button:not(.button--tertiary),
   .animate--hover-vertical-lift .shopify-challenge__button,
   .animate--hover-vertical-lift .customer button,
+}
+
+/* ================================================
+   ZAMAN OPTICS — COLLECTION PAGE (COMPLETE REWRITE)
+   ================================================ */
+
+/* Collection Hero */
+.zaman-collection-hero {
+  background: linear-gradient(
+    135deg, 
+    #FFF8F0 0%, 
+    #FFF3E0 50%, 
+    #FFFFFF 100%
+  );
+  border-bottom: 2px solid #FFE0B2;
+  padding: 36px 40px 28px;
+}
+.zaman-collection-hero-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.zaman-collection-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #888888;
+  margin-bottom: 12px;
+}
+.zaman-collection-breadcrumb a {
+  color: #FF8C00;
+  text-decoration: none;
+  font-weight: 500;
+}
+.zaman-collection-breadcrumb a:hover {
+  text-decoration: underline;
+}
+.zaman-collection-title {
+  font-size: 38px;
+  font-weight: 900;
+  color: #1A1A1A;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.5px;
+}
+.zaman-collection-desc {
+  font-size: 16px;
+  color: #666666;
+  margin: 0 0 16px 0;
+  max-width: 600px;
+  line-height: 1.6;
+}
+.zaman-product-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FF8C00;
+  color: #FFFFFF;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Main layout */
+.zaman-collection-page {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .zaman-collection-page {
+    grid-template-columns: 1fr;
+    padding: 20px 16px;
+    gap: 20px;
+  }
+  .zaman-filter-sidebar {
+    order: 2;
+  }
+  .zaman-products-area {
+    order: 1;
+  }
+  .zaman-collection-hero {
+    padding: 24px 16px 20px;
+  }
+  .zaman-collection-title {
+    font-size: 26px;
+  }
+}
+
+/* ===== FILTER SIDEBAR ===== */
+.zaman-filter-sidebar {
+  position: sticky;
+  top: 80px;
+}
+.zaman-filter-card {
+  background: #FFFFFF;
+  border: 2px solid #EEEEEE;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.zaman-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: linear-gradient(
+    135deg, #FF8C00, #E07800
+  );
+}
+.zaman-filter-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.zaman-filter-title-row h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+.zaman-filter-title-row svg {
+  stroke: #FFFFFF !important;
+}
+.zaman-clear-all {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.zaman-clear-all:hover {
+  background: rgba(255,255,255,0.2);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+.zaman-filter-group {
+  border-bottom: 1px solid #F0F0F0;
+}
+.zaman-filter-group:last-child {
+  border-bottom: none;
+}
+.zaman-filter-group-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 800;
+  color: #1A1A1A;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  user-select: none;
+  background: #FAFAFA;
+  transition: background 0.15s;
+}
+.zaman-filter-group-title:hover {
+  background: #FFF3E0;
+}
+.zaman-filter-group-title::-webkit-details-marker {
+  display: none;
+}
+.zaman-filter-arrow {
+  font-size: 9px;
+  color: #999999;
+  transition: transform 0.2s;
+}
+.zaman-filter-group[open] .zaman-filter-arrow {
+  transform: rotate(180deg);
+}
+.zaman-filter-options {
+  padding: 8px 16px 14px;
+}
+.zaman-filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 2px;
+}
+.zaman-filter-option:hover {
+  background: #FFF3E0;
+}
+.zaman-filter-check {
+  display: none;
+}
+.zaman-check-box {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #DDDDDD;
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  background: #FFFFFF;
+}
+.zaman-filter-check:checked + .zaman-check-box {
+  background: #FF8C00;
+  border-color: #FF8C00;
+}
+.zaman-filter-check:checked + .zaman-check-box::after {
+  content: '✓';
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+}
+.zaman-filter-text {
+  font-size: 14px;
+  color: #333333;
+  font-weight: 500;
+}
+.zaman-filter-option:has(.zaman-filter-check:checked) {
+  background: #FFF3E0;
+}
+.zaman-filter-option:has(.zaman-filter-check:checked)
+  .zaman-filter-text {
+  color: #FF8C00;
+  font-weight: 700;
+}
+
+/* Price inputs */
+.zaman-price-inputs {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.zaman-price-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.zaman-price-field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #999999;
+  text-transform: uppercase;
+}
+.zaman-price-input {
+  padding: 9px 12px;
+  border: 2px solid #E8E8E8;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1A1A1A;
+  width: 100%;
+  box-sizing: border-box;
+}
+.zaman-price-input:focus {
+  border-color: #FF8C00;
+  outline: none;
+}
+.zaman-price-dash {
+  font-size: 16px;
+  color: #CCCCCC;
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+.zaman-price-apply {
+  width: 100%;
+  padding: 10px;
+  background: #FF8C00;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.zaman-price-apply:hover {
+  background: #E07800;
+}
+
+/* ===== PRODUCTS AREA ===== */
+.zaman-products-area {
+  min-width: 0;
+}
+
+/* Sort bar */
+.zaman-sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: #FFFFFF;
+  border: 2px solid #EEEEEE;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.zaman-results-count {
+  font-size: 14px;
+  color: #666666;
+}
+.zaman-results-count strong {
+  color: #1A1A1A;
+  font-weight: 800;
+}
+.zaman-sort-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.zaman-sort-wrap label {
+  font-size: 13px;
+  color: #888888;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.zaman-sort-select {
+  padding: 8px 14px;
+  border: 2px solid #E8E8E8;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A1A;
+  background: #FFFFFF;
+  cursor: pointer;
+  outline: none;
+}
+.zaman-sort-select:focus {
+  border-color: #FF8C00;
+}
+
+/* Product Grid */
+.zaman-product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 1200px) {
+  .zaman-product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .zaman-product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+/* Product Card */
+.zaman-product-card {
+  background: #FFFFFF;
+  border: 2px solid #EEEEEE;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #1A1A1A;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.zaman-product-card:hover {
+  border-color: #FF8C00;
+  box-shadow: 0 10px 32px rgba(255,140,0,0.15);
+  transform: translateY(-5px);
+  text-decoration: none;
+  color: #1A1A1A;
+}
+
+/* Card Badge */
+.zaman-card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+.zaman-badge-new {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+.zaman-badge-sale {
+  background: #FFF3E0;
+  color: #FF8C00;
+}
+.zaman-badge-sold {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+/* Card Image */
+.zaman-card-image {
+  aspect-ratio: 4 / 3;
+  background: #F8F8F8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid #F0F0F0;
+}
+.zaman-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 16px;
+  transition: transform 0.3s ease;
+}
+.zaman-product-card:hover .zaman-card-image img {
+  transform: scale(1.07);
+}
+.zaman-card-no-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #CCCCCC;
+  font-size: 12px;
+}
+
+/* Card Info */
+.zaman-card-info {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.zaman-card-category {
+  font-size: 11px;
+  font-weight: 600;
+  color: #FF8C00;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.zaman-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.zaman-card-price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.zaman-card-price {
+  font-size: 18px;
+  font-weight: 900;
+  color: #1A1A1A;
+}
+.zaman-card-compare {
+  font-size: 13px;
+  color: #AAAAAA;
+  text-decoration: line-through;
+}
+.zaman-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #F5F5F5;
+}
+.zaman-card-cta {
+  font-size: 13px;
+  font-weight: 700;
+  color: #FF8C00;
+  transition: gap 0.2s;
+}
+.zaman-product-card:hover .zaman-card-cta {
+  letter-spacing: 0.3px;
+}
+.zaman-card-unavailable {
+  font-size: 11px;
+  color: #C62828;
+  font-weight: 600;
+}
+
+/* Empty state */
+.zaman-empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: #CCCCCC;
+}
+.zaman-empty-state h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #666666;
+  margin: 16px 0 8px;
+}
+.zaman-empty-state p {
+  font-size: 14px;
+  color: #999999;
+}
+.zaman-empty-state a {
+  color: #FF8C00;
+}
+
+/* Pagination */
+.zaman-pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.zaman-page-btn {
+  padding: 10px 16px;
+  border: 2px solid #E8E8E8;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  text-decoration: none;
+  transition: all 0.2s;
+  background: #FFFFFF;
+}
+.zaman-page-btn:hover {
+  border-color: #FF8C00;
+  color: #FF8C00;
+  text-decoration: none;
+}
+.zaman-page-current {
+  background: #FF8C00;
+  border-color: #FF8C00;
+  color: #FFFFFF !important;
+  cursor: default;
+}
   .animate--hover-vertical-lift .shopify-payment-button__button {
     transition: transform var(--duration-default) var(--ease-out-slow);
   }
