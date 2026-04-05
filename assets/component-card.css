@@ -60,9 +60,16 @@ ul.grid.product-grid {
 .card__media,
 .card-wrapper .media,
 .product-card-wrapper .media {
-  height: 240px !important;
+  aspect-ratio: 4 / 3 !important;
+  height: auto !important;
+  min-height: 200px !important;
+  max-height: 260px !important;
+  width: 100% !important;
   background: #F8F8F8 !important;
   overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   border-radius: 14px 14px 0 0 !important;
 }
 .card__media img,
@@ -71,12 +78,19 @@ ul.grid.product-grid {
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
-  padding: 16px !important;
+  padding: 12px !important;
   transition: transform 0.3s ease !important;
 }
 .card-wrapper:hover .media img,
 .product-card-wrapper:hover .media img {
   transform: scale(1.06) !important;
+}
+
+/* Remove any fixed heights that cause tall cards */
+.grid__item .card,
+.card-wrapper .card {
+  height: auto !important;
+  min-height: unset !important;
 }
 
 /* Card content area */

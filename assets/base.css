@@ -72,21 +72,33 @@
   background: #FFFFFF;
   border: 2px solid #EEEEEE;
   border-radius: 16px;
-  padding: 20px;
+  padding: 0;
+  overflow: hidden;
   position: sticky;
   top: 80px;
+  width: 100%;
+  box-sizing: border-box;
 }
-.custom-filters-card::before {
-  content: 'Filters';
-  display: block;
+
+.custom-filters-card-header {
+  padding: 18px 20px;
+  border-bottom: 2px solid #F0F0F0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.custom-filters-card-header h3 {
   font-size: 16px;
   font-weight: 800;
   color: #1A1A1A;
-  padding-bottom: 16px;
-  border-bottom: 2px solid #F0F0F0;
-  margin-bottom: 16px;
+  margin: 0;
   letter-spacing: -0.2px;
 }
+
+.custom-filters-card-body {
+  padding: 8px 20px 16px;
+}
+
 .custom-filters-card .facets__disclosure {
   border-bottom: 1px solid #F5F5F5;
   padding: 2px 0;
@@ -106,20 +118,27 @@
   color: #1A1A1A;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  -webkit-user-select: none;
   user-select: none;
+  border: none;
+  background: none;
+  width: 100%;
 }
-.custom-filters-card
-  .facets__disclosure[open] summary svg {
+.custom-filters-card summary::-webkit-details-marker {
+  display: none;
+}
+.custom-filters-card 
+  .facets__disclosure[open] .filter-arrow {
   transform: rotate(180deg);
 }
-.custom-filters-card summary svg {
-  transition: transform 0.2s;
+.filter-arrow {
+  transition: transform 0.2s ease;
   flex-shrink: 0;
+  color: #999999;
+  font-size: 10px;
 }
 .custom-filters-card .facets__list {
   list-style: none;
-  padding: 4px 0 12px;
+  padding: 4px 0 10px;
   margin: 0;
 }
 .custom-filters-card .facets__item {
@@ -133,9 +152,13 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.15s;
+  font-size: 14px;
+  color: #333333;
+  font-weight: 500;
 }
 .custom-filters-card .facets__item label:hover {
   background: #FFF3E0;
+  color: #FF8C00;
 }
 .custom-filters-card .facets__checkbox {
   width: 17px;
@@ -145,10 +168,86 @@
   flex-shrink: 0;
   border-radius: 4px;
 }
-.custom-filters-card .facets__label-text {
-  font-size: 14px;
-  color: #333333;
-  font-weight: 500;
+
+/* ===== COLLECTION LAYOUT OVERRIDES ===== */
+/* Force correct two-column layout (sidebar + grid) */
+.facets-vertical,
+.facets-vertical__wrapper,
+[class*="facets-vertical"] {
+  display: grid !important;
+  grid-template-columns: 260px 1fr !important;
+  gap: 32px !important;
+  align-items: start !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 24px 40px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Make sure product grid does not overflow */
+.product-grid,
+ul.grid.product-grid,
+.collection__grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 20px !important;
+  width: 100% !important;
+  overflow: visible !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Product grid items must not overflow */
+.product-grid li,
+ul.grid.product-grid li,
+.grid__item {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+/* Card itself */
+.card-wrapper,
+.product-card-wrapper {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Sidebar */
+.facets-vertical .facets__wrapper,
+.facets-vertical > form,
+.facets-vertical > div:first-child {
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 768px) {
+  .facets-vertical,
+  .facets-vertical__wrapper,
+  [class*="facets-vertical"] {
+    grid-template-columns: 1fr !important;
+    padding: 16px !important;
+    gap: 20px !important;
+  }
+  .facets-vertical .facets__wrapper,
+  .facets-vertical > form,
+  .facets-vertical > div:first-child {
+    width: 100% !important;
+    min-width: unset !important;
+    max-width: 100% !important;
+  }
+  .product-grid,
+  ul.grid.product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
 
 .contains-content-container,

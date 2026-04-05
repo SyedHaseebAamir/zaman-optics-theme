@@ -154,13 +154,17 @@ these metafields:
 
           <!-- CUSTOM FILTERS FALLBACK -->
           <div class="custom-filters-card">
+            <div class="custom-filters-card-header">
+              <h3>Filters</h3>
+            </div>
+            <div class="custom-filters-card-body">
             
             <details class="facets__disclosure" open>
               <summary class="facets__summary">
                 Frame Shape
-                <svg width="12" height="12" viewBox="0 0 12 12" 
+                <svg class="filter-arrow" width="12" height="12" viewBox="0 0 12 12" 
                      fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="#1A1A1A" 
+                  <path d="M2 4l4 4 4-4" stroke="#999999" 
                         stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
               </summary>
@@ -190,9 +194,9 @@ these metafields:
             <details class="facets__disclosure" open>
               <summary class="facets__summary">
                 Material
-                <svg width="12" height="12" viewBox="0 0 12 12" 
+                <svg class="filter-arrow" width="12" height="12" viewBox="0 0 12 12" 
                      fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="#1A1A1A" 
+                  <path d="M2 4l4 4 4-4" stroke="#999999" 
                         stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
               </summary>
@@ -222,9 +226,9 @@ these metafields:
             <details class="facets__disclosure" open>
               <summary class="facets__summary">
                 Gender
-                <svg width="12" height="12" viewBox="0 0 12 12" 
+                <svg class="filter-arrow" width="12" height="12" viewBox="0 0 12 12" 
                      fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="#1A1A1A" 
+                  <path d="M2 4l4 4 4-4" stroke="#999999" 
                         stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
               </summary>
@@ -254,9 +258,9 @@ these metafields:
             <details class="facets__disclosure" open>
               <summary class="facets__summary">
                 Size
-                <svg width="12" height="12" viewBox="0 0 12 12" 
+                <svg class="filter-arrow" width="12" height="12" viewBox="0 0 12 12" 
                      fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="#1A1A1A" 
+                  <path d="M2 4l4 4 4-4" stroke="#999999" 
                         stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
               </summary>
@@ -278,19 +282,12 @@ these metafields:
                     </span>
                   </label>
                 </li>
+            </div>
                 {% endfor %}
               </ul>
             </details>
 
           </div>
-
-          {% render 'facets',
-            results: collection,
-            enable_filtering: section.settings.enable_filtering,
-            enable_sorting: section.settings.enable_sorting,
-            filter_type: section.settings.filter_type,
-            paginate: paginate
-          %}
         </aside>
       {%- endif -%}
 
