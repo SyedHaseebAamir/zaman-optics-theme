@@ -9,8 +9,660 @@
 }
 
 /* ================================================
-   ZAMAN LENS SELECTION SYSTEM — COMPLETE STYLES
+   ZAMAN OPTICS — PRODUCT FLOW UI
    ================================================ */
+
+/* Wrapper */
+.zpf-wrapper {
+  font-family: inherit;
+  color: #1A1A1A;
+}
+
+/* ---- TOGGLE BUTTONS ---- */
+.zpf-toggle-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.zpf-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #F8F8F8;
+  border: 2px solid #E8E8E8;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+.zpf-toggle-btn:hover {
+  border-color: #FF8C00;
+  background: #FFFBF7;
+}
+.zpf-toggle-btn.zpf-toggle-active {
+  border-color: #FF8C00;
+  background: #FFF8F0;
+  box-shadow: 0 0 0 3px rgba(255,140,0,0.1);
+}
+.zpf-toggle-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.zpf-toggle-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.zpf-toggle-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1A1A1A;
+  line-height: 1;
+}
+.zpf-toggle-sub {
+  font-size: 11px;
+  color: #999999;
+  line-height: 1;
+}
+.zpf-toggle-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: #888888;
+  background: #EEEEEE;
+  padding: 3px 8px;
+  border-radius: 50px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.zpf-tag-orange {
+  background: #FFF3E0 !important;
+  color: #FF8C00 !important;
+}
+
+/* ---- PRESCRIPTION PANEL ---- */
+.zpf-rx-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.3s ease;
+  opacity: 0;
+}
+.zpf-rx-panel.zpf-panel-open {
+  max-height: 2000px;
+  opacity: 1;
+}
+
+/* ---- PANEL BLOCK ---- */
+.zpf-panel-block {
+  background: #FFFFFF;
+  border: 1.5px solid #F0F0F0;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+.zpf-block-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #1A1A1A;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 14px;
+}
+.zpf-block-icon {
+  font-size: 16px;
+}
+.zpf-optional-tag {
+  font-size: 10px;
+  font-weight: 500;
+  color: #AAAAAA;
+  background: #F5F5F5;
+  padding: 2px 8px;
+  border-radius: 50px;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 4px;
+}
+
+/* ---- TABS ---- */
+.zpf-tab-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.zpf-tab {
+  padding: 7px 16px;
+  background: #F5F5F5;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.zpf-tab:hover {
+  border-color: #FF8C00;
+  color: #FF8C00;
+}
+.zpf-tab.zpf-tab-on {
+  background: #FFF3E0;
+  border-color: #FF8C00;
+  color: #FF8C00;
+}
+
+/* ---- HINT BAR ---- */
+.zpf-hint-bar {
+  background: #FFF8F0;
+  border-left: 3px solid #FF8C00;
+  padding: 9px 12px;
+  font-size: 12px;
+  color: #666666;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* ---- RX GRID ---- */
+.zpf-rx-grid {
+  background: #FAFAFA;
+  border: 1.5px solid #EEEEEE;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.zpf-rx-grid-head {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  background: #F0F0F0;
+  border-bottom: 1px solid #E8E8E8;
+}
+.zpf-rx-grid-head div {
+  padding: 8px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #888888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  border-right: 1px solid #E8E8E8;
+}
+.zpf-rx-grid-head div:last-child {
+  border-right: none;
+}
+.zpf-rx-grid-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  border-bottom: 1px solid #F0F0F0;
+  background: #FFFFFF;
+}
+.zpf-rx-grid-row:last-child {
+  border-bottom: none;
+}
+.zpf-rx-grid-row > div {
+  border-right: 1px solid #F0F0F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.zpf-rx-grid-row > div:last-child {
+  border-right: none;
+}
+.zpf-eye-cell {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+.zpf-eye-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.zpf-od { background: #FF8C00; color: #FFFFFF; }
+.zpf-os { background: #1A1A1A; color: #FFFFFF; }
+.zpf-cell-input {
+  width: 100%;
+  padding: 10px 6px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  text-align: center;
+  outline: none;
+  -moz-appearance: textfield;
+}
+.zpf-cell-input::-webkit-outer-spin-button,
+.zpf-cell-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.zpf-cell-input:focus {
+  background: #FFF8F0;
+}
+
+/* PD Bar */
+.zpf-pd-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #FAFAFA;
+  border: 1.5px solid #EEEEEE;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.zpf-pd-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A1A1A;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.zpf-pd-hint {
+  font-size: 11px;
+  color: #AAAAAA;
+  font-weight: 400;
+}
+.zpf-pd-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.zpf-pd-input {
+  width: 76px;
+  padding: 8px 10px;
+  border: 2px solid #E8E8E8;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  -moz-appearance: textfield;
+}
+.zpf-pd-input:focus {
+  border-color: #FF8C00;
+  background: #FFF8F0;
+}
+.zpf-pd-input::-webkit-outer-spin-button,
+.zpf-pd-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.zpf-pd-mm {
+  font-size: 12px;
+  color: #AAAAAA;
+  font-weight: 600;
+}
+
+/* Upload */
+.zpf-drop-zone {
+  border: 2px dashed #E0E0E0;
+  border-radius: 14px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #FAFAFA;
+}
+.zpf-drop-zone:hover {
+  border-color: #FF8C00;
+  background: #FFFBF7;
+}
+.zpf-drop-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 8px 0 4px;
+}
+.zpf-drop-hint {
+  font-size: 12px;
+  color: #AAAAAA;
+  margin: 0;
+}
+.zpf-filename {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: #E8F5E9;
+  color: #2E7D32;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ---- LENS TYPE OPTIONS ---- */
+.zpf-option-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.zpf-opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  background: #FAFAFA;
+  border: 2px solid #EEEEEE;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.zpf-opt input[type="radio"] { display: none; }
+.zpf-opt:hover {
+  border-color: #FF8C00;
+  background: #FFFBF7;
+}
+.zpf-opt.zpf-opt-on {
+  border-color: #FF8C00;
+  background: #FFF8F0;
+}
+.zpf-opt-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.zpf-opt-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+.zpf-opt-note {
+  font-size: 11px;
+  color: #AAAAAA;
+}
+.zpf-opt-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #888888;
+}
+
+/* ---- MATERIAL GRID ---- */
+.zpf-material-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.zpf-mat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  background: #FAFAFA;
+  border: 2px solid #EEEEEE;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.zpf-mat input[type="radio"] { display: none; }
+.zpf-mat:hover {
+  border-color: #FF8C00;
+  background: #FFFBF7;
+}
+.zpf-mat.zpf-mat-on {
+  border-color: #FF8C00;
+  background: #FFF8F0;
+}
+.zpf-mat-dot {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #CCCCCC;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.15s;
+}
+.zpf-mat-on .zpf-mat-dot {
+  border-color: #FF8C00;
+  background: #FF8C00;
+}
+.zpf-mat-on .zpf-mat-dot::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.zpf-mat-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.zpf-mat-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A1A1A;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.zpf-mat-note {
+  font-size: 11px;
+  color: #AAAAAA;
+}
+.zpf-mat-p {
+  font-size: 13px;
+  font-weight: 700;
+  color: #888888;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.zpf-badge {
+  padding: 2px 7px;
+  border-radius: 50px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.zpf-badge-pop {
+  background: #FFF3E0;
+  color: #FF8C00;
+}
+.zpf-badge-blue {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+.zpf-badge-purple {
+  background: #F3E5F5;
+  color: #6A1B9A;
+}
+
+/* ---- COATINGS ---- */
+.zpf-coat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.zpf-coat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #FAFAFA;
+  border: 2px solid #EEEEEE;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.zpf-coat input[type="checkbox"] { display: none; }
+.zpf-coat:hover {
+  border-color: #FF8C00;
+  background: #FFFBF7;
+}
+.zpf-coat-sel {
+  border-color: #FF8C00 !important;
+  background: #FFF8F0 !important;
+}
+.zpf-coat-box {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #CCCCCC;
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.zpf-coat-box.zpf-coat-on {
+  background: #FF8C00;
+  border-color: #FF8C00;
+}
+.zpf-coat-box.zpf-coat-on::after {
+  content: '✓';
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 900;
+}
+.zpf-coat-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.zpf-coat-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+.zpf-coat-note {
+  font-size: 11px;
+  color: #AAAAAA;
+}
+.zpf-coat-p {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---- PRICE SUMMARY ---- */
+.zpf-summary {
+  background: #FAFAFA;
+  border: 2px solid #F0F0F0;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+.zpf-sum-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #666666;
+  padding: 4px 0;
+}
+.zpf-summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1A1A1A;
+  padding-top: 10px;
+  border-top: 1px solid #E8E8E8;
+  margin-top: 8px;
+}
+.zpf-total-num {
+  font-size: 24px;
+  font-weight: 900;
+  color: #1A1A1A;
+  transition: all 0.2s ease;
+}
+.zpf-orange { color: #FF8C00 !important; }
+
+/* ---- ACTION BUTTONS ---- */
+.zpf-action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+.zpf-btn-cart {
+  padding: 16px 20px;
+  background: #1A1A1A;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+.zpf-btn-cart:hover {
+  background: #333333;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+.zpf-btn-buy {
+  padding: 16px 20px;
+  background: #FF8C00;
+  color: #FFFFFF !important;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.2px;
+}
+.zpf-btn-buy:hover {
+  background: #E07800;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255,140,0,0.35);
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .zpf-toggle-row {
+    grid-template-columns: 1fr;
+  }
+  .zpf-action-row {
+    grid-template-columns: 1fr;
+  }
+  .zpf-rx-grid-head,
+  .zpf-rx-grid-row {
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  }
+  .zpf-pd-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
 
 /* ====================================
    SECTION CONTAINERS & LABELS
