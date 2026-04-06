@@ -1,168 +1,723 @@
-{% comment %}
-  PRESCRIPTION WORKFLOW SNIPPET
-  
-  Renders the complete prescription form workflow for eyeglasses, blue light, and kids products.
-  
-  This snippet provides:
-  1. Prescription data collection form (OD/OS fields)
-  2. Lens selection interface (Material, Coatings, etc.)
-  3. Multi-step form submission to cart
-  
-  Accepts:
-  - product: {Object} product object
-  - product_form_id: {String} form ID
-  - section_id: {String} section ID
-  - block: {Object} block settings
-  - show_dynamic_checkout: {Boolean} show payment button
-  - gift_card_recipient_feature_active: {Boolean} show gift card recipient form
-{% endcomment %}
+{% comment %} Zaman Optics - Complete Lens Selection Flow {% endcomment %}
 
-{{ 'section-prescription.css' | asset_url | stylesheet_tag }}
+{% assign base_price = product.price %}
 
-<prescription-workflow
-  class="prescription-workflow"
-  data-section-id="{{ section_id }}"
-  data-form-id="{{ product_form_id }}"
->
-  <style>
-    .rx-mode-badge {
-      display: inline-block;
-      background-color: #000;
-      color: #fff;
-      font-size: 1.2rem;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      margin-bottom: 2rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1rem;
-    }
-  </style>
+<div class="zaman-product-flow" 
+     data-base-price="{{ base_price }}"
+     data-prescription-fee="80000"
+     data-uv-fee="60000"
+     data-bluecut-fee="50000"
+     data-progressive-fee="120000">
 
-  <div class="rx-mode-badge">
-    Prescription Form
+  <!-- ========== STEP 1: FRAME OR PRESCRIPTION ========== -->
+  <div class="zpf-section">
+    <div class="zpf-section-label">
+      <span class="zpf-step-num">1</span>
+      <span>Select Type</span>
+    </div>
+    <div class="zpf-type-cards">
+      
+      <label class="zpf-type-card zpf-selected" 
+             id="card-frame-only">
+        <input type="radio" 
+               name="lens_type_choice" 
+               value="frame_only"
+               id="opt-frame-only"
+               checked>
+        <div class="zpf-type-icon">🕶️</div>
+        <div class="zpf-type-info">
+          <span class="zpf-type-name">Frame Only</span>
+          <span class="zpf-type-desc">
+            No lenses included
+          </span>
+        </div>
+        <div class="zpf-type-price">
+          + Rs 0
+        </div>
+        <div class="zpf-check">✓</div>
+      </label>
+
+      <label class="zpf-type-card" 
+             id="card-prescription">
+        <input type="radio" 
+               name="lens_type_choice" 
+               value="prescription"
+               id="opt-prescription">
+        <div class="zpf-type-icon">🔬</div>
+        <div class="zpf-type-info">
+          <span class="zpf-type-name">
+            Prescription Lenses
+          </span>
+          <span class="zpf-type-desc">
+            Custom made to your Rx
+          </span>
+        </div>
+        <div class="zpf-type-price zpf-price-add">
+          + Rs 800
+        </div>
+        <div class="zpf-check">✓</div>
+      </label>
+
+    </div>
   </div>
 
-  <div class="prescription-workflow__container">
-    <!-- STEP PROGRESS INDICATOR -->
-    <div class="prescription-steps">
-      <ol class="prescription-steps__list" aria-label="Prescription form steps">
-        <li class="prescription-steps__item prescription-steps__item--1 is-current" data-step="1">
-          <span class="prescription-steps__number">1</span>
-          <span class="prescription-steps__label">{{ 'products.prescription.step_1_label' | t: default: 'Prescription' }}</span>
-        </li>
-        <li class="prescription-steps__item prescription-steps__item--2" data-step="2">
-          <span class="prescription-steps__number">2</span>
-          <span class="prescription-steps__label">{{ 'products.prescription.step_2_label' | t: default: 'Lens Type' }}</span>
-        </li>
-        <li class="prescription-steps__item prescription-steps__item--3" data-step="3">
-          <span class="prescription-steps__number">3</span>
-          <span class="prescription-steps__label">{{ 'products.prescription.step_3_label' | t: default: 'Coatings' }}</span>
-        </li>
-        <li class="prescription-steps__item prescription-steps__item--4" data-step="4">
-          <span class="prescription-steps__number">4</span>
-          <span class="prescription-steps__label">{{ 'products.prescription.step_4_label' | t: default: 'Review' }}</span>
-        </li>
-      </ol>
+  <!-- ========== STEP 2: PRESCRIPTION DETAILS ========== -->
+  <div class="zpf-section zpf-hidden" 
+       id="zpf-rx-section">
+    <div class="zpf-section-label">
+      <span class="zpf-step-num">2</span>
+      <span>Enter Prescription</span>
+    </div>
+    
+    <div class="zpf-rx-tabs">
+      <button type="button" 
+              class="zpf-rx-tab zpf-tab-active"
+              onclick="zpfSwitchRxTab('manual', this)">
+        ✏️ Enter Manually
+      </button>
+      <button type="button" 
+              class="zpf-rx-tab"
+              onclick="zpfSwitchRxTab('upload', this)">
+        📷 Upload Image
+      </button>
     </div>
 
-    <!-- PRESCRIPTION FORM WRAPPER -->
-    <product-form
-      class="product-form prescription-form"
-      data-hide-errors="false"
-      data-section-id="{{ section_id }}"
-      data-mode="prescription"
-    >
-      <div class="product-form__error-message-wrapper" role="alert" hidden>
-        <span class="svg-wrapper">
-          {{- 'icon-error.svg' | inline_asset_content -}}
-        </span>
-        <span class="product-form__error-message"></span>
+    <!-- Manual Entry -->
+    <div id="zpf-rx-manual" class="zpf-rx-content">
+      <div class="zpf-rx-info-bar">
+        ℹ️ Enter values from your prescription slip. 
+        Use 0.00 if a field is blank.
       </div>
-
-      {%- form 'product',
-        product,
-        id: product_form_id,
-        class: 'form prescription-form__form',
-        novalidate: 'novalidate',
-        data-type: 'add-to-cart-form'
-      -%}
-        <!-- HIDDEN VARIANT INPUT -->
-        <input
-          type="hidden"
-          name="id"
-          value="{{ product.selected_or_first_available_variant.id }}"
-          class="product-variant-id"
-        >
-
-        <!-- STEP 1: PRESCRIPTION DATA -->
-        <fieldset class="prescription-step prescription-step--1 is-active" data-step="1">
-          <legend class="prescription-step__title">
-            <span class="prescription-step__heading">{{ 'products.prescription.step_1_title' | t: default: 'Enter Your Prescription' }}</span>
-            <span class="prescription-step__subtitle">{{ 'products.prescription.step_1_subtitle' | t: default: 'Please provide your OD and OS values' }}</span>
-          </legend>
-
-          <div class="prescription-form__section">
-            <h3 class="prescription-form__section-title">{{ 'products.prescription.right_eye_label' | t: default: 'Right Eye (OD)' }}</h3>
-            <div class="prescription-form__fields">
-              <div class="prescription-form__field">
-                <label for="od-sph-{{ section_id }}" class="form__label">
-                  {{ 'products.prescription.sph_label' | t: default: 'SPH (Sphere)' }}
-                  <span class="required">*</span>
-                </label>
-                <input
-                  type="number"
-                  id="od-sph-{{ section_id }}"
-                  name="attributes[OD SPH]"
-                  placeholder="-0.00"
-                  step="0.25"
-                  required
-                  aria-required="true"
-                  class="prescription-form__input"
-                >
-              </div>
-              <div class="prescription-form__field">
-                <label for="od-cyl-{{ section_id }}" class="form__label">
-                  {{ 'products.prescription.cyl_label' | t: default: 'CYL (Cylinder)' }}
-                </label>
-                <input
-                  type="number"
-                  id="od-cyl-{{ section_id }}"
-                  name="attributes[OD CYL]"
-                  placeholder="-0.00"
-                  step="0.25"
-                  class="prescription-form__input"
-                >
-              </div>
-              <div class="prescription-form__field">
-                <label for="od-axis-{{ section_id }}" class="form__label">
-                  {{ 'products.prescription.axis_label' | t: default: 'AXIS' }}
-                </label>
-                <input
-                  type="number"
-                  id="od-axis-{{ section_id }}"
-                  name="attributes[OD AXIS]"
-                  placeholder="0"
-                  step="1"
-                  min="0"
-                  max="180"
-                  class="prescription-form__input"
-                >
-              </div>
-            </div>
+      <div class="zpf-rx-table">
+        <div class="zpf-rx-header-row">
+          <div class="zpf-rx-cell zpf-rx-eye-label">
           </div>
+          <div class="zpf-rx-cell">SPH</div>
+          <div class="zpf-rx-cell">CYL</div>
+          <div class="zpf-rx-cell">AXIS</div>
+        </div>
+        <div class="zpf-rx-row">
+          <div class="zpf-rx-cell zpf-rx-eye-label">
+            <span class="zpf-eye-badge zpf-od">OD</span>
+            Right Eye
+          </div>
+          <div class="zpf-rx-cell">
+            <input type="number" 
+                   step="0.25"
+                   name="properties[Right Eye SPH]"
+                   placeholder="0.00"
+                   class="zpf-rx-input">
+          </div>
+          <div class="zpf-rx-cell">
+            <input type="number" 
+                   step="0.25"
+                   name="properties[Right Eye CYL]"
+                   placeholder="0.00"
+                   class="zpf-rx-input">
+          </div>
+          <div class="zpf-rx-cell">
+            <input type="number"
+                   min="0" max="180"
+                   name="properties[Right Eye Axis]"
+                   placeholder="0"
+                   class="zpf-rx-input">
+          </div>
+        </div>
+        <div class="zpf-rx-row">
+          <div class="zpf-rx-cell zpf-rx-eye-label">
+            <span class="zpf-eye-badge zpf-os">OS</span>
+            Left Eye
+          </div>
+          <div class="zpf-rx-cell">
+            <input type="number"
+                   step="0.25"
+                   name="properties[Left Eye SPH]"
+                   placeholder="0.00"
+                   class="zpf-rx-input">
+          </div>
+          <div class="zpf-rx-cell">
+            <input type="number"
+                   step="0.25"
+                   name="properties[Left Eye CYL]"
+                   placeholder="0.00"
+                   class="zpf-rx-input">
+          </div>
+          <div class="zpf-rx-cell">
+            <input type="number"
+                   min="0" max="180"
+                   name="properties[Left Eye Axis]"
+                   placeholder="0"
+                   class="zpf-rx-input">
+          </div>
+        </div>
+      </div>
+      <div class="zpf-pd-row">
+        <label class="zpf-pd-label">
+          PD — Pupillary Distance
+          <span class="zpf-required">*</span>
+          <span class="zpf-hint">
+            (Usually 58–68mm)
+          </span>
+        </label>
+        <div class="zpf-pd-input-wrap">
+          <input type="number"
+                 step="0.5" min="45" max="80"
+                 name="properties[PD]"
+                 placeholder="62.0"
+                 class="zpf-rx-input zpf-pd-input">
+          <span class="zpf-pd-unit">mm</span>
+        </div>
+      </div>
+    </div>
 
-          <div class="prescription-form__section">
-            <h3 class="prescription-form__section-title">{{ 'products.prescription.left_eye_label' | t: default: 'Left Eye (OS)' }}</h3>
-            <div class="prescription-form__fields">
-              <div class="prescription-form__field">
-                <label for="os-sph-{{ section_id }}" class="form__label">
-                  {{ 'products.prescription.sph_label' | t: default: 'SPH (Sphere)' }}
-                  <span class="required">*</span>
-                </label>
-                <input
-                  type="number"
-                  id="os-sph-{{ section_id }}"
+    <!-- Upload -->
+    <div id="zpf-rx-upload" 
+         class="zpf-rx-content zpf-hidden">
+      <div class="zpf-upload-area" 
+           id="zpfUploadArea"
+           onclick="document.getElementById(
+             'zpfFileInput').click()">
+        <div class="zpf-upload-icon">📄</div>
+        <p class="zpf-upload-text">
+          Click to upload prescription image
+        </p>
+        <p class="zpf-upload-hint">
+          JPG, PNG or PDF — max 5MB
+        </p>
+        <input type="file" 
+               id="zpfFileInput"
+               name="properties[Prescription Image]"
+               accept=".jpg,.jpeg,.png,.pdf"
+               style="display:none"
+               onchange="zpfHandleFile(this)">
+      </div>
+      <div id="zpfFileName" 
+           class="zpf-file-name zpf-hidden">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== STEP 3: LENS TYPE ========== -->
+  <div class="zpf-section" id="zpf-lens-type-section">
+    <div class="zpf-section-label">
+      <span class="zpf-step-num" id="zpf-step3-num">
+        2
+      </span>
+      <span>Lens Type</span>
+    </div>
+    <div class="zpf-lens-cards">
+
+      <label class="zpf-lens-card zpf-lens-selected"
+             id="lcard-single">
+        <input type="radio"
+               name="lens_vision_type"
+               value="Single Vision"
+               checked>
+        <div class="zpf-lens-icon">
+          <svg width="32" height="20" viewBox="0 0 32 20" 
+               fill="none">
+            <ellipse cx="9" cy="10" rx="8" ry="7" 
+                     stroke="#FF8C00" stroke-width="2"/>
+            <ellipse cx="23" cy="10" rx="8" ry="7" 
+                     stroke="#FF8C00" stroke-width="2"/>
+            <line x1="17" y1="10" x2="15" y2="10" 
+                  stroke="#FF8C00" stroke-width="2"/>
+          </svg>
+        </div>
+        <span class="zpf-lens-name">Single Vision</span>
+        <span class="zpf-lens-desc">
+          Distance OR near correction
+        </span>
+        <span class="zpf-lens-price">Included</span>
+        <div class="zpf-lens-check">✓</div>
+      </label>
+
+      <label class="zpf-lens-card" id="lcard-progressive">
+        <input type="radio"
+               name="lens_vision_type"
+               value="Progressive">
+        <div class="zpf-lens-icon">
+          <svg width="32" height="20" viewBox="0 0 32 20" 
+               fill="none">
+            <ellipse cx="9" cy="10" rx="8" ry="7" 
+                     stroke="#666" stroke-width="2"/>
+            <ellipse cx="23" cy="10" rx="8" ry="7" 
+                     stroke="#666" stroke-width="2"/>
+            <line x1="17" y1="10" x2="15" y2="10" 
+                  stroke="#666" stroke-width="2"/>
+            <line x1="9" y1="6" x2="9" y2="14" 
+                  stroke="#666" stroke-width="1" 
+                  stroke-dasharray="2"/>
+          </svg>
+        </div>
+        <span class="zpf-lens-name">Progressive</span>
+        <span class="zpf-lens-desc">
+          Distance + near in one lens
+        </span>
+        <span class="zpf-lens-price">+ Rs 1,200</span>
+        <div class="zpf-lens-check">✓</div>
+      </label>
+
+      <label class="zpf-lens-card" id="lcard-frameonly">
+        <input type="radio"
+               name="lens_vision_type"
+               value="Frame Only - No Lens">
+        <div class="zpf-lens-icon">⬜</div>
+        <span class="zpf-lens-name">No Lens</span>
+        <span class="zpf-lens-desc">
+          Frame only, no lenses
+        </span>
+        <span class="zpf-lens-price">Included</span>
+        <div class="zpf-lens-check">✓</div>
+      </label>
+
+    </div>
+  </div>
+
+  <!-- ========== STEP 4: LENS MATERIAL ========== -->
+  <div class="zpf-section" id="zpf-material-section">
+    <div class="zpf-section-label">
+      <span class="zpf-step-num" id="zpf-step4-num">
+        3
+      </span>
+      <span>Lens Material</span>
+    </div>
+    <div class="zpf-material-list">
+
+      <label class="zpf-material-item zpf-mat-selected"
+             id="mat-standard">
+        <input type="radio"
+               name="lens_material"
+               value="Standard"
+               checked
+               data-fee="0">
+        <div class="zpf-mat-radio"></div>
+        <div class="zpf-mat-info">
+          <span class="zpf-mat-name">
+            Standard Plastic
+          </span>
+          <span class="zpf-mat-desc">
+            Lightweight, good clarity
+          </span>
+        </div>
+        <span class="zpf-mat-price">Included</span>
+      </label>
+
+      <label class="zpf-material-item" id="mat-uv">
+        <input type="radio"
+               name="lens_material"
+               value="UV Protection"
+               data-fee="60000">
+        <div class="zpf-mat-radio"></div>
+        <div class="zpf-mat-info">
+          <span class="zpf-mat-name">
+            UV Protection
+            <span class="zpf-mat-badge">Popular</span>
+          </span>
+          <span class="zpf-mat-desc">
+            Blocks 99% UV rays
+          </span>
+        </div>
+        <span class="zpf-mat-price">+ Rs 600</span>
+      </label>
+
+      <label class="zpf-material-item" 
+             id="mat-bluecut">
+        <input type="radio"
+               name="lens_material"
+               value="Blue Cut"
+               data-fee="50000">
+        <div class="zpf-mat-radio"></div>
+        <div class="zpf-mat-info">
+          <span class="zpf-mat-name">
+            Blue Cut
+            <span class="zpf-mat-badge zpf-badge-blue">
+              Screen
+            </span>
+          </span>
+          <span class="zpf-mat-desc">
+            Reduces digital eye strain
+          </span>
+        </div>
+        <span class="zpf-mat-price">+ Rs 500</span>
+      </label>
+
+      <label class="zpf-material-item" 
+             id="mat-photochromic">
+        <input type="radio"
+               name="lens_material"
+               value="Photochromic"
+               data-fee="150000">
+        <div class="zpf-mat-radio"></div>
+        <div class="zpf-mat-info">
+          <span class="zpf-mat-name">
+            Photochromic
+            <span class="zpf-mat-badge zpf-badge-dark">
+              Transition
+            </span>
+          </span>
+          <span class="zpf-mat-desc">
+            Auto-darkens in sunlight
+          </span>
+        </div>
+        <span class="zpf-mat-price">+ Rs 1,500</span>
+      </label>
+
+    </div>
+  </div>
+
+  <!-- ========== STEP 5: LENS COATING ========== -->
+  <div class="zpf-section" id="zpf-coating-section">
+    <div class="zpf-section-label">
+      <span class="zpf-step-num" id="zpf-step5-num">
+        4
+      </span>
+      <span>Lens Coating 
+        <span class="zpf-optional">(Optional)</span>
+      </span>
+    </div>
+    <div class="zpf-coating-list">
+
+      <label class="zpf-coating-item">
+        <input type="checkbox"
+               name="properties[Coating]"
+               value="Anti-Glare"
+               data-fee="30000"
+               class="zpf-coating-check"
+               onchange="zpfUpdatePrice()">
+        <div class="zpf-coat-checkbox"></div>
+        <div class="zpf-coat-info">
+          <span class="zpf-coat-name">
+            Anti-Glare Coating
+          </span>
+          <span class="zpf-coat-desc">
+            Reduces reflections, better night driving
+          </span>
+        </div>
+        <span class="zpf-coat-price">+ Rs 300</span>
+      </label>
+
+      <label class="zpf-coating-item">
+        <input type="checkbox"
+               name="properties[Coating]"
+               value="Anti-Scratch"
+               data-fee="20000"
+               class="zpf-coating-check"
+               onchange="zpfUpdatePrice()">
+        <div class="zpf-coat-checkbox"></div>
+        <div class="zpf-coat-info">
+          <span class="zpf-coat-name">
+            Anti-Scratch Coating
+          </span>
+          <span class="zpf-coat-desc">
+            Protects lens surface
+          </span>
+        </div>
+        <span class="zpf-coat-price">+ Rs 200</span>
+      </label>
+
+      <label class="zpf-coating-item">
+        <input type="checkbox"
+               name="properties[Coating]"
+               value="Anti-Fog"
+               data-fee="25000"
+               class="zpf-coating-check"
+               onchange="zpfUpdatePrice()">
+        <div class="zpf-coat-checkbox"></div>
+        <div class="zpf-coat-info">
+          <span class="zpf-coat-name">
+            Anti-Fog Coating
+          </span>
+          <span class="zpf-coat-desc">
+            Prevents fogging in cold weather
+          </span>
+        </div>
+        <span class="zpf-coat-price">+ Rs 250</span>
+      </label>
+
+    </div>
+  </div>
+
+  <!-- ========== PRICE SUMMARY ========== -->
+  <div class="zpf-price-summary" id="zpfPriceSummary">
+    <div class="zpf-price-rows" id="zpfPriceRows">
+      <div class="zpf-price-row">
+        <span>Frame Price</span>
+        <span id="zpf-frame-price">
+          {{ product.price | money }}
+        </span>
+      </div>
+    </div>
+    <div class="zpf-price-divider"></div>
+    <div class="zpf-price-total">
+      <span>Total</span>
+      <span id="zpf-total-price" class="zpf-total-amount">
+        {{ product.price | money }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Hidden inputs to store configuration -->
+  <input type="hidden" 
+         name="properties[Lens Selection]" 
+         id="zpf-lens-selection-input"
+         value="Frame Only">
+  <input type="hidden"
+         name="properties[Total Price Rs]"
+         id="zpf-price-input"
+         value="{{ product.price | divided_by: 100 }}">
+
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function() {
+
+  var BASE_PRICE = parseInt(
+    document.querySelector('.zaman-product-flow')
+      .dataset.basePrice
+  );
+
+  var FEES = {
+    prescription: 80000,
+    progressive:  120000,
+    uv:           60000,
+    bluecut:      50000,
+    photochromic: 150000,
+    antiglare:    30000,
+    antiscratch:  20000,
+    antifog:      25000
+  };
+
+  var state = {
+    isPrescription: false,
+    materialFee: 0,
+    visionFee: 0,
+    coatingFees: 0
+  };
+
+  // ---- TYPE CARDS ----
+  document.querySelectorAll(
+    'input[name="lens_type_choice"]'
+  ).forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      
+      // Update card selected state
+      document.querySelectorAll('.zpf-type-card')
+        .forEach(function(c) { 
+          c.classList.remove('zpf-selected'); 
+        });
+      this.closest('.zpf-type-card')
+        .classList.add('zpf-selected');
+
+      state.isPrescription = 
+        this.value === 'prescription';
+
+      // Show/hide prescription section
+      var rxSection = 
+        document.getElementById('zpf-rx-section');
+      if (state.isPrescription) {
+        rxSection.classList.remove('zpf-hidden');
+        // Update step numbers
+        document.getElementById('zpf-step3-num')
+          .textContent = '3';
+        document.getElementById('zpf-step4-num')
+          .textContent = '4';
+        document.getElementById('zpf-step5-num')
+          .textContent = '5';
+      } else {
+        rxSection.classList.add('zpf-hidden');
+        document.getElementById('zpf-step3-num')
+          .textContent = '2';
+        document.getElementById('zpf-step4-num')
+          .textContent = '3';
+        document.getElementById('zpf-step5-num')
+          .textContent = '4';
+      }
+
+      zpfUpdatePrice();
+    });
+  });
+
+  // ---- LENS TYPE CARDS ----
+  document.querySelectorAll(
+    'input[name="lens_vision_type"]'
+  ).forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      document.querySelectorAll('.zpf-lens-card')
+        .forEach(function(c) { 
+          c.classList.remove('zpf-lens-selected'); 
+        });
+      this.closest('.zpf-lens-card')
+        .classList.add('zpf-lens-selected');
+      
+      state.visionFee = 
+        this.value === 'Progressive' 
+          ? FEES.progressive : 0;
+      zpfUpdatePrice();
+    });
+  });
+
+  // ---- MATERIAL ----
+  document.querySelectorAll(
+    'input[name="lens_material"]'
+  ).forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      document.querySelectorAll('.zpf-material-item')
+        .forEach(function(c) { 
+          c.classList.remove('zpf-mat-selected'); 
+        });
+      this.closest('.zpf-material-item')
+        .classList.add('zpf-mat-selected');
+      
+      state.materialFee = 
+        parseInt(this.dataset.fee || 0);
+      zpfUpdatePrice();
+    });
+  });
+
+  // ---- COATINGS ----
+  document.querySelectorAll('.zpf-coating-check')
+    .forEach(function(cb) {
+      cb.addEventListener('change', function() {
+        var box = this.closest('.zpf-coating-item')
+          .querySelector('.zpf-coat-checkbox');
+        if (this.checked) {
+          box.classList.add('zpf-coat-checked');
+          this.closest('.zpf-coating-item')
+            .classList.add('zpf-coat-selected');
+        } else {
+          box.classList.remove('zpf-coat-checked');
+          this.closest('.zpf-coating-item')
+            .classList.remove('zpf-coat-selected');
+        }
+        zpfUpdatePrice();
+      });
+    });
+
+  // ---- UPDATE PRICE ----
+  window.zpfUpdatePrice = function() {
+    var total = BASE_PRICE;
+    var rows = '';
+
+    // Frame
+    rows += '<div class="zpf-price-row">' +
+      '<span>Frame</span>' +
+      '<span>' + zpfMoney(BASE_PRICE) + 
+      '</span></div>';
+
+    // Prescription fee
+    if (state.isPrescription) {
+      total += FEES.prescription;
+      rows += '<div class="zpf-price-row">' +
+        '<span>Prescription Lenses</span>' +
+        '<span>+ ' + zpfMoney(FEES.prescription) + 
+        '</span></div>';
+    }
+
+    // Vision type
+    if (state.visionFee > 0) {
+      total += state.visionFee;
+      rows += '<div class="zpf-price-row">' +
+        '<span>Progressive Lenses</span>' +
+        '<span>+ ' + zpfMoney(state.visionFee) + 
+        '</span></div>';
+    }
+
+    // Material
+    if (state.materialFee > 0) {
+      total += state.materialFee;
+      var matName = document.querySelector(
+        'input[name="lens_material"]:checked'
+      ).value;
+      rows += '<div class="zpf-price-row">' +
+        '<span>' + matName + '</span>' +
+        '<span>+ ' + zpfMoney(state.materialFee) + 
+        '</span></div>';
+    }
+
+    // Coatings
+    var coatingTotal = 0;
+    document.querySelectorAll(
+      '.zpf-coating-check:checked'
+    ).forEach(function(cb) {
+      var fee = parseInt(cb.dataset.fee || 0);
+      coatingTotal += fee;
+      rows += '<div class="zpf-price-row">' +
+        '<span>' + cb.value + '</span>' +
+        '<span>+ ' + zpfMoney(fee) + 
+        '</span></div>';
+    });
+    total += coatingTotal;
+
+    // Update DOM
+    document.getElementById('zpfPriceRows')
+      .innerHTML = rows;
+    document.getElementById('zpf-total-price')
+      .textContent = zpfMoney(total);
+    document.getElementById('zpf-price-input')
+      .value = Math.round(total / 100);
+
+    // Update lens selection summary
+    var lensType = document.querySelector(
+      'input[name="lens_vision_type"]:checked'
+    );
+    var lensSelection = 
+      state.isPrescription ? 'Prescription' : 
+      'Frame Only';
+    if (lensType) {
+      lensSelection += ' — ' + lensType.value;
+    }
+    document.getElementById(
+      'zpf-lens-selection-input'
+    ).value = lensSelection;
+
+    // Animate total
+    var el = document.getElementById('zpf-total-price');
+    el.style.transform = 'scale(1.08)';
+    el.style.color = '#FF8C00';
+    setTimeout(function() {
+      el.style.transform = 'scale(1)';
+    }, 200);
+  };
+
+  function zpfMoney(paisa) {
+    return 'Rs ' + 
+      (paisa / 100).toLocaleString('en-PK', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
+  }
+
+  // ---- RX TAB SWITCH ----
+  window.zpfSwitchRxTab = function(tab, btn) {
+    document.querySelectorAll('.zpf-rx-tab')
+      .forEach(function(b) { 
+        b.classList.remove('zpf-tab-active'); 
+      });
+    btn.classList.add('zpf-tab-active');
+    document.getElementById('zpf-rx-manual')
+      .classList.toggle('zpf-hidden', tab !== 'manual');
+    document.getElementById('zpf-rx-upload')
+      .classList.toggle('zpf-hidden', tab !== 'upload');
+  };
+
+  // ---- FILE UPLOAD ----
+  window.zpfHandleFile = function(input) {
+    var nameEl = document.getElementById('zpfFileName');
+    if (input.files && input.files[0]) {
+      nameEl.textContent = 
+        '✓ ' + input.files[0].name;
+      nameEl.classList.remove('zpf-hidden');
+      document.querySelector('.zpf-upload-text')
+        .textContent = 'File selected — click to change';
+    }
+})();
+</script>
+
+                <label for="od-cyl-{{ section_id }}" class="form__label">
+      id="os-sph-{{ section_id }}"
                   name="attributes[OS SPH]"
                   placeholder="-0.00"
                   step="0.25"
