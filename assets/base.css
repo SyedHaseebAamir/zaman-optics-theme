@@ -3777,6 +3777,129 @@ details-disclosure > details {
     padding: 20px 16px;
     gap: 20px;
   }
+}
+
+/* ================================================
+   ZAMAN PRODUCT ABOUT SECTION — Left Column
+   ================================================ */
+
+.zaman-product-about {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 2px solid #F0F0F0;
+}
+
+.zaman-about-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #1A1A1A;
+  margin-bottom: 16px;
+  letter-spacing: -0.3px;
+}
+
+.zaman-about-title svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke: #FF8C00;
+  stroke-width: 2.5;
+  color: #FF8C00;
+}
+
+.zaman-about-content {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #333333;
+  margin-bottom: 24px;
+}
+
+.zaman-about-content p {
+  margin: 0 0 12px 0;
+}
+
+.zaman-about-content a {
+  color: #FF8C00;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.zaman-about-content a:hover {
+  text-decoration: underline;
+}
+
+.zaman-specs-table {
+  background: #FAFAFA;
+  border: 1px solid #F0F0F0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.zaman-spec-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #F0F0F0;
+  gap: 16px;
+}
+
+.zaman-spec-row:last-child {
+  border-bottom: none;
+}
+
+.zaman-spec-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A1A1A;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.zaman-spec-value {
+  font-size: 14px;
+  color: #555555;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .zaman-product-about {
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+
+  .zaman-about-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+    gap: 6px;
+  }
+
+  .zaman-about-title svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .zaman-about-content {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .zaman-spec-row {
+    grid-template-columns: 100px 1fr;
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .zaman-spec-label {
+    font-size: 12px;
+  }
+
+  .zaman-spec-value {
+    font-size: 13px;
+  }
+}
   .zaman-filter-sidebar {
     order: 2;
   }
