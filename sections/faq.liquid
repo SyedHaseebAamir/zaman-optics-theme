@@ -1,0 +1,269 @@
+<section class="zaman-faq-section">
+  <div class="zaman-faq-inner">
+    
+    <div class="zaman-section-header">
+      <span class="zaman-section-tag">
+        {{ section.settings.tag_text }}
+      </span>
+      <h2 class="zaman-section-title">
+        {{ section.settings.title }}
+      </h2>
+      <p class="zaman-section-subtitle">
+        {{ section.settings.subtitle }}
+      </p>
+    </div>
+
+    <div class="zaman-faq-grid">
+      {% for block in section.blocks %}
+      <details class="zaman-faq-item" 
+               {{ block.shopify_attributes }}>
+        <summary class="zaman-faq-question">
+          <span>{{ block.settings.question }}</span>
+          <span class="zaman-faq-icon">
+            <svg width="20" height="20" fill="none" 
+                 viewBox="0 0 24 24" stroke="currentColor" 
+                 stroke-width="2.5">
+              <path d="M12 5v14M5 12h14" 
+                    stroke-linecap="round"/>
+            </svg>
+          </span>
+        </summary>
+        <div class="zaman-faq-answer">
+          <p>{{ block.settings.answer }}</p>
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+
+    <div class="zaman-faq-cta">
+      <p>{{ section.settings.cta_text }}</p>
+      <a href="{{ section.settings.cta_url }}" 
+         class="zaman-faq-cta-btn">
+        {{ section.settings.cta_button }}
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.zaman-faq-section {
+  padding: 80px 40px;
+  background: #FFFFFF;
+}
+.zaman-faq-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.zaman-faq-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+.zaman-faq-item {
+  background: #FAFAFA;
+  border: 1.5px solid #F0F0F0;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.zaman-faq-item[open] {
+  border-color: #FF8C00;
+  background: #FFFFFF;
+}
+.zaman-faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A1A1A;
+  user-select: none;
+}
+.zaman-faq-question::-webkit-details-marker {
+  display: none;
+}
+.zaman-faq-item[open] .zaman-faq-question {
+  color: #FF8C00;
+  border-bottom: 1px solid #F0F0F0;
+}
+.zaman-faq-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  background: #F0F0F0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666666;
+  transition: all 0.2s;
+}
+.zaman-faq-item[open] .zaman-faq-icon {
+  background: #FF8C00;
+  color: #FFFFFF;
+  transform: rotate(45deg);
+}
+.zaman-faq-answer {
+  padding: 0 24px 20px;
+}
+.zaman-faq-answer p {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.75;
+  margin: 16px 0 0 0;
+}
+.zaman-faq-cta {
+  text-align: center;
+  padding: 40px;
+  background: #FFF8F0;
+  border: 2px solid #FFE0B2;
+  border-radius: 20px;
+}
+.zaman-faq-cta p {
+  font-size: 16px;
+  color: #555555;
+  margin: 0 0 20px 0;
+}
+.zaman-faq-cta-btn {
+  display: inline-block;
+  padding: 13px 32px;
+  background: #FF8C00;
+  color: #FFFFFF;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.zaman-faq-cta-btn:hover {
+  background: #E07800;
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: #FFFFFF;
+}
+@media (max-width: 768px) {
+  .zaman-faq-section { padding: 48px 20px; }
+  .zaman-faq-question { 
+    padding: 16px 18px; 
+    font-size: 14px; 
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "Tag Label",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Everything you need to know about ordering glasses online."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text",
+      "default": "Still have questions? Our team is here to help."
+    },
+    {
+      "type": "text",
+      "id": "cta_button",
+      "label": "CTA Button Text",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How do I enter my prescription?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "On the product page, select your lens type and you will see a prescription form. Enter the SPH, CYL, AXIS values for each eye exactly as written on your prescription slip."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Section",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I enter my prescription?",
+            "answer": "On the product page, select your lens type and you will see a prescription form. Enter SPH, CYL, AXIS for each eye exactly as written on your prescription."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What payment methods do you accept?",
+            "answer": "We accept Cash on Delivery (COD), EasyPaisa, and JazzCash across all of Pakistan."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "We deliver in 3 to 5 business days across Pakistan. Free delivery on orders above Rs 3,000."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I return my glasses?",
+            "answer": "Yes. We have a 7-day return policy. If you are not satisfied with your order, contact us and we will arrange a return or replacement."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is PD (Pupillary Distance)?",
+            "answer": "PD is the distance between the center of your two pupils in millimeters. It is usually between 58 and 68mm. You can find it on your prescription or measure it at home using a ruler and mirror."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you make progressive lenses?",
+            "answer": "Yes, we make single vision and progressive lenses. Select your lens type on the product page when ordering."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

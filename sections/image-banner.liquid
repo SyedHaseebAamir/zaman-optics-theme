@@ -1,25 +1,29 @@
-﻿{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
-
-<div class="hero-wrapper">
+﻿<div class="hero-wrapper">
   <div class="hero-left">
-    <span class="hero-label">PAKISTAN'S TRUSTED OPTICAL STORE</span>
-    <h1 class="hero-headline">Find Your Perfect<br>Pair of Glasses</h1>
-    <p class="hero-subtext">
-      Prescription eyewear, sunglasses &amp; blue light protection — 
-      crafted for clarity and delivered across Pakistan.
-    </p>
+    <span class="hero-label">{{ section.settings.hero_label }}</span>
+    <h1 class="hero-headline">{{ section.settings.hero_headline }}</h1>
+    <p class="hero-subtext">{{ section.settings.hero_subtext }}</p>
     <div class="hero-buttons">
-      <a href="/collections/eyeglasses" class="btn-primary">
-        Shop Eyeglasses
+      <a href="{{ section.settings.btn_primary_url }}" class="btn-primary">
+        {{ section.settings.btn_primary_text }}
       </a>
-      <a href="/collections/all" class="btn-secondary">
-        View All Frames
+      <a href="{{ section.settings.btn_secondary_url }}" class="btn-secondary">
+        {{ section.settings.btn_secondary_text }}
       </a>
     </div>
     <div class="hero-trust">
-      <span>✓ Free Delivery above Rs 3,000</span>
-      <span>✓ Cash on Delivery</span>
-      <span>✓ Prescription Guaranteed</span>
+      <div class="hero-trust-item">
+        <div class="hero-trust-dot"></div>
+        {{ section.settings.trust_1 }}
+      </div>
+      <div class="hero-trust-item">
+        <div class="hero-trust-dot"></div>
+        {{ section.settings.trust_2 }}
+      </div>
+      <div class="hero-trust-item">
+        <div class="hero-trust-dot"></div>
+        {{ section.settings.trust_3 }}
+      </div>
     </div>
   </div>
   <div class="hero-right">
@@ -34,24 +38,222 @@
   </div>
 </div>
 
+<style>
+.hero-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 520px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 48px 60px 60px;
+  max-width: 580px;
+}
+.hero-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #FF8C00;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding: 5px 12px;
+  background: #FFF3E0;
+  border-radius: 50px;
+}
+.hero-headline {
+  font-size: 50px;
+  font-weight: 900;
+  color: #1A1A1A;
+  line-height: 1.08;
+  letter-spacing: -1px;
+  margin: 0 0 20px 0;
+}
+.hero-subtext {
+  font-size: 16px;
+  color: #666666;
+  line-height: 1.75;
+  margin-bottom: 36px;
+  max-width: 420px;
+}
+.hero-buttons {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  padding: 15px 32px;
+  background: #1A1A1A;
+  color: #FFFFFF !important;
+  border: 2px solid #1A1A1A;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.btn-primary:hover {
+  background: #FF8C00;
+  border-color: #FF8C00;
+  color: #FFFFFF !important;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+.btn-secondary {
+  padding: 15px 32px;
+  background: transparent;
+  color: #1A1A1A !important;
+  border: 2px solid #E0E0E0;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.btn-secondary:hover {
+  border-color: #FF8C00;
+  color: #FF8C00 !important;
+  text-decoration: none;
+}
+.hero-trust {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #666666;
+  font-weight: 500;
+  padding: 6px 14px 6px 0;
+  margin-right: 14px;
+  border-right: 1px solid #E0E0E0;
+}
+.hero-trust-item:last-child {
+  border-right: none;
+}
+.hero-trust-dot {
+  width: 6px;
+  height: 6px;
+  background: #FF8C00;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.hero-right {
+  position: relative;
+  background: #F8F6F3;
+  overflow: hidden;
+}
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #CCCCCC;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .hero-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .hero-right { 
+    height: 280px; 
+    order: -1; 
+  }
+  .hero-left { 
+    padding: 36px 20px; 
+  }
+  .hero-headline { 
+    font-size: 32px; 
+  }
+}
+</style>
+
 {% schema %}
 {
-  "name": "t:sections.image-banner.name",
-  "tag": "section",
-  "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "name": "Hero Banner",
   "settings": [
+    {
+      "type": "text",
+      "id": "hero_label",
+      "label": "Small label above headline",
+      "default": "PAKISTAN'S TRUSTED OPTICAL STORE"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_headline",
+      "label": "Main Headline",
+      "default": "Find Your Perfect Pair of Glasses"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtext",
+      "label": "Subheadline",
+      "default": "Prescription eyewear, sunglasses & blue light protection — crafted for clarity and delivered across Pakistan."
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_text",
+      "label": "Primary Button Text",
+      "default": "Shop Eyeglasses"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_text",
+      "label": "Secondary Button Text",
+      "default": "View All Frames"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Trust Badge 1",
+      "default": "Free Delivery above Rs 3,000"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Trust Badge 2",
+      "default": "Cash on Delivery"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Trust Badge 3",
+      "default": "Prescription Guaranteed"
+    },
     {
       "type": "image_picker",
       "id": "hero_image",
       "label": "Hero Image"
-    }
-  ],
-  "presets": [
-    {
-      "name": "t:sections.image-banner.presets.name"
     }
   ]
 }
