@@ -3979,7 +3979,6 @@ details-disclosure > details {
   gap: 6px;
   color: #1A1A1A;
   background: transparent;
-  border: 2px solid #1A1A1A;
   text-decoration: none;
   font-weight: 700;
   font-size: 13px;
@@ -3988,8 +3987,8 @@ details-disclosure > details {
   transition: all 0.2s ease;
 }
 .zcoll-breadcrumb a:hover {
-  background: #1A1A1A;
-  color: #FFFFFF;
+  background: #FFF3E0;
+  color: #FF8C00;
   box-shadow: 0 4px 12px rgba(26, 26, 26, 0.15);
   transform: translateY(-2px);
 }
