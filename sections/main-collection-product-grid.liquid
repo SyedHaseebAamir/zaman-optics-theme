@@ -71,7 +71,8 @@
 
     <form id="ZCF" 
           action="{{ collection.url }}" 
-          method="get">
+          method="get"
+          class="zcf-form">
       <input type="hidden" name="sort_by"
              value="{{ collection.sort_by }}">
 
@@ -100,11 +101,10 @@
           <li class="zcf-item">
             <label class="zcf-label">
               <input type="checkbox"
-                class="zcf-cb"
-                name="filter.p.m.custom.frame_shape"
-                value="{{ s }}"
+                class="zcf-cb zcf-tag-filter"
+                data-tag="{{ s }}"
                 {% if current_tags contains s %}checked{% endif %}
-                onchange="document.getElementById('ZCF').submit()">
+                onchange="updateTagFilters()">
               <span class="zcf-custom-cb"></span>
               <span class="zcf-text">{{ s }}</span>
             </label>
@@ -131,11 +131,10 @@
           <li class="zcf-item">
             <label class="zcf-label">
               <input type="checkbox"
-                class="zcf-cb"
-                name="filter.p.m.custom.material"
-                value="{{ m }}"
+                class="zcf-cb zcf-tag-filter"
+                data-tag="{{ m }}"
                 {% if current_tags contains m %}checked{% endif %}
-                onchange="document.getElementById('ZCF').submit()">
+                onchange="updateTagFilters()">
               <span class="zcf-custom-cb"></span>
               <span class="zcf-text">{{ m }}</span>
             </label>
@@ -162,11 +161,10 @@
           <li class="zcf-item">
             <label class="zcf-label">
               <input type="checkbox"
-                class="zcf-cb"
-                name="filter.p.m.custom.gender"
-                value="{{ g }}"
+                class="zcf-cb zcf-tag-filter"
+                data-tag="{{ g }}"
                 {% if current_tags contains g %}checked{% endif %}
-                onchange="document.getElementById('ZCF').submit()">
+                onchange="updateTagFilters()">
               <span class="zcf-custom-cb"></span>
               <span class="zcf-text">{{ g }}</span>
             </label>
@@ -193,11 +191,10 @@
           <li class="zcf-item">
             <label class="zcf-label">
               <input type="checkbox"
-                class="zcf-cb"
-                name="filter.p.m.custom.size"
-                value="{{ sz }}"
+                class="zcf-cb zcf-tag-filter"
+                data-tag="{{ sz }}"
                 {% if current_tags contains sz %}checked{% endif %}
-                onchange="document.getElementById('ZCF').submit()">
+                onchange="updateTagFilters()">
               <span class="zcf-custom-cb"></span>
               <span class="zcf-text">{{ sz }}</span>
             </label>
@@ -481,6 +478,29 @@ function zamanCloseFilter() {
     .classList.remove('zcoll-overlay--open');
   document.body.style.overflow = '';
 }
+
+function updateTagFilters() {
+  // Collect all checked tag filter checkboxes
+  const checkedTags = Array.from(
+    document.querySelectorAll('.zcf-tag-filter:checked')
+  ).map(cb => cb.dataset.tag);
+  
+  // Build the URL with tag parameters
+  let url = '{{ collection.url }}';
+  if (checkedTags.length > 0) {
+    // Join tags with + for multiple tag filtering
+    const tagParam = checkedTags.join('+');
+    url = url + '?tag=' + encodeURIComponent(tagParam);
+  }
+  // Preserve sort_by if set
+  const sortBy = document.querySelector('input[name="sort_by"]');
+  if (sortBy && sortBy.value) {
+    url += (checkedTags.length > 0 ? '&' : '?') + 'sort_by=' + encodeURIComponent(sortBy.value);
+  }
+  
+  window.location.href = url;
+}
+
 </script>
 
 {%- endpaginate -%}
