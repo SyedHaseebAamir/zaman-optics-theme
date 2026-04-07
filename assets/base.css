@@ -4551,7 +4551,7 @@ details-disclosure > details {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
+  padding: 14px 20px;
   background: linear-gradient(135deg, #FFF8F0 0%, #FFF3E0 100%);
   border: 1px solid #FFE5B4;
   border-radius: 12px;
@@ -4577,14 +4577,6 @@ details-disclosure > details {
   letter-spacing: 1px;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(255, 140, 0, 0.25);
-}
-
-.zcoll-grid-title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  color: #1A1A1A;
-  letter-spacing: -0.5px;
 }
 
 .zcoll-grid-stats {
