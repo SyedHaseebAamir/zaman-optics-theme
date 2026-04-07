@@ -3951,6 +3951,7 @@ details-disclosure > details {
 
 /* ---- COLLECTION HERO ---- */
 .zcoll-hero {
+  width: 100%;
   background: linear-gradient(
     135deg,
     #FFF8F0 0%,
@@ -3959,6 +3960,7 @@ details-disclosure > details {
   );
   border-bottom: 2px solid #FFE0B2;
   padding: 40px 64px 36px;
+  box-sizing: border-box;
 }
 .zcoll-hero-inner {
   max-width: 1400px;
