@@ -107,6 +107,7 @@
 <header class="zaman-mobile-header">
   <button class="zaman-burger" 
           id="zamanBurger"
+          onclick="openMobileMenu()"
           aria-label="Menu">
     <svg width="24" height="24" fill="none" 
          viewBox="0 0 24 24" stroke="#1A1A1A" 
@@ -426,31 +427,39 @@
 </div>
 
 <script>
+// Mobile menu functions
 function openMobileMenu() {
   var drawer = document.getElementById('zamanDrawer');
   var overlay = document.getElementById('zamanOverlay');
-  if (drawer) drawer.classList.add('open');
-  if (overlay) overlay.classList.add('open');
+  if (drawer) {
+    drawer.classList.add('open');
+  }
+  if (overlay) {
+    overlay.classList.add('open');
+  }
   document.body.style.overflow = 'hidden';
 }
+
 function closeMobileMenu() {
   var drawer = document.getElementById('zamanDrawer');
   var overlay = document.getElementById('zamanOverlay');
-  if (drawer) drawer.classList.remove('open');
-  if (overlay) overlay.classList.remove('open');
+  if (drawer) {
+    drawer.classList.remove('open');
+  }
+  if (overlay) {
+    overlay.classList.remove('open');
+  }
   document.body.style.overflow = '';
 }
 
-// Make sure burger button calls openMobileMenu
-document.addEventListener('DOMContentLoaded', 
-function() {
-  var burger = document.querySelector(
-    '.zaman-burger, .mobile-burger, 
-     .mobile-menu-btn, #zamanBurger'
-  );
-  if (burger) {
-    burger.onclick = function() { openMobileMenu(); };
-  }
+// Close menu when clicking on drawer links
+document.addEventListener('DOMContentLoaded', function() {
+  var drawerLinks = document.querySelectorAll('.zdrawer-link');
+  drawerLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      closeMobileMenu();
+    });
+  });
 });
 </script>
 
