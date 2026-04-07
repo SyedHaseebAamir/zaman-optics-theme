@@ -3958,7 +3958,7 @@ details-disclosure > details {
     #FFFFFF 100%
   );
   border-bottom: 2px solid #FFE0B2;
-  padding: 32px 40px 28px;
+  padding: 40px 60px 36px;
 }
 .zcoll-hero-inner {
   max-width: 1400px;
@@ -3967,45 +3967,92 @@ details-disclosure > details {
 .zcoll-breadcrumb {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 13px;
   color: #888888;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
+/* Home button in breadcrumb */
 .zcoll-breadcrumb a {
-  color: #FF8C00;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #FFFFFF;
+  background: #1A1A1A;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 .zcoll-breadcrumb a:hover {
-  text-decoration: underline;
+  background: #2A2A2A;
+  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.15);
+  transform: translateY(-2px);
 }
 .zcoll-breadcrumb span {
   color: #888888;
 }
+.zcoll-breadcrumb span:first-of-type {
+  margin-left: 2px;
+}
 .zcoll-hero-title {
-  font-size: 34px;
+  font-size: 38px;
   font-weight: 900;
   color: #1A1A1A;
-  margin: 0 0 8px 0;
-  letter-spacing: -0.5px;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.7px;
+  line-height: 1.2;
 }
 .zcoll-hero-desc {
   font-size: 15px;
   color: #666666;
-  margin: 0 0 14px 0;
-  max-width: 560px;
-  line-height: 1.6;
+  margin: 0 0 18px 0;
+  max-width: 600px;
+  line-height: 1.7;
 }
 .zcoll-hero-count {
   display: inline-flex;
   align-items: center;
   background: #FF8C00;
   color: #FFFFFF;
-  padding: 5px 14px;
+  padding: 8px 18px;
   border-radius: 50px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive hero padding */
+@media (max-width: 768px) {
+  .zcoll-hero {
+    padding: 32px 20px 28px;
+  }
+  .zcoll-hero-title {
+    font-size: 28px;
+  }
+  .zcoll-breadcrumb {
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .zcoll-hero {
+    padding: 24px 16px 20px;
+  }
+  .zcoll-hero-title {
+    font-size: 24px;
+  }
+  .zcoll-breadcrumb {
+    font-size: 12px;
+    gap: 6px;
+  }
+  .zcoll-breadcrumb a {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }
 
 /* ---- MOBILE BAR ---- */
