@@ -4131,6 +4131,266 @@ details-disclosure > details {
 }
 .zcf-reset {
   font-size: 12px;
+}
+
+
+/* ================================================
+   MOBILE DRAWER — COMPLETE REBUILD
+   ================================================ */
+
+/* Overlay */
+.zaman-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 400;
+  backdrop-filter: blur(2px);
+}
+.zaman-overlay.open { display: block; }
+
+/* Drawer container */
+.zaman-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100vh;
+  background: #FFFFFF;
+  z-index: 500;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+}
+.zaman-drawer.open {
+  transform: translateX(0);
+}
+
+/* Drawer header */
+.zdrawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 64px;
+  background: #FF8C00;
+  flex-shrink: 0;
+}
+.zdrawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.zdrawer-brand-name {
+  font-size: 17px;
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+}
+.zdrawer-close {
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.zdrawer-close:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+/* Search inside drawer */
+.zdrawer-search-wrap {
+  padding: 14px 16px;
+  background: #F8F8F8;
+  border-bottom: 1px solid #EEEEEE;
+  flex-shrink: 0;
+}
+.zdrawer-search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFFFFF;
+  border: 1.5px solid #E8E8E8;
+  border-radius: 10px;
+  padding: 0 14px;
+  height: 40px;
+  transition: border-color 0.2s;
+}
+.zdrawer-search-form:focus-within {
+  border-color: #FF8C00;
+}
+.zdrawer-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #1A1A1A;
+  background: transparent;
+}
+.zdrawer-search-input::placeholder {
+  color: #AAAAAA;
+}
+
+/* Section labels */
+.zdrawer-section-label {
+  padding: 14px 20px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #AAAAAA;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  background: #FFFFFF;
+}
+
+/* Drawer links — collection style (with icon) */
+.zdrawer-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  text-decoration: none !important;
+  border-bottom: 1px solid #F5F5F5;
+  transition: background 0.15s;
+  position: relative;
+}
+.zdrawer-link:hover {
+  background: #FFF8F0;
+  text-decoration: none !important;
+}
+.zdrawer-link:active {
+  background: #FFF3E0;
+}
+
+/* Icon circle */
+.zdrawer-link-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.zdrawer-icon-orange {
+  background: #FFF3E0;
+  color: #FF8C00;
+}
+.zdrawer-icon-dark {
+  background: #F0F0F0;
+  color: #1A1A1A;
+}
+.zdrawer-icon-blue {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+.zdrawer-icon-green {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+.zdrawer-icon-purple {
+  background: #F3E5F5;
+  color: #6A1B9A;
+}
+
+/* Link text group */
+.zdrawer-link-text {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A1A1A;
+  line-height: 1.2;
+  display: block;
+}
+.zdrawer-link-sub {
+  display: block;
+  font-size: 11px;
+  color: #AAAAAA;
+  font-weight: 400;
+  margin-top: 2px;
+  line-height: 1;
+}
+
+/* Arrow */
+.zdrawer-link-arrow {
+  flex-shrink: 0;
+  color: #CCCCCC;
+  transition: transform 0.15s, color 0.15s;
+}
+.zdrawer-link:hover .zdrawer-link-arrow {
+  transform: translateX(3px);
+  color: #FF8C00;
+}
+
+/* Plain links (pages section — no icon) */
+.zdrawer-link-plain {
+  padding: 13px 20px;
+}
+.zdrawer-link-plain .zdrawer-link-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444444;
+}
+.zdrawer-link-plain:hover .zdrawer-link-text {
+  color: #FF8C00;
+}
+
+/* Divider */
+.zdrawer-divider {
+  height: 8px;
+  background: #F5F5F5;
+  border-top: 1px solid #EEEEEE;
+  border-bottom: 1px solid #EEEEEE;
+  flex-shrink: 0;
+}
+
+/* Footer branding */
+.zdrawer-footer {
+  padding: 20px;
+  margin-top: auto;
+  background: #FAFAFA;
+  border-top: 1px solid #EEEEEE;
+  flex-shrink: 0;
+}
+.zdrawer-footer p {
+  font-size: 12px;
+  color: #AAAAAA;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+.zdrawer-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.zdrawer-footer-links a {
+  font-size: 12px;
+  color: #FF8C00;
+  text-decoration: none;
+  font-weight: 600;
+}
+.zdrawer-footer-links a:hover {
+  text-decoration: underline;
+}
+.zdrawer-footer-links span {
+  color: #DDDDDD;
+  font-size: 10px;
+}
+
+/* Only show drawer on mobile */
+@media (min-width: 769px) {
+  .zaman-drawer,
+  .zaman-overlay { display: none !important; }
+}
   font-weight: 600;
   color: rgba(255,255,255,0.85);
   text-decoration: none;
