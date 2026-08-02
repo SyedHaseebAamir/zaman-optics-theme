@@ -1,3 +1,37 @@
+{%- liquid
+  assign why_title = section.settings.title
+  assign why_subtitle = section.settings.subtitle
+  assign f1_title = section.settings.f1_title
+  assign f1_text = section.settings.f1_text
+  assign f2_title = section.settings.f2_title
+  assign f2_text = section.settings.f2_text
+  assign f3_title = section.settings.f3_title
+  assign f3_text = section.settings.f3_text
+  assign f4_title = section.settings.f4_title
+  assign f4_text = section.settings.f4_text
+  assign f5_title = section.settings.f5_title
+  assign f5_text = section.settings.f5_text
+  assign f6_title = section.settings.f6_title
+  assign f6_text = section.settings.f6_text
+
+  if why_title == 'Why Thousands Trust Us'
+    assign why_title = 'Eyewear made clear.'
+    assign why_subtitle = 'From frame selection to prescription details, each step is designed to be easy to understand and review.'
+    assign f1_title = 'Prescription Support'
+    assign f1_text = 'Enter your details online or upload a prescription file for review before fulfillment.'
+    assign f2_title = 'Pakistan Delivery'
+    assign f2_text = 'Orders are prepared carefully for delivery through supported courier services.'
+    assign f3_title = 'Clear Checkout'
+    assign f3_text = 'Available payment options and order totals are shown before the order is placed.'
+    assign f4_title = 'Helpful Guidance'
+    assign f4_text = 'Use our lens, size, and prescription guides or contact the team before ordering.'
+    assign f5_title = 'Everyday Choice'
+    assign f5_text = 'Browse frames for work, study, screens, sun, and daily wear.'
+    assign f6_title = 'Local Optical Care'
+    assign f6_text = 'Personal optical support from Gujar Khan, with an online experience built for Pakistan.'
+  endif
+-%}
+
 <section class="zaman-why-section">
   <div class="zaman-why-inner">
     
@@ -6,10 +40,10 @@
         {{ section.settings.tag_text }}
       </span>
       <h2 class="zaman-section-title">
-        {{ section.settings.title }}
+        {{ why_title }}
       </h2>
       <p class="zaman-section-subtitle">
-        {{ section.settings.subtitle }}
+        {{ why_subtitle }}
       </p>
     </div>
 
@@ -17,43 +51,43 @@
 
       <div class="zaman-why-card">
         <div class="zaman-why-icon">{% render 'zaman-premium-icon', icon: 'lens', size: 30 %}</div>
-        <h3>{{ section.settings.f1_title }}</h3>
-        <p>{{ section.settings.f1_text }}</p>
+        <h3>{{ f1_title }}</h3>
+        <p>{{ f1_text }}</p>
       </div>
 
       <div class="zaman-why-card">
         <div class="zaman-why-icon">{% render 'zaman-premium-icon', icon: 'delivery', size: 30 %}</div>
-        <h3>{{ section.settings.f2_title }}</h3>
-        <p>{{ section.settings.f2_text }}</p>
+        <h3>{{ f2_title }}</h3>
+        <p>{{ f2_text }}</p>
       </div>
 
       <div class="zaman-why-card">
         <div class="zaman-why-icon">{% render 'zaman-premium-icon', icon: 'payment', size: 30 %}</div>
-        <h3>{{ section.settings.f3_title }}</h3>
-        <p>{{ section.settings.f3_text }}</p>
+        <h3>{{ f3_title }}</h3>
+        <p>{{ f3_text }}</p>
       </div>
 
       <div class="zaman-why-card">
         <div class="zaman-why-icon">{% render 'zaman-premium-icon', icon: 'return', size: 30 %}</div>
-        <h3>{{ section.settings.f4_title }}</h3>
-        <p>{{ section.settings.f4_text }}</p>
+        <h3>{{ f4_title }}</h3>
+        <p>{{ f4_text }}</p>
       </div>
 
       <div class="zaman-why-card">
         <div class="zaman-why-icon">{% render 'zaman-premium-icon', icon: 'glasses', size: 30 %}</div>
-        <h3>{{ section.settings.f5_title }}</h3>
-        <p>{{ section.settings.f5_text }}</p>
+        <h3>{{ f5_title }}</h3>
+        <p>{{ f5_text }}</p>
       </div>
 
       <div class="zaman-why-card">
         <div class="zaman-why-icon">{% render 'zaman-premium-icon', icon: 'star', size: 30 %}</div>
-        <h3>{{ section.settings.f6_title }}</h3>
-        <p>{{ section.settings.f6_text }}</p>
+        <h3>{{ f6_title }}</h3>
+        <p>{{ f6_text }}</p>
       </div>
 
     </div>
 
-    <!-- Stats row -->
+    {%- if section.settings.show_stats -%}
     <div class="zaman-stats-row">
       <div class="zaman-stat">
         <span class="zaman-stat-num">
@@ -91,6 +125,7 @@
         </span>
       </div>
     </div>
+    {%- endif -%}
 
   </div>
 </section>
@@ -236,6 +271,13 @@
 {
   "name": "Why Choose Us",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show business statistics",
+      "info": "Enable only when the numbers can be verified.",
+      "default": false
+    },
     {
       "type": "text",
       "id": "tag_text",

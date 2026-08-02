@@ -3,15 +3,15 @@
 
 <div class="zaman-announcement">
   <div class="zaman-announcement__inner">
-    <span>Delivery across Pakistan</span>
-    <span>Secure online payments available</span>
-    <span>Optical support on WhatsApp</span>
+    <span>Pakistan-wide delivery options</span>
+    <span>Secure checkout</span>
+    <span>Prescription support available</span>
   </div>
 </div>
 
 <header class="zaman-header">
   <div class="zaman-header-inner">
-    <button class="zaman-burger zaman-burger--desktop" type="button" onclick="openMobileMenu()" aria-label="Open menu">
+    <button class="zaman-burger zaman-burger--desktop" type="button" onclick="openMobileMenu(this)" aria-label="Open menu" aria-controls="zamanDrawer" aria-expanded="false">
       {% render 'zaman-premium-icon', icon: 'menu', size: 22 %}
     </button>
 
@@ -69,7 +69,7 @@
 </nav>
 
 <header class="zaman-mobile-header">
-  <button class="zaman-burger" id="zamanBurger" type="button" onclick="openMobileMenu()" aria-label="Open menu">
+  <button class="zaman-burger" id="zamanBurger" type="button" onclick="openMobileMenu(this)" aria-label="Open menu" aria-controls="zamanDrawer" aria-expanded="false">
     {% render 'zaman-premium-icon', icon: 'menu', size: 24 %}
   </button>
   <a href="/" class="zaman-mobile-logo">Zaman Optics</a>
@@ -81,9 +81,9 @@
   </a>
 </header>
 
-<div class="zaman-overlay" id="zamanOverlay" onclick="closeMobileMenu()"></div>
+<button class="zaman-overlay" id="zamanOverlay" type="button" onclick="closeMobileMenu()" aria-label="Close menu" tabindex="-1"></button>
 
-<aside class="zaman-drawer" id="zamanDrawer" aria-label="Mobile menu">
+<aside class="zaman-drawer" id="zamanDrawer" aria-label="Mobile menu" aria-hidden="true">
   <div class="zdrawer-head">
     <a href="/" class="zdrawer-brand">
       <span>Zaman Optics</span>
@@ -115,20 +115,32 @@
 </aside>
 
 <script>
-function openMobileMenu() {
+function openMobileMenu(trigger) {
   var drawer = document.getElementById('zamanDrawer');
   var overlay = document.getElementById('zamanOverlay');
   if (drawer) drawer.classList.add('open');
+  if (drawer) drawer.setAttribute('aria-hidden', 'false');
   if (overlay) overlay.classList.add('open');
+  document.querySelectorAll('[aria-controls="zamanDrawer"]').forEach(function(button) {
+    button.setAttribute('aria-expanded', 'true');
+  });
   document.body.style.overflow = 'hidden';
+  var closeButton = drawer && drawer.querySelector('.zdrawer-close');
+  if (closeButton) closeButton.focus();
 }
 
 function closeMobileMenu() {
   var drawer = document.getElementById('zamanDrawer');
   var overlay = document.getElementById('zamanOverlay');
   if (drawer) drawer.classList.remove('open');
+  if (drawer) drawer.setAttribute('aria-hidden', 'true');
   if (overlay) overlay.classList.remove('open');
+  document.querySelectorAll('[aria-controls="zamanDrawer"]').forEach(function(button) {
+    button.setAttribute('aria-expanded', 'false');
+  });
   document.body.style.overflow = '';
+  var menuButton = document.getElementById('zamanBurger');
+  if (menuButton && window.innerWidth < 990) menuButton.focus();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -141,6 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.querySelectorAll('.zdrawer-link').forEach(function(link) {
     link.addEventListener('click', closeMobileMenu);
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && document.getElementById('zamanDrawer').classList.contains('open')) {
+      closeMobileMenu();
+    }
   });
 });
 </script>

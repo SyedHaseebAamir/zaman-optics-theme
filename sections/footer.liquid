@@ -1,5 +1,13 @@
 {{ 'footer-custom.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign support_location = section.settings.support_location | default: 'Gujar Khan, Punjab, Pakistan'
+  assign support_phone_label = section.settings.support_phone_label
+  assign support_phone_url = section.settings.support_phone_url
+  assign support_email = section.settings.support_email
+  assign support_hours = section.settings.support_hours
+-%}
+
 <footer class="footer-custom">
   <div class="footer-custom__content">
     <section class="footer-custom__brand-panel" aria-label="Zaman Optics store information">
@@ -54,17 +62,25 @@
 
       <section class="footer-custom__column" aria-label="Contact details">
         <h2 class="footer-custom__column-title">Support</h2>
-        <p class="footer-custom__contact-item">
-          Gujar Khan, Punjab, Pakistan
-        </p>
-        <p class="footer-custom__contact-item">
-          WhatsApp support<br>
-          <a href="https://wa.me/923008888888">+92 300 8888888</a>
-        </p>
-        <p class="footer-custom__contact-item">
-          Hours<br>
-          Mon-Sat, 10:00 AM-8:00 PM
-        </p>
+        {%- if support_location != blank -%}
+          <p class="footer-custom__contact-item">{{ support_location }}</p>
+        {%- endif -%}
+        {%- if support_phone_label != blank and support_phone_url != blank -%}
+          <p class="footer-custom__contact-item">
+            Call or WhatsApp<br>
+            <a href="{{ support_phone_url }}">{{ support_phone_label }}</a>
+          </p>
+        {%- endif -%}
+        {%- if support_email != blank -%}
+          <p class="footer-custom__contact-item">
+            Email<br>
+            <a href="mailto:{{ support_email | escape }}">{{ support_email }}</a>
+          </p>
+        {%- endif -%}
+        {%- if support_hours != blank -%}
+          <p class="footer-custom__contact-item">Hours<br>{{ support_hours }}</p>
+        {%- endif -%}
+        <a class="footer-custom__support-link" href="/pages/contact">Contact support</a>
       </section>
     </div>
 
@@ -82,6 +98,36 @@
 {% schema %}
 {
   "name": "Footer",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "support_location",
+      "label": "Store location",
+      "default": "Gujar Khan, Punjab, Pakistan"
+    },
+    {
+      "type": "text",
+      "id": "support_phone_label",
+      "label": "Phone display text",
+      "info": "Leave blank until the client confirms the number."
+    },
+    {
+      "type": "url",
+      "id": "support_phone_url",
+      "label": "Phone or WhatsApp link"
+    },
+    {
+      "type": "text",
+      "id": "support_email",
+      "label": "Support email",
+      "info": "Leave blank until the client confirms the address."
+    },
+    {
+      "type": "text",
+      "id": "support_hours",
+      "label": "Opening hours",
+      "info": "Leave blank until the client confirms the hours."
+    }
+  ]
 }
 {% endschema %}

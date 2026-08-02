@@ -36,25 +36,31 @@
           <p class="zcont-info-text">Gujar Khan<br>Pakistan</p>
         </div>
         
-        <div class="zcont-info-card">
-          <div class="zcont-info-icon">{% render 'zaman-premium-icon', icon: 'mail', size: 26 %}</div>
-          <h3 class="zcont-info-title">Email</h3>
-          <p class="zcont-info-text"><a href="mailto:info@zamanoptics.com">info@zamanoptics.com</a></p>
-        </div>
+        {%- if section.settings.support_email != blank -%}
+          <div class="zcont-info-card">
+            <div class="zcont-info-icon">{% render 'zaman-premium-icon', icon: 'mail', size: 26 %}</div>
+            <h3 class="zcont-info-title">Email</h3>
+            <p class="zcont-info-text"><a href="mailto:{{ section.settings.support_email | escape }}">{{ section.settings.support_email }}</a></p>
+          </div>
+        {%- endif -%}
         
+        {%- if section.settings.support_phone_label != blank and section.settings.support_phone_url != blank -%}
         <div class="zcont-info-card">
           <div class="zcont-info-icon">{% render 'zaman-premium-icon', icon: 'phone', size: 26 %}</div>
           <h3 class="zcont-info-title">Call or WhatsApp</h3>
           <p class="zcont-info-text">
-            <a href="tel:+923215678900">+92 321 5678 900</a>
+            <a href="{{ section.settings.support_phone_url }}">{{ section.settings.support_phone_label }}</a>
           </p>
         </div>
+        {%- endif -%}
 
+        {%- if section.settings.support_hours != blank -%}
         <div class="zcont-info-card zcont-hours">
           <div class="zcont-info-icon">{% render 'zaman-premium-icon', icon: 'clock', size: 26 %}</div>
           <h3 class="zcont-info-title">Hours</h3>
-          <p class="zcont-info-text">Mon-Sat: 10am-8pm<br>Sunday: by appointment</p>
+          <p class="zcont-info-text">{{ section.settings.support_hours }}</p>
         </div>
+        {%- endif -%}
       </div>
 
       <!-- RIGHT: CONTACT FORM -->
@@ -236,6 +242,29 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "support_email",
+      "label": "Support email",
+      "info": "Leave blank until confirmed by the client."
+    },
+    {
+      "type": "text",
+      "id": "support_phone_label",
+      "label": "Phone display text",
+      "info": "Leave blank until confirmed by the client."
+    },
+    {
+      "type": "url",
+      "id": "support_phone_url",
+      "label": "Phone or WhatsApp link"
+    },
+    {
+      "type": "text",
+      "id": "support_hours",
+      "label": "Opening hours",
+      "info": "Leave blank until confirmed by the client."
     },
     {
       "type": "header",

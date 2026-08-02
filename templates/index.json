@@ -162,9 +162,9 @@
     "featured_products": {
       "type": "featured-products",
       "settings": {
-        "kicker": "Featured collection",
-        "section_title": "Best Sellers",
-        "subtitle": "Popular eyewear picks selected for everyday comfort, clean style, and easy prescription customization.",
+        "kicker": "Shop the edit",
+        "section_title": "Featured Frames",
+        "subtitle": "A focused selection of everyday eyewear with clear product details and prescription-ready options.",
         "collection_handle": "all",
         "products_to_show": 8,
         "view_all_link": "/collections/all?sort_by=best-selling"
@@ -185,7 +185,7 @@
         "progressive": {
           "type": "lens",
           "settings": {
-            "label": "+ Rs 1,200",
+            "label": "Price confirmed after review",
             "title": "Progressive",
             "text": "A smooth lens option for near, intermediate, and distance vision.",
             "link": "/pages/lens-guide"
@@ -194,7 +194,7 @@
         "blue_cut": {
           "type": "lens",
           "settings": {
-            "label": "+ Rs 500",
+            "label": "Price confirmed after review",
             "title": "Blue Cut",
             "text": "Designed for long screen hours and daily digital comfort.",
             "link": "/collections/blue-light-glasses"
@@ -203,7 +203,7 @@
         "photochromic": {
           "type": "lens",
           "settings": {
-            "label": "+ Rs 1,500",
+            "label": "Price confirmed after review",
             "title": "Photochromic",
             "text": "Lenses that darken outdoors and stay clear indoors.",
             "link": "/pages/lens-guide"
@@ -289,6 +289,7 @@
     "why_choose_us": {
       "type": "why-choose-us",
       "settings": {
+        "show_stats": false,
         "tag_text": "WHY ZAMAN OPTICS",
         "title": "Eyewear made clear.",
         "subtitle": "From frame selection to prescription details, we keep every step simple, transparent, and easy to review.",
@@ -348,6 +349,7 @@
         "review_3"
       ],
       "settings": {
+        "show_verified_reviews": false,
         "tag_text": "CUSTOMER NOTES",
         "title": "What shoppers look for.",
         "subtitle": "Simple ordering, clear prescription guidance, and everyday frames for work, study, sun, and screens."
@@ -420,9 +422,9 @@
   "order": [
     "image_banner",
     "category_grid",
+    "featured_products",
     "lens_options",
     "shop_guide",
-    "featured_products",
     "why_choose_us",
     "reviews",
     "faq"

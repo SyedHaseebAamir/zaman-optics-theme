@@ -23,12 +23,13 @@ Confirm the active Shopify store URL before using Shopify CLI. Older notes may r
 
 ## Design Tokens
 
-- Primary Orange: `#FF8C00`
-- Primary Black: `#1A1A1A`
-- Surface Gray: `#F5F5F5`
+- Primary Accent: `#0F766E`
+- Accent Hover: `#0B5F59`
+- Primary Black: `#1D1D1F`
+- Surface Gray: `#F5F5F7`
 - Canvas White: `#FFFFFF`
 - Border Radius: `10px`
-- UI Feel: premium, minimalist, spacious, soft shadows.
+- UI Feel: premium, minimalist, spacious, restrained shadows.
 
 ## Product Modes
 

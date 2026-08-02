@@ -15,16 +15,27 @@
 
     <div class="zaman-faq-grid">
       {% for block in section.blocks %}
+      {%- liquid
+        assign faq_question = block.settings.question
+        assign faq_answer = block.settings.answer
+        if faq_answer contains 'EasyPaisa' or faq_answer contains 'JazzCash'
+          assign faq_answer = 'All online payment methods available at checkout are shown securely before you place your order.'
+        elsif faq_answer contains '3-5' or faq_answer contains '3–5'
+          assign faq_answer = 'Delivery timing depends on your location and whether prescription lenses are required. We will confirm the expected timeline with your order.'
+        elsif faq_answer contains '7 days'
+          assign faq_answer = 'Contact us promptly if there is an issue with your order. Eligibility depends on the item condition and the store policy confirmed at purchase.'
+        endif
+      -%}
       <details class="zaman-faq-item" 
                {{ block.shopify_attributes }}>
         <summary class="zaman-faq-question">
-          <span>{{ block.settings.question }}</span>
+          <span>{{ faq_question }}</span>
           <span class="zaman-faq-icon">
             {% render 'zaman-premium-icon', icon: 'chevron-down', size: 20 %}
           </span>
         </summary>
         <div class="zaman-faq-answer">
-          <p>{{ block.settings.answer }}</p>
+          <p>{{ faq_answer }}</p>
         </div>
       </details>
       {% endfor %}
@@ -32,7 +43,7 @@
 
     <div class="zaman-faq-cta">
       <p>{{ section.settings.cta_text }}</p>
-      <a href="{{ section.settings.cta_url }}" 
+      <a href="{{ section.settings.cta_url | default: '/pages/contact' }}"
          class="zaman-faq-cta-btn">
         {{ section.settings.cta_button }}
       </a>

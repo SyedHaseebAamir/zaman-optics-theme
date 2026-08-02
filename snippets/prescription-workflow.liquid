@@ -6,6 +6,18 @@
 
 {{ 'section-prescription.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign prescription_base_fee = block.settings.prescription_base_fee | default: 0
+  assign progressive_fee = block.settings.progressive_fee | default: 0
+  assign bifocal_fee = block.settings.bifocal_fee | default: 0
+  assign uv_fee = block.settings.uv_fee | default: 0
+  assign blue_cut_fee = block.settings.blue_cut_fee | default: 0
+  assign photochromic_fee = block.settings.photochromic_fee | default: 0
+  assign anti_glare_fee = block.settings.anti_glare_fee | default: 0
+  assign anti_scratch_fee = block.settings.anti_scratch_fee | default: 0
+  assign anti_fog_fee = block.settings.anti_fog_fee | default: 0
+-%}
+
 <product-form
   class="product-form zpf-product-form"
   data-section-id="{{ section_id }}"
@@ -37,12 +49,16 @@
     <div
       class="zpf-wrapper"
       data-base="{{ product.selected_or_first_available_variant.price }}"
+      data-prescription-base="{{ prescription_base_fee | times: 100 }}"
+      data-pricing-ready="{% if prescription_base_fee > 0 %}true{% else %}false{% endif %}"
     >
       <div class="zpf-toggle-row" role="radiogroup" aria-label="Choose frame only or prescription lenses">
         <button
           type="button"
           class="zpf-toggle-btn zpf-toggle-active"
           data-zpf-mode="frame"
+          role="radio"
+          aria-checked="true"
           aria-pressed="true"
         >
           <span class="zpf-toggle-icon" aria-hidden="true">Frame</span>
@@ -57,6 +73,8 @@
           type="button"
           class="zpf-toggle-btn"
           data-zpf-mode="prescription"
+          role="radio"
+          aria-checked="false"
           aria-pressed="false"
         >
           <span class="zpf-toggle-icon" aria-hidden="true">Rx</span>
@@ -64,7 +82,13 @@
             <span class="zpf-toggle-title">Add Prescription Lenses</span>
             <span class="zpf-toggle-sub">Choose lenses and share your prescription</span>
           </span>
-          <span class="zpf-toggle-tag zpf-tag-accent">+ Rs 800</span>
+          <span class="zpf-toggle-tag zpf-tag-accent">
+            {%- if prescription_base_fee > 0 -%}
+              + {{ prescription_base_fee | times: 100 | money }}
+            {%- else -%}
+              Quote after review
+            {%- endif -%}
+          </span>
         </button>
       </div>
 
@@ -72,7 +96,8 @@
       <input type="hidden" name="properties[Lens Type]" id="zpfLensType" value="">
       <input type="hidden" name="properties[Lens Material]" id="zpfLensMaterial" value="">
       <input type="hidden" name="properties[Coatings]" id="zpfCoatings" value="">
-      <input type="hidden" name="properties[Quoted Total Rs]" id="zpfTotalHidden" value="{{ product.selected_or_first_available_variant.price | divided_by: 100 }}">
+      <input type="hidden" name="properties[Estimated Configuration Total Rs]" id="zpfTotalHidden" value="">
+      <input type="hidden" name="properties[Lens Pricing Status]" id="zpfPricingStatus" value="">
 
       <div class="zpf-rx-panel" id="zpfRxPanel" aria-hidden="true">
         <div class="zpf-panel-block">
@@ -81,10 +106,10 @@
           </div>
 
           <div class="zpf-tab-row" role="tablist" aria-label="Prescription entry method">
-            <button type="button" class="zpf-tab zpf-tab-on" data-zpf-tab="manual">
+            <button type="button" class="zpf-tab zpf-tab-on" data-zpf-tab="manual" role="tab" aria-selected="true" aria-controls="zpfManual">
               Enter Manually
             </button>
-            <button type="button" class="zpf-tab" data-zpf-tab="upload">
+            <button type="button" class="zpf-tab" data-zpf-tab="upload" role="tab" aria-selected="false" aria-controls="zpfUpload">
               Upload File
             </button>
           </div>
@@ -178,21 +203,21 @@
             </label>
 
             <label class="zpf-opt">
-              <input type="radio" name="zpf_lens_type" value="Progressive" data-fee="120000">
+              <input type="radio" name="zpf_lens_type" value="Progressive" data-fee="{{ progressive_fee | times: 100 }}">
               <span class="zpf-opt-body">
                 <span class="zpf-opt-name">Progressive</span>
                 <span class="zpf-opt-note">Distance and near correction</span>
               </span>
-              <span class="zpf-opt-price zpf-accent">+ Rs 1,200</span>
+              <span class="zpf-opt-price zpf-accent">{% if progressive_fee > 0 %}+ {{ progressive_fee | times: 100 | money }}{% else %}Quote after review{% endif %}</span>
             </label>
 
             <label class="zpf-opt">
-              <input type="radio" name="zpf_lens_type" value="Bifocal" data-fee="80000">
+              <input type="radio" name="zpf_lens_type" value="Bifocal" data-fee="{{ bifocal_fee | times: 100 }}">
               <span class="zpf-opt-body">
                 <span class="zpf-opt-name">Bifocal</span>
                 <span class="zpf-opt-note">Two focal points</span>
               </span>
-              <span class="zpf-opt-price zpf-accent">+ Rs 800</span>
+              <span class="zpf-opt-price zpf-accent">{% if bifocal_fee > 0 %}+ {{ bifocal_fee | times: 100 | money }}{% else %}Quote after review{% endif %}</span>
             </label>
           </div>
         </div>
@@ -211,33 +236,33 @@
             </label>
 
             <label class="zpf-mat">
-              <input type="radio" name="zpf_lens_material" value="UV Protection" data-fee="60000">
+              <input type="radio" name="zpf_lens_material" value="UV Protection" data-fee="{{ uv_fee | times: 100 }}">
               <span class="zpf-mat-dot"></span>
               <span class="zpf-mat-body">
                 <span class="zpf-mat-name">UV Protection</span>
                 <span class="zpf-mat-note">Blocks harmful UV rays</span>
               </span>
-              <span class="zpf-mat-p zpf-accent">+ Rs 600</span>
+              <span class="zpf-mat-p zpf-accent">{% if uv_fee > 0 %}+ {{ uv_fee | times: 100 | money }}{% else %}Quote after review{% endif %}</span>
             </label>
 
             <label class="zpf-mat">
-              <input type="radio" name="zpf_lens_material" value="Blue Cut" data-fee="50000">
+              <input type="radio" name="zpf_lens_material" value="Blue Cut" data-fee="{{ blue_cut_fee | times: 100 }}">
               <span class="zpf-mat-dot"></span>
               <span class="zpf-mat-body">
                 <span class="zpf-mat-name">Blue Cut</span>
                 <span class="zpf-mat-note">For screen-heavy use</span>
               </span>
-              <span class="zpf-mat-p zpf-accent">+ Rs 500</span>
+              <span class="zpf-mat-p zpf-accent">{% if blue_cut_fee > 0 %}+ {{ blue_cut_fee | times: 100 | money }}{% else %}Quote after review{% endif %}</span>
             </label>
 
             <label class="zpf-mat">
-              <input type="radio" name="zpf_lens_material" value="Photochromic" data-fee="150000">
+              <input type="radio" name="zpf_lens_material" value="Photochromic" data-fee="{{ photochromic_fee | times: 100 }}">
               <span class="zpf-mat-dot"></span>
               <span class="zpf-mat-body">
                 <span class="zpf-mat-name">Photochromic</span>
                 <span class="zpf-mat-note">Darkens outdoors</span>
               </span>
-              <span class="zpf-mat-p zpf-accent">+ Rs 1,500</span>
+              <span class="zpf-mat-p zpf-accent">{% if photochromic_fee > 0 %}+ {{ photochromic_fee | times: 100 | money }}{% else %}Quote after review{% endif %}</span>
             </label>
           </div>
         </div>
@@ -249,33 +274,33 @@
           </div>
           <div class="zpf-coat-list">
             <label class="zpf-coat">
-              <input type="checkbox" name="zpf_coatings" value="Anti-Glare" data-fee="30000" class="zpf-coat-cb">
+              <input type="checkbox" name="zpf_coatings" value="Anti-Glare" data-fee="{{ anti_glare_fee | times: 100 }}" class="zpf-coat-cb">
               <span class="zpf-coat-box"></span>
               <span class="zpf-coat-body">
                 <span class="zpf-coat-name">Anti-Glare</span>
                 <span class="zpf-coat-note">Less reflections and better night comfort</span>
               </span>
-              <span class="zpf-coat-p zpf-accent">+ Rs 300</span>
+              <span class="zpf-coat-p zpf-accent">{% if anti_glare_fee > 0 %}+ {{ anti_glare_fee | times: 100 | money }}{% else %}Quote after review{% endif %}</span>
             </label>
 
             <label class="zpf-coat">
-              <input type="checkbox" name="zpf_coatings" value="Anti-Scratch" data-fee="20000" class="zpf-coat-cb">
+              <input type="checkbox" name="zpf_coatings" value="Anti-Scratch" data-fee="{{ anti_scratch_fee | times: 100 }}" class="zpf-coat-cb">
               <span class="zpf-coat-box"></span>
               <span class="zpf-coat-body">
                 <span class="zpf-coat-name">Anti-Scratch</span>
                 <span class="zpf-coat-note">Protects the lens surface</span>
               </span>
-              <span class="zpf-coat-p zpf-accent">+ Rs 200</span>
+              <span class="zpf-coat-p zpf-accent">{% if anti_scratch_fee > 0 %}+ {{ anti_scratch_fee | times: 100 | money }}{% else %}Quote after review{% endif %}</span>
             </label>
 
             <label class="zpf-coat">
-              <input type="checkbox" name="zpf_coatings" value="Anti-Fog" data-fee="25000" class="zpf-coat-cb">
+              <input type="checkbox" name="zpf_coatings" value="Anti-Fog" data-fee="{{ anti_fog_fee | times: 100 }}" class="zpf-coat-cb">
               <span class="zpf-coat-box"></span>
               <span class="zpf-coat-body">
                 <span class="zpf-coat-name">Anti-Fog</span>
                 <span class="zpf-coat-note">Helps reduce fogging</span>
               </span>
-              <span class="zpf-coat-p zpf-accent">+ Rs 250</span>
+              <span class="zpf-coat-p zpf-accent">{% if anti_fog_fee > 0 %}+ {{ anti_fog_fee | times: 100 | money }}{% else %}Quote after review{% endif %}</span>
             </label>
           </div>
         </div>
@@ -284,13 +309,13 @@
       <div class="zpf-summary" id="zpfSummary" hidden>
         <div class="zpf-summary-rows" id="zpfSummaryRows"></div>
         <div class="zpf-summary-total">
-          <span>Quoted Total</span>
+          <span>Estimated configuration total</span>
           <span class="zpf-total-num" id="zpfTotal">
             {{ product.selected_or_first_available_variant.price | money }}
           </span>
         </div>
         <p class="zpf-summary-note">
-          Your selections are saved with the order so our team can review them before fulfillment.
+          Lens selections are saved with the order. Shopify checkout currently charges the frame only; the team must confirm and collect any lens charges separately until lens add-on products or an options app are connected.
         </p>
       </div>
 
@@ -299,13 +324,15 @@
           type="submit"
           name="add"
           class="zpf-btn-cart"
-          {% if product.selected_or_first_available_variant.available == false %}
+          {% if product.selected_or_first_available_variant.available == false or product.selected_or_first_available_variant.price == 0 %}
             disabled
           {% endif %}
         >
           <span>
             {%- if product.selected_or_first_available_variant.available == false -%}
               Sold Out
+            {%- elsif product.selected_or_first_available_variant.price == 0 -%}
+              Price unavailable
             {%- else -%}
               Add to Cart
             {%- endif -%}
@@ -316,7 +343,7 @@
           type="button"
           class="zpf-btn-buy"
           id="zpfBuyNow"
-          {% if product.selected_or_first_available_variant.available == false %}
+          {% if product.selected_or_first_available_variant.available == false or product.selected_or_first_available_variant.price == 0 %}
             disabled
           {% endif %}
         >
@@ -336,6 +363,8 @@
   const wrapper = root.querySelector('.zpf-wrapper');
   const form = root.querySelector('form');
   const base = parseInt(wrapper.dataset.base || '0', 10);
+  const prescriptionBase = parseInt(wrapper.dataset.prescriptionBase || '0', 10);
+  const pricingReady = wrapper.dataset.pricingReady === 'true';
   let mode = 'frame';
 
   const money = (paisa) => {
@@ -348,9 +377,28 @@
   };
 
   const setRequired = () => {
-    const manualActive = !root.querySelector('#zpfManual').hidden;
+    const manualPanel = root.querySelector('#zpfManual');
+    const uploadPanel = root.querySelector('#zpfUpload');
+    const prescriptionActive = mode === 'prescription';
+    const manualActive = prescriptionActive && !manualPanel.hidden;
+    const uploadActive = prescriptionActive && !uploadPanel.hidden;
+
+    root.querySelectorAll('#zpfRxPanel input').forEach((input) => {
+      input.disabled = !prescriptionActive;
+    });
+
+    manualPanel.querySelectorAll('input').forEach((input) => {
+      input.disabled = !manualActive;
+    });
+
+    const uploadInput = uploadPanel.querySelector('input[type="file"]');
+    if (uploadInput) {
+      uploadInput.disabled = !uploadActive;
+      uploadInput.required = uploadActive;
+    }
+
     root.querySelectorAll('.zpf-rx-required').forEach((input) => {
-      if (mode === 'prescription' && manualActive) {
+      if (manualActive) {
         input.setAttribute('required', 'required');
       } else {
         input.removeAttribute('required');
@@ -363,11 +411,14 @@
     const lensMaterial = root.querySelector('input[name="zpf_lens_material"]:checked');
     const coatings = Array.from(root.querySelectorAll('input[name="zpf_coatings"]:checked')).map((input) => input.value);
 
-    root.querySelector('#zpfOrderType').value = mode === 'prescription' ? 'With Prescription' : 'Frame Only';
-    root.querySelector('#zpfLensType').value = mode === 'prescription' && lensType ? lensType.value : '';
-    root.querySelector('#zpfLensMaterial').value = mode === 'prescription' && lensMaterial ? lensMaterial.value : '';
-    root.querySelector('#zpfCoatings').value = mode === 'prescription' && coatings.length ? coatings.join(', ') : '';
-    root.querySelector('#zpfTotalHidden').value = Math.round(total / 100);
+    const prescriptionActive = mode === 'prescription';
+    root.querySelector('#zpfOrderType').value = prescriptionActive ? 'With Prescription' : 'Frame Only';
+    root.querySelector('#zpfLensType').value = prescriptionActive && lensType ? lensType.value : '';
+    root.querySelector('#zpfLensMaterial').value = prescriptionActive && lensMaterial ? lensMaterial.value : '';
+    root.querySelector('#zpfCoatings').value = prescriptionActive && coatings.length ? coatings.join(', ') : '';
+    root.querySelector('#zpfRxMethod').value = prescriptionActive ? (root.querySelector('#zpfUpload').hidden ? 'Manual' : 'Upload') : '';
+    root.querySelector('#zpfTotalHidden').value = prescriptionActive ? Math.round(total / 100) : '';
+    root.querySelector('#zpfPricingStatus').value = prescriptionActive ? (pricingReady ? 'Configured estimate; verify checkout pricing' : 'Lens price requires confirmation') : '';
   };
 
   const recalc = () => {
@@ -375,8 +426,12 @@
     let rows = row('Frame', base);
 
     if (mode === 'prescription') {
-      total += 80000;
-      rows += row('Prescription Lenses', 80000);
+      if (prescriptionBase > 0) {
+        total += prescriptionBase;
+        rows += row('Prescription Lenses', prescriptionBase);
+      } else {
+        rows += '<div class="zpf-sum-row"><span>Prescription lenses</span><span>Quote after review</span></div>';
+      }
 
       const lensType = root.querySelector('input[name="zpf_lens_type"]:checked');
       if (lensType) {
@@ -416,12 +471,15 @@
         const isActive = item === button;
         item.classList.toggle('zpf-toggle-active', isActive);
         item.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        item.setAttribute('aria-checked', isActive ? 'true' : 'false');
       });
 
       const isPrescription = mode === 'prescription';
       root.querySelector('#zpfRxPanel').classList.toggle('zpf-panel-open', isPrescription);
       root.querySelector('#zpfRxPanel').setAttribute('aria-hidden', isPrescription ? 'false' : 'true');
       root.querySelector('#zpfSummary').hidden = !isPrescription;
+      const buyNowLabel = root.querySelector('#zpfBuyNow span');
+      if (buyNowLabel) buyNowLabel.textContent = isPrescription ? 'Review cart' : 'Buy Now';
       recalc();
     });
   });
@@ -431,6 +489,7 @@
       const tab = button.dataset.zpfTab;
       root.querySelectorAll('[data-zpf-tab]').forEach((item) => {
         item.classList.toggle('zpf-tab-on', item === button);
+        item.setAttribute('aria-selected', item === button ? 'true' : 'false');
       });
       root.querySelector('#zpfManual').hidden = tab !== 'manual';
       root.querySelector('#zpfUpload').hidden = tab !== 'upload';
@@ -505,7 +564,7 @@
             buyNow.removeAttribute('disabled');
             return;
           }
-          window.location.href = '/checkout';
+          window.location.href = mode === 'prescription' ? '/cart' : '/checkout';
         })
         .catch(() => {
           buyNow.removeAttribute('disabled');

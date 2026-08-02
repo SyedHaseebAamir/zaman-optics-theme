@@ -25,7 +25,7 @@
 </div>
 
 <div class="zcoll-mobile-bar">
-  <button class="zcoll-filter-toggle" type="button" onclick="zamanOpenFilter()">
+  <button class="zcoll-filter-toggle" type="button" onclick="zamanOpenFilter()" aria-controls="zamanSidebar" aria-expanded="false">
     {% render 'zaman-premium-icon', icon: 'filter', size: 16 %}
     Filters
   </button>
@@ -39,7 +39,7 @@
 </div>
 
 <div class="zcoll-body">
-  <div class="zcoll-filter-overlay" id="zamanFilterOverlay" onclick="zamanCloseFilter()"></div>
+  <button class="zcoll-filter-overlay" id="zamanFilterOverlay" type="button" onclick="zamanCloseFilter()" aria-label="Close filters" tabindex="-1"></button>
 
   <aside class="zcoll-sidebar" id="zamanSidebar" aria-label="Collection filters">
     <button class="zcoll-sidebar-close" type="button" onclick="zamanCloseFilter()">Close filters</button>
@@ -228,7 +228,13 @@
               <span class="zcard-collection-tag">{{ collection.title }}</span>
               <h3 class="zcard-title">{{ product.title }}</h3>
               <div class="zcard-pricing">
-                <span class="zcard-price">{{ product.price | money }}</span>
+                <span class="zcard-price">
+                  {%- if product.price == 0 -%}
+                    Price coming soon
+                  {%- else -%}
+                    {{ product.price | money }}
+                  {%- endif -%}
+                </span>
                 {% if product.compare_at_price > product.price %}
                   <span class="zcard-compare-price">{{ product.compare_at_price | money }}</span>
                 {% endif %}
@@ -279,12 +285,15 @@
 function zamanOpenFilter() {
   document.getElementById('zamanSidebar').classList.add('zcoll-sidebar--open');
   document.getElementById('zamanFilterOverlay').classList.add('zcoll-overlay--open');
+  document.querySelector('.zcoll-filter-toggle').setAttribute('aria-expanded', 'true');
   document.body.style.overflow = 'hidden';
+  document.querySelector('.zcoll-sidebar-close').focus();
 }
 
 function zamanCloseFilter() {
   document.getElementById('zamanSidebar').classList.remove('zcoll-sidebar--open');
   document.getElementById('zamanFilterOverlay').classList.remove('zcoll-overlay--open');
+  document.querySelector('.zcoll-filter-toggle').setAttribute('aria-expanded', 'false');
   document.body.style.overflow = '';
 }
 
@@ -311,6 +320,13 @@ function updateTagFilters() {
 
   window.location.href = url;
 }
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape' && document.getElementById('zamanSidebar').classList.contains('zcoll-sidebar--open')) {
+    zamanCloseFilter();
+    document.querySelector('.zcoll-filter-toggle').focus();
+  }
+});
 </script>
 
 {%- endpaginate -%}

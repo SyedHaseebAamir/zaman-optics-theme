@@ -1,3 +1,4 @@
+{%- if section.settings.show_verified_reviews -%}
 <section class="zaman-reviews">
   <div class="zaman-reviews__inner">
     <div class="zaman-reviews__header">
@@ -20,6 +21,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 <style>
   .zaman-reviews {
@@ -130,6 +132,13 @@
 {
   "name": "Customer Reviews",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_verified_reviews",
+      "label": "Show verified customer reviews",
+      "info": "Enable only after replacing every placeholder with a genuine customer review.",
+      "default": false
+    },
     {
       "type": "text",
       "id": "tag_text",

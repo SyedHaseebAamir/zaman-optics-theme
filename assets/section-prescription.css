@@ -488,8 +488,8 @@
   color: #1565C0;
 }
 .zpf-badge-purple {
-  background: #F3E5F5;
-  color: #6A1B9A;
+  background: #F0FDFA;
+  color: #0F766E;
 }
 
 /* ---- COATINGS ---- */
@@ -645,7 +645,7 @@
 .zpf-btn-buy:hover {
   background: #0B5F59;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(15,118,110,0.35);
+  box-shadow: none;
   color: #FFFFFF !important;
   text-decoration: none !important;
 }

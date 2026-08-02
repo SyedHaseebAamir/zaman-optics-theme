@@ -3,6 +3,16 @@
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign has_prescription_configuration = false
+  for item in cart.items
+    if item.properties['Order Type'] == 'With Prescription'
+      assign has_prescription_configuration = true
+      break
+    endif
+  endfor
+-%}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -44,6 +54,12 @@
               {% render block %}
             {%- when 'subtotal' -%}
               <div class="js-contents" {{ block.shopify_attributes }}>
+                {%- if has_prescription_configuration -%}
+                  <div class="zaman-cart-prescription-note" role="note">
+                    <strong>Prescription configuration saved</strong>
+                    <p>Lens options are attached to the order, but the Shopify total below currently includes product prices only. Any lens charges marked for confirmation must be reviewed and collected separately until priced add-ons are connected.</p>
+                  </div>
+                {%- endif -%}
                 <div>
                   {%- if cart.cart_level_discount_applications.size > 0 -%}
                     <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
@@ -59,7 +75,7 @@
                 </div>
 
                 <div class="totals">
-                  <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
+                  <h2 class="totals__total">{% if has_prescription_configuration %}Shopify checkout total{% else %}{{ 'sections.cart.estimated_total' | t }}{% endif %}</h2>
                   <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
                 </div>
 
@@ -158,6 +174,28 @@
     color: #1a1a1a;
     font-size: 12px;
     font-weight: 800;
+  }
+
+  .zaman-cart-prescription-note {
+    margin-bottom: 18px;
+    padding: 16px;
+    border: 1px solid #d2d2d7;
+    border-radius: 10px;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    text-align: left;
+  }
+
+  .zaman-cart-prescription-note strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .zaman-cart-prescription-note p {
+    margin: 0;
+    color: #6e6e73;
+    font-size: 13px;
+    line-height: 1.55;
   }
 </style>
 

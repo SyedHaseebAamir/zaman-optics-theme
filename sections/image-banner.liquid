@@ -1,14 +1,34 @@
+{%- liquid
+  assign primary_url = section.settings.btn_primary_url | default: '/collections/eyeglasses'
+  assign secondary_url = section.settings.btn_secondary_url | default: '/collections/all'
+  assign hero_label = section.settings.hero_label
+  assign hero_headline = section.settings.hero_headline
+  assign hero_subtext = section.settings.hero_subtext
+  assign trust_1 = section.settings.trust_1
+  assign trust_2 = section.settings.trust_2
+  assign trust_3 = section.settings.trust_3
+
+  if hero_label contains "TRUSTED OPTICAL STORE"
+    assign hero_label = 'EYEWEAR FOR EVERYDAY LIFE'
+    assign hero_headline = 'Find frames that feel like you.'
+    assign hero_subtext = 'Explore prescription-ready eyeglasses, sunglasses, blue screen glasses and comfortable styles for kids.'
+    assign trust_1 = 'Prescription support'
+    assign trust_2 = 'Pakistan-wide delivery'
+    assign trust_3 = 'Secure checkout'
+  endif
+-%}
+
 <section class="hero-wrapper" aria-label="Zaman Optics hero">
   <div class="hero-left">
-    <span class="hero-label">{{ section.settings.hero_label }}</span>
-    <h1 class="hero-headline">{{ section.settings.hero_headline }}</h1>
-    <p class="hero-subtext">{{ section.settings.hero_subtext }}</p>
+    <span class="hero-label">{{ hero_label }}</span>
+    <h1 class="hero-headline">{{ hero_headline }}</h1>
+    <p class="hero-subtext">{{ hero_subtext }}</p>
 
     <div class="hero-buttons">
-      <a href="{{ section.settings.btn_primary_url }}" class="btn-primary">
+      <a href="{{ primary_url }}" class="btn-primary">
         {{ section.settings.btn_primary_text }}
       </a>
-      <a href="{{ section.settings.btn_secondary_url }}" class="btn-secondary">
+      <a href="{{ secondary_url }}" class="btn-secondary">
         {{ section.settings.btn_secondary_text }}
       </a>
     </div>
@@ -16,15 +36,15 @@
     <div class="hero-trust">
       <div class="hero-trust-item">
         <span class="hero-trust-dot"></span>
-        {{ section.settings.trust_1 }}
+        {{ trust_1 }}
       </div>
       <div class="hero-trust-item">
         <span class="hero-trust-dot"></span>
-        {{ section.settings.trust_2 }}
+        {{ trust_2 }}
       </div>
       <div class="hero-trust-item">
         <span class="hero-trust-dot"></span>
-        {{ section.settings.trust_3 }}
+        {{ trust_3 }}
       </div>
     </div>
   </div>
@@ -251,7 +271,7 @@
       "type": "text",
       "id": "hero_label",
       "label": "Small label above headline",
-      "default": "OPTICAL CARE IN GUJAR KHAN"
+      "default": "LOCAL OPTICAL CARE, ONLINE"
     },
     {
       "type": "textarea",
@@ -263,7 +283,7 @@
       "type": "textarea",
       "id": "hero_subtext",
       "label": "Subheadline",
-      "default": "Shop everyday frames, sunglasses, screen glasses, and prescription-ready options with guidance from a local optical team."
+      "default": "Discover everyday frames, sunglasses, blue screen glasses, and prescription-ready options with support from our Gujar Khan team."
     },
     {
       "type": "text",

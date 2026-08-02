@@ -1300,3 +1300,80 @@ main,
 .zcoll-grid .zcard:hover .zcard-img--primary:only-child {
   transform: scale(1.02) !important;
 }
+
+/* Storefront quality pass */
+.zaman-overlay,
+.zcoll-filter-overlay {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  appearance: none;
+}
+
+.featured-product-card,
+.zcard,
+.zaman-why-card,
+.zaman-faq-item,
+.zo-lens-card,
+.zo-guide-step,
+.product__info-container,
+.related-products .card__inner {
+  border-radius: 14px !important;
+}
+
+.featured-product-card:hover,
+.zcard:hover,
+.zaman-why-card:hover,
+.zo-lens-card:hover,
+.zo-guide-step:hover {
+  border-color: var(--zaman-border-strong) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.05) !important;
+}
+
+.zaman-why-card:hover,
+.zo-guide-step:hover {
+  transform: translateY(-2px) !important;
+}
+
+.zpf-summary-note {
+  padding: 12px;
+  border: 1px solid var(--zaman-border);
+  border-radius: 8px;
+  background: var(--zaman-surface);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.zpf-btn-cart[disabled],
+.zpf-btn-buy[disabled],
+.product-form__submit[disabled] {
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+  transform: none !important;
+}
+
+.price-coming-soon,
+.price-item--regular {
+  overflow-wrap: anywhere;
+}
+
+.footer-custom__support-link {
+  display: inline-flex;
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

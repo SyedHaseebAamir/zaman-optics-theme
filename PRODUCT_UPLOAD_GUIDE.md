@@ -33,6 +33,8 @@ Upload 4 to 6 images when possible:
 
 Keep the first image clean and centered so the full frame is visible. The theme uses contained product images on collection cards, so transparent PNG or high-quality JPG/WebP files work well.
 
+Never publish a product at `Rs 0`. The theme blocks purchasing and displays “Price coming soon” for zero-priced products, but the correct launch fix is to enter the confirmed selling price.
+
 ## Required Metafields
 
 Create these product metafield definitions in Shopify Admin under **Settings > Custom data > Products**.
@@ -78,10 +80,10 @@ If a product is in the sunglasses collection, the theme should show the normal S
 
 ## Filter Setup
 
-The collection sidebar now supports two filter systems:
+The collection sidebar supports two filter systems:
 
 1. **Shopify native filters** using Search & Discovery. This is the proper launch setup.
-2. **Fallback tag filters** if Search & Discovery is not configured yet.
+2. **Fallback tag filters** only when native filters are unavailable and matching product tags exist.
 
 For the proper setup:
 
@@ -94,6 +96,8 @@ For the proper setup:
    - `custom.size`
 4. Keep Shopify price filter enabled.
 5. Make sure every product has those metafield values filled.
+
+Installing Search & Discovery is not enough by itself. If the collection page shows only Availability and Price, the four product metafield filters have not yet been enabled in the app.
 
 For fallback filtering, also add tags that match the visible filter values exactly, for example:
 
@@ -129,5 +133,6 @@ Before publishing a product:
 - Required filter metafields are filled.
 - Matching fallback tags are added.
 - Price and inventory are correct.
+- No active variant has a zero price.
 - SEO title and meta description are filled.
 - Prescription products show the lens workflow on the product page.

@@ -2,18 +2,27 @@
 {%- assign materials = 'Metal,Acetate,Plastic' | split: ',' -%}
 {%- assign genders = 'Men,Women,Unisex,Kids' | split: ',' -%}
 {%- assign sizes = 'Small,Medium,Wide' | split: ',' -%}
+{%- assign has_shapes = false -%}
+{%- assign has_materials = false -%}
+{%- assign has_genders = false -%}
+{%- assign has_sizes = false -%}
+{%- for value in shapes -%}{%- if collection.all_tags contains value -%}{%- assign has_shapes = true -%}{%- endif -%}{%- endfor -%}
+{%- for value in materials -%}{%- if collection.all_tags contains value -%}{%- assign has_materials = true -%}{%- endif -%}{%- endfor -%}
+{%- for value in genders -%}{%- if collection.all_tags contains value -%}{%- assign has_genders = true -%}{%- endif -%}{%- endfor -%}
+{%- for value in sizes -%}{%- if collection.all_tags contains value -%}{%- assign has_sizes = true -%}{%- endif -%}{%- endfor -%}
 
 {%- capture chevron -%}
   <span class="zcf-chevron">{% render 'zaman-premium-icon', icon: 'chevron-down', size: 14 %}</span>
 {%- endcapture -%}
 
-<details class="zcf-group" open>
+{% if has_shapes %}<details class="zcf-group" open>
   <summary class="zcf-title">
     <span>Frame Shape</span>
     {{ chevron }}
   </summary>
   <ul class="zcf-list">
     {% for value in shapes %}
+      {% if collection.all_tags contains value %}
       <li class="zcf-item">
         <label class="zcf-label">
           <input type="checkbox" class="zcf-cb zcf-tag-filter" data-tag="{{ value }}" {% if current_tags contains value %}checked{% endif %} onchange="updateTagFilters()">
@@ -21,17 +30,19 @@
           <span class="zcf-text">{{ value }}</span>
         </label>
       </li>
+      {% endif %}
     {% endfor %}
   </ul>
-</details>
+</details>{% endif %}
 
-<details class="zcf-group" open>
+{% if has_materials %}<details class="zcf-group" open>
   <summary class="zcf-title">
     <span>Material</span>
     {{ chevron }}
   </summary>
   <ul class="zcf-list">
     {% for value in materials %}
+      {% if collection.all_tags contains value %}
       <li class="zcf-item">
         <label class="zcf-label">
           <input type="checkbox" class="zcf-cb zcf-tag-filter" data-tag="{{ value }}" {% if current_tags contains value %}checked{% endif %} onchange="updateTagFilters()">
@@ -39,17 +50,19 @@
           <span class="zcf-text">{{ value }}</span>
         </label>
       </li>
+      {% endif %}
     {% endfor %}
   </ul>
-</details>
+</details>{% endif %}
 
-<details class="zcf-group" open>
+{% if has_genders %}<details class="zcf-group" open>
   <summary class="zcf-title">
     <span>Gender</span>
     {{ chevron }}
   </summary>
   <ul class="zcf-list">
     {% for value in genders %}
+      {% if collection.all_tags contains value %}
       <li class="zcf-item">
         <label class="zcf-label">
           <input type="checkbox" class="zcf-cb zcf-tag-filter" data-tag="{{ value }}" {% if current_tags contains value %}checked{% endif %} onchange="updateTagFilters()">
@@ -57,17 +70,19 @@
           <span class="zcf-text">{{ value }}</span>
         </label>
       </li>
+      {% endif %}
     {% endfor %}
   </ul>
-</details>
+</details>{% endif %}
 
-<details class="zcf-group">
+{% if has_sizes %}<details class="zcf-group">
   <summary class="zcf-title">
     <span>Size</span>
     {{ chevron }}
   </summary>
   <ul class="zcf-list">
     {% for value in sizes %}
+      {% if collection.all_tags contains value %}
       <li class="zcf-item">
         <label class="zcf-label">
           <input type="checkbox" class="zcf-cb zcf-tag-filter" data-tag="{{ value }}" {% if current_tags contains value %}checked{% endif %} onchange="updateTagFilters()">
@@ -75,9 +90,10 @@
           <span class="zcf-text">{{ value }}</span>
         </label>
       </li>
+      {% endif %}
     {% endfor %}
   </ul>
-</details>
+</details>{% endif %}
 
 <details class="zcf-group">
   <summary class="zcf-title">

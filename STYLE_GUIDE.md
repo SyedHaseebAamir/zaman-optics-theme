@@ -7,23 +7,23 @@ Zaman Optics should feel premium, clean, local, trustworthy, and easy to shop. T
 ## Color Tokens
 
 ```css
---zaman-orange: #FF8C00;
---zaman-orange-dark: #DF7600;
---zaman-orange-soft: #FFF3E0;
---zaman-black: #1A1A1A;
---zaman-muted: #6F6A63;
---zaman-border: #E8E2DA;
---zaman-surface: #F7F7F5;
+--zaman-accent: #0F766E;
+--zaman-accent-dark: #0B5F59;
+--zaman-accent-soft: #F0FDFA;
+--zaman-black: #1D1D1F;
+--zaman-muted: #6E6E73;
+--zaman-border: #E8E8ED;
+--zaman-surface: #F5F5F7;
 --zaman-white: #FFFFFF;
 ```
 
 ## Usage
 
-- Use `#FF8C00` for primary CTAs, active states, focus rings, and small accents.
-- Use `#1A1A1A` for headings, primary text, and black CTAs.
+- Use `#0F766E` for primary CTAs, active states, focus rings, and small accents.
+- Use `#1D1D1F` for headings and primary text.
 - Use white cards on warm gray or white page backgrounds.
-- Avoid old blue accents. They do not belong in the current brand system.
-- Do not use orange shadows as the default product-card hover. Use neutral premium shadows.
+- Avoid orange and old blue accents. They do not belong in the current brand system.
+- Use neutral borders and restrained shadows on card hover.
 
 ## Shape and Elevation
 
@@ -36,7 +36,7 @@ Zaman Optics should feel premium, clean, local, trustworthy, and easy to shop. T
 ## Buttons
 
 Primary:
-- Orange background
+- Teal background
 - White text
 - 10px radius
 - Slight lift on hover
@@ -55,7 +55,7 @@ Product cards should:
 - Keep full eyewear frame visible
 - Use contained product imagery
 - Show price clearly in black
-- Use orange only for active/CTA accents
+- Use teal only for active and CTA accents
 - Avoid cropped frame images
 
 ## Prescription Flow
@@ -64,8 +64,9 @@ The prescription flow should be clear and compact:
 - Frame Only and With Prescription options first
 - Manual/upload prescription entry
 - Lens type, material, coatings
-- Quoted total shown before Add to Cart
+- Estimated configuration total shown before Add to Cart
 - All selected options saved as line item properties
+- Lens prices must be connected to variants, add-on products, or an options app before checkout can charge them
 
 ## Pakistan Localization
 

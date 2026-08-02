@@ -8,7 +8,7 @@
 
     <div class="zo-lens-options__grid">
       {% for block in section.blocks %}
-        <a href="{{ block.settings.link }}" class="zo-lens-card" {{ block.shopify_attributes }}>
+        <a href="{{ block.settings.link | default: '/pages/lens-guide' }}" class="zo-lens-card" {{ block.shopify_attributes }}>
           <span class="zo-lens-card__label">{{ block.settings.label }}</span>
           <h3>{{ block.settings.title }}</h3>
           <p>{{ block.settings.text }}</p>
@@ -186,7 +186,7 @@
         {
           "type": "lens",
           "settings": {
-            "label": "+ Rs 1,200",
+            "label": "Price confirmed after review",
             "title": "Progressive",
             "text": "A smooth lens option for near, intermediate, and distance vision."
           }
@@ -194,7 +194,7 @@
         {
           "type": "lens",
           "settings": {
-            "label": "+ Rs 500",
+            "label": "Price confirmed after review",
             "title": "Blue Cut",
             "text": "Designed for long screen hours and daily digital comfort."
           }
@@ -202,7 +202,7 @@
         {
           "type": "lens",
           "settings": {
-            "label": "+ Rs 1,500",
+            "label": "Price confirmed after review",
             "title": "Photochromic",
             "text": "Lenses that darken outdoors and stay clear indoors."
           }

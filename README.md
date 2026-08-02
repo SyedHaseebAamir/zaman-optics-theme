@@ -6,13 +6,13 @@ The theme is built around a premium minimalist eyewear shopping experience with 
 
 ## Current Status
 
-Last updated: May 21, 2026
+Last updated: August 2, 2026
 
 ### Built
 - Premium global design system in `assets/premium-design.css`
 - Custom two-row desktop header and mobile drawer
 - Dismissible announcement bar
-- Homepage hero, category grid, featured products, trust section, reviews, and FAQ
+- Homepage hero, category grid, featured products, lens education, shopping guide, trust section, optional verified reviews, and FAQ
 - Custom collection page with left filter sidebar, mobile filter drawer, sort controls, and premium product cards
 - Product page mode detection:
   - `prescription` for eyeglasses, blue light glasses, and kids glasses
@@ -22,7 +22,7 @@ Last updated: May 21, 2026
   - Manual prescription entry for OD/OS SPH, CYL, Axis, and PD
   - Prescription file upload
   - Lens type, lens material, and coating options
-  - Live quoted total
+  - Configurable lens-price estimate
   - Shopify line item properties for order admin visibility
 - Cart page displays line item properties and payment trust badges
 - Static guide templates:
@@ -37,7 +37,7 @@ Last updated: May 21, 2026
 
 ### Important Shopify Limitation
 
-The prescription workflow stores a **quoted total** and all selected options as line item properties. Shopify line item properties do not change the checkout price by themselves.
+The prescription workflow stores an **estimated configuration total** and all selected options as line item properties. Shopify line item properties do not change the checkout price by themselves. Prescription checkout therefore returns customers to the cart and clearly explains what the Shopify total includes.
 
 To charge lens upgrades automatically, use one of these approaches:
 - Create paid lens-upgrade variants
@@ -82,22 +82,24 @@ git push origin main
 
 ## Design Rules
 
-- Primary orange: `#FF8C00`
-- Primary black: `#1A1A1A`
-- Surface gray: `#F5F5F5`
+- Primary accent: `#0F766E`
+- Primary black: `#1D1D1F`
+- Surface gray: `#F5F5F7`
 - Canvas white: `#FFFFFF`
 - Border radius: `10px`
 - UI feel: minimalist, premium, spacious, soft shadows
 
 ## Admin Tasks Still Required
 
-- Install and configure Shopify Search & Discovery for metafield filters
+- Configure Shopify Search & Discovery and enable every metafield filter; the current live store exposes only Availability and Price
 - Confirm product metafields are populated consistently
 - Configure Pakistan shipping zones
 - Enable the store's supported checkout payment methods
 - Use generic storefront copy such as "secure online payments available" unless a method is confirmed live
 - Upload real hero, category, and product photography
-- Add real WhatsApp number and live contact details
+- Create and assign the About page in Shopify Admin
+- Add confirmed WhatsApp number, email, and opening hours through the theme editor
+- Replace every zero-priced product before launch
 - Test a complete live order from product page to Shopify Admin
 
 ## Product Upload Rules

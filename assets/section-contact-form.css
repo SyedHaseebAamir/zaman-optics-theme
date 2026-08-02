@@ -4,7 +4,7 @@
 
 /* ---- HERO SECTION ---- */
 .zcont-hero {
-  background: linear-gradient(135deg, #F8FAFC 0%, #F0FDFA 60%, #FFFFFF 100%);
+  background: #F5F5F7;
   border-bottom: 2px solid #D9F3EF;
   padding: 60px 40px 48px;
   text-align: center;
@@ -131,7 +131,7 @@
 }
 
 .zcont-hours {
-  background: linear-gradient(135deg, #F8FAFC 0%, rgba(15,118,110,0.05) 100%);
+  background: #F5F5F7;
   border: 1.5px solid #D9F3EF;
 }
 
@@ -166,7 +166,7 @@
 
 /* ---- SUCCESS & ERROR MESSAGES ---- */
 .zcont-success {
-  background: linear-gradient(135deg, #E8F5E9 0%, rgba(76,175,80,0.05) 100%);
+  background: #F0FDFA;
   border: 1.5px solid #81C784;
   border-radius: 12px;
   padding: 24px;
@@ -195,7 +195,7 @@
 }
 
 .zcont-error-box {
-  background: linear-gradient(135deg, #FFEBEE 0%, rgba(244,67,54,0.05) 100%);
+  background: #FFF5F5;
   border: 1.5px solid #EF5350;
   border-radius: 12px;
   padding: 24px;
@@ -357,7 +357,7 @@
   align-items: center;
   gap: 10px;
   padding: 14px 40px;
-  background: linear-gradient(135deg, #0F766E 0%, #0B5F59 100%);
+  background: #0F766E;
   color: #FFFFFF !important;
   border: none;
   border-radius: 50px;
@@ -373,8 +373,8 @@
 
 .zcont-submit-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(15,118,110,0.35);
-  background: linear-gradient(135deg, #0B5F59 0%, #084C47 100%);
+  box-shadow: none;
+  background: #0B5F59;
   text-decoration: none;
 }
 

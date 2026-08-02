@@ -1,6 +1,6 @@
 # Zaman Optics Store Structure Guide
 
-Last updated: May 25, 2026
+Last updated: August 2, 2026
 
 ## Peachmart Review Summary
 
@@ -128,9 +128,10 @@ The collection template supports two systems:
    - Shopify will output real filter URLs like `filter.p.m.custom.frame_shape=Square`.
 
 2. **Fallback tag filters**
-   - If Search & Discovery is not configured, the theme still shows filter groups.
-   - These work from product tags.
+   - These appear only when native filters are unavailable and matching collection tags exist.
    - Tags must match the visible values exactly.
+
+If only Availability and Price appear, Search & Discovery is installed but the product metafield filters are not enabled yet.
 
 Use native filters for launch. Keep tags as a safety fallback.
 
@@ -154,7 +155,8 @@ Prescription line item properties captured:
 - Lens type
 - Lens material
 - Coatings
-- Quoted total
+- Estimated configuration total
+- Lens pricing status
 
 ## Recommended Homepage Order
 
@@ -164,7 +166,7 @@ Prescription line item properties captured:
 4. How it works
 5. Best sellers
 6. Why choose us
-7. Reviews
+7. Verified reviews, once genuine customer feedback is available
 8. FAQ
 
 ## Launch Admin Tasks
@@ -178,3 +180,4 @@ Prescription line item properties captured:
 7. Configure supported checkout payment methods and only mention exact names after they are live.
 8. Configure Pakistan shipping zones.
 9. Place one test order and confirm line item properties appear in Shopify Admin.
+10. Connect priced lens add-ons before treating the configuration estimate as the Shopify checkout total.

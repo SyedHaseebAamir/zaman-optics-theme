@@ -110,6 +110,7 @@
               {% if product.selected_or_first_available_variant.available == false
                 or quantity_rule_soldout
                 or product.selected_or_first_available_variant == null
+                or product.selected_or_first_available_variant.price == 0
               %}
                 disabled
               {% endif %}
@@ -119,13 +120,15 @@
                   {{ 'products.product.unavailable' | t }}
                 {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
                   {{ 'products.product.sold_out' | t }}
+                {%- elsif product.selected_or_first_available_variant.price == 0 -%}
+                  Price unavailable
                 {%- else -%}
                   {{ 'products.product.add_to_cart' | t }}
                 {%- endif -%}
               </span>
               {%- render 'loading-spinner' -%}
             </button>
-            {%- if show_dynamic_checkout -%}
+            {%- if show_dynamic_checkout and product.selected_or_first_available_variant.price > 0 -%}
               {{ form | payment_button }}
             {%- endif -%}
           </div>
