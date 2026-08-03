@@ -124,6 +124,23 @@
             </div>
           </div>
         {%- endif -%}
+        {%- liquid
+          assign frame_shape = product.metafields.custom.frame_shape.value
+          assign frame_material = product.metafields.custom.material.value
+          assign frame_gender = product.metafields.custom.gender.value
+          assign frame_size = product.metafields.custom.size.value
+        -%}
+        {%- if frame_shape != blank or frame_material != blank or frame_gender != blank or frame_size != blank -%}
+          <div class="zaman-product-specifications">
+            <h2>Frame details</h2>
+            <dl class="zaman-specs-table">
+              {%- if frame_shape != blank -%}<div><dt>Shape</dt><dd>{{ frame_shape }}</dd></div>{%- endif -%}
+              {%- if frame_material != blank -%}<div><dt>Material</dt><dd>{{ frame_material }}</dd></div>{%- endif -%}
+              {%- if frame_gender != blank -%}<div><dt>Designed for</dt><dd>{{ frame_gender }}</dd></div>{%- endif -%}
+              {%- if frame_size != blank -%}<div><dt>Fit</dt><dd>{{ frame_size }}</dd></div>{%- endif -%}
+            </dl>
+          </div>
+        {%- endif -%}
       </div>
       <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <section

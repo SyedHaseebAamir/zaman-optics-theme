@@ -3,9 +3,9 @@
     <ul class="category-nav__list">
       <li><a href="/collections/eyeglasses" class="category-nav__link active" data-category="eyeglasses">Eyeglasses</a></li>
       <li><a href="/collections/sunglasses" class="category-nav__link" data-category="sunglasses">Sunglasses</a></li>
-      <li><a href="/collections/blue-light-glasses" class="category-nav__link" data-category="blue-light-glasses">Blue Light Glasses</a></li>
+      {% if collections['blue-light-glasses'] != blank %}<li><a href="{{ collections['blue-light-glasses'].url }}" class="category-nav__link" data-category="blue-light-glasses">Blue Light Glasses</a></li>{% endif %}
       <li><a href="/collections/kids-glasses" class="category-nav__link" data-category="kids-glasses">Kids Glasses</a></li>
-      <li><a href="/collections/contact-lenses" class="category-nav__link" data-category="contact-lenses">Contact Lenses</a></li>
+      {% if collections['contact-lenses'] != blank %}<li><a href="{{ collections['contact-lenses'].url }}" class="category-nav__link" data-category="contact-lenses">Contact Lenses</a></li>{% endif %}
     </ul>
   </div>
 </nav>

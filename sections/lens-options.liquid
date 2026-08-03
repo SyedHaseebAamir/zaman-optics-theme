@@ -8,7 +8,13 @@
 
     <div class="zo-lens-options__grid">
       {% for block in section.blocks %}
-        <a href="{{ block.settings.link | default: '/pages/lens-guide' }}" class="zo-lens-card" {{ block.shopify_attributes }}>
+        {%- liquid
+          assign card_url = block.settings.link | default: '/pages/lens-guide'
+          if card_url contains '/collections/blue-light-glasses' and collections['blue-light-glasses'] == blank
+            assign card_url = routes.search_url | append: '?type=product&q=screen'
+          endif
+        -%}
+        <a href="{{ card_url }}" class="zo-lens-card" {{ block.shopify_attributes }}>
           <span class="zo-lens-card__label">{{ block.settings.label }}</span>
           <h3>{{ block.settings.title }}</h3>
           <p>{{ block.settings.text }}</p>

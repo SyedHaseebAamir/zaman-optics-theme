@@ -61,12 +61,7 @@
           aria-checked="true"
           aria-pressed="true"
         >
-          <span class="zpf-toggle-icon" aria-hidden="true">Frame</span>
-          <span class="zpf-toggle-text">
-            <span class="zpf-toggle-title">Frame Only</span>
-            <span class="zpf-toggle-sub">Order the frame without custom lenses</span>
-          </span>
-          <span class="zpf-toggle-tag">{{ product.selected_or_first_available_variant.price | money }}</span>
+          <span class="zpf-toggle-title">Frame Only</span>
         </button>
 
         <button
@@ -77,18 +72,7 @@
           aria-checked="false"
           aria-pressed="false"
         >
-          <span class="zpf-toggle-icon" aria-hidden="true">Rx</span>
-          <span class="zpf-toggle-text">
-            <span class="zpf-toggle-title">Add Prescription Lenses</span>
-            <span class="zpf-toggle-sub">Choose lenses and share your prescription</span>
-          </span>
-          <span class="zpf-toggle-tag zpf-tag-accent">
-            {%- if prescription_base_fee > 0 -%}
-              + {{ prescription_base_fee | times: 100 | money }}
-            {%- else -%}
-              Quote after review
-            {%- endif -%}
-          </span>
+          <span class="zpf-toggle-title">Prescription Glasses</span>
         </button>
       </div>
 

@@ -1,6 +1,6 @@
 # Storefront Audit
 
-Last reviewed: August 2, 2026
+Last reviewed: August 3, 2026
 
 ## Scope Checked
 
@@ -21,7 +21,7 @@ Last reviewed: August 2, 2026
 - Frame-only products add to cart.
 - Prescription values and lens selections are submitted as line-item properties.
 - Prescription properties appear in the cart and Shopify order data.
-- Tested desktop and mobile pages did not create horizontal overflow.
+- Search forms submit directly to Shopify's product search results.
 
 ## Fixes Applied
 
@@ -37,17 +37,33 @@ Last reviewed: August 2, 2026
 - Added a cart notice explaining Shopify totals and lens estimates.
 - Improved keyboard and ARIA behavior for mobile navigation and filters.
 - Removed duplicate announcement and Contact page headings.
+- Rebalanced the product gallery and purchase panel to prevent prescription controls from overflowing.
+- Added responsive prescription cards, consistent product headings, and a metafield-powered frame details table.
+- Added tag-backed shape, material, gender, and size filters whenever Shopify native filters are unavailable.
+- Made navigation conditional so missing collections and pages do not create dead links.
+- Limited header and drawer search to products and preserved Shopify's search prefix behavior.
+
+## Connected Admin Findings
+
+- The connected shop is `zaman-optics-2.myshopify.com` on Shopify Basic with PKR currency.
+- The catalog contains 10 active products and five collections.
+- `custom.product_mode` is the only merchant-owned product metafield definition currently present.
+- `custom.frame_shape`, `custom.material`, `custom.gender`, and `custom.size` are not yet defined.
+- Existing product tags use prefixed values such as `Shape: Square`, with some size tags containing a trailing period.
+- Blue Screen Glasses and Contact Lenses collections are missing.
+- `Zaman "Midnight" Square`, `Zaman "Solstice" Aviator`, and `Zaman "Urban" Round` are active at Rs 0.
+- Product types and SKUs are blank across the current catalog.
 
 ## Shopify Admin Work Still Required
 
-1. In Search & Discovery > Filters, add `custom.frame_shape`, `custom.material`, `custom.gender`, and `custom.size`. The live audit exposed only Availability and Price.
+1. Create `custom.frame_shape`, `custom.material`, `custom.gender`, and `custom.size`, then add them in Search & Discovery > Filters. The live audit exposed only Availability and Price.
 2. Fill those metafields on every applicable product using the standardized values in `PRODUCT_UPLOAD_GUIDE.md`.
-3. Enter real prices for all products. `Zaman "Solstice" Aviator` and `Zaman "Urban" Round` were observed at Rs 0.
+3. Enter real prices for all products. `Zaman "Midnight" Square`, `Zaman "Solstice" Aviator`, and `Zaman "Urban" Round` are active at Rs 0.
 4. Confirm lens and coating prices, then enter them in **Buy buttons > Prescription quote prices**.
 5. Connect lens charges to variants, add-on products, or a product-options app. Line-item properties cannot change checkout price.
 6. Create `/pages/about` and assign the `page.about` template. The route currently returns 404.
 7. Add confirmed phone/WhatsApp, email, and opening hours to the Contact and Footer settings.
-8. Verify Contact Lenses, New Arrivals, and Best Sellers collections exist for the header links.
+8. Create Blue Screen Glasses and Contact Lenses collections. New Arrivals and Best Sellers already exist.
 9. Configure Pakistan shipping and supported checkout payment methods.
 10. Place one real test order and verify properties, upload, shipping, payment, email, and Shopify Admin details.
 

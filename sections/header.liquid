@@ -26,13 +26,15 @@
       <a href="/pages/contact" class="zaman-header-navlink">Contact</a>
     </nav>
 
-    <form action="/search" method="get" class="zaman-search" role="search">
+    <form action="{{ routes.search_url }}" method="get" class="zaman-search" role="search">
       <input
         type="search"
         name="q"
         placeholder="Search frames, lenses, sunglasses"
         class="zaman-search-input"
         autocomplete="off">
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
       <button type="submit" class="zaman-search-btn" aria-label="Search">
         {% render 'zaman-premium-icon', icon: 'search', size: 18 %}
       </button>
@@ -56,9 +58,9 @@
   <div class="zaman-nav-inner">
     <a href="/collections/eyeglasses" class="zaman-nav-link">Eyeglasses</a>
     <a href="/collections/sunglasses" class="zaman-nav-link">Sunglasses</a>
-    <a href="/collections/blue-light-glasses" class="zaman-nav-link">Blue Screen Glasses</a>
+    {% if collections['blue-light-glasses'] != blank %}<a href="{{ collections['blue-light-glasses'].url }}" class="zaman-nav-link">Blue Screen Glasses</a>{% endif %}
     <a href="/collections/kids-glasses" class="zaman-nav-link">Kids Glasses</a>
-    <a href="/collections/contact-lenses" class="zaman-nav-link">Contact Lenses</a>
+    {% if collections['contact-lenses'] != blank %}<a href="{{ collections['contact-lenses'].url }}" class="zaman-nav-link">Contact Lenses</a>{% endif %}
     <a href="/collections/new-arrivals" class="zaman-nav-link">New Arrivals</a>
     <a href="/collections/best-sellers" class="zaman-nav-link">Best Sellers</a>
     <a href="/pages/lens-guide" class="zaman-nav-link">Lens Guide</a>
@@ -94,17 +96,19 @@
   </div>
 
   <div class="zdrawer-search-wrap">
-    <form action="/search" method="get" class="zdrawer-search-form" role="search">
+    <form action="{{ routes.search_url }}" method="get" class="zdrawer-search-form" role="search">
       <input type="search" name="q" placeholder="Search frames" class="zdrawer-search-input">
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
     </form>
   </div>
 
   <p class="zdrawer-section-label">Shop</p>
   <a href="/collections/eyeglasses" class="zdrawer-link"><span>Prescription Glasses</span><small>Frames ready for custom lenses</small></a>
   <a href="/collections/sunglasses" class="zdrawer-link"><span>Sunglasses</span><small>Clean styles for bright days</small></a>
-  <a href="/collections/blue-light-glasses" class="zdrawer-link"><span>Blue Screen Glasses</span><small>Comfort for long screen hours</small></a>
+  {% if collections['blue-light-glasses'] != blank %}<a href="{{ collections['blue-light-glasses'].url }}" class="zdrawer-link"><span>Blue Screen Glasses</span><small>Comfort for long screen hours</small></a>{% endif %}
   <a href="/collections/kids-glasses" class="zdrawer-link"><span>Kids Glasses</span><small>Lightweight daily frames</small></a>
-  <a href="/collections/contact-lenses" class="zdrawer-link"><span>Contact Lenses</span><small>Daily and monthly options</small></a>
+  {% if collections['contact-lenses'] != blank %}<a href="{{ collections['contact-lenses'].url }}" class="zdrawer-link"><span>Contact Lenses</span><small>Daily and monthly options</small></a>{% endif %}
 
   <p class="zdrawer-section-label">Help</p>
   <a href="/pages/lens-guide" class="zdrawer-link zdrawer-link-plain"><span>Lens Guide</span></a>

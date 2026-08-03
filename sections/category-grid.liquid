@@ -1,5 +1,12 @@
 ﻿{{ 'section-category-grid.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign blue_screen_url = collections['blue-light-glasses'].url
+  if blue_screen_url == blank
+    assign blue_screen_url = routes.search_url | append: '?type=product&q=screen'
+  endif
+-%}
+
 <div class="category-grid-section">
   <h2 class="category-grid-title">Shop by Category</h2>
   <div class="category-grid">
@@ -36,7 +43,7 @@
       </div>
     </a>
 
-    <a href="/collections/blue-light-glasses" class="cat-card">
+    <a href="{{ blue_screen_url }}" class="cat-card">
       <div class="cat-card-image">
         {% if section.settings.bluelight_image %}
           <img src="{{ section.settings.bluelight_image | img_url: '400x400' }}" 

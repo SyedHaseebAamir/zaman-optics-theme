@@ -5,6 +5,10 @@
     assign has_shopify_filters = true
   endif
   assign has_active_filters = false
+  assign has_shape_filter = false
+  assign has_material_filter = false
+  assign has_gender_filter = false
+  assign has_size_filter = false
 -%}
 
 {%- paginate collection.products by 12 -%}
@@ -44,7 +48,7 @@
   <aside class="zcoll-sidebar" id="zamanSidebar" aria-label="Collection filters">
     <button class="zcoll-sidebar-close" type="button" onclick="zamanCloseFilter()">Close filters</button>
 
-    <form id="ZCF" action="{{ collection.url }}" method="get" class="zcf-form">
+    <form id="ZCF" action="{{ request.path }}" method="get" class="zcf-form">
       <input type="hidden" name="sort_by" value="{{ sort_by }}">
 
       <div class="zcf-head">
@@ -54,6 +58,11 @@
 
       {% if has_shopify_filters %}
         {% for filter in collection.filters %}
+          {%- assign filter_label = filter.label | downcase -%}
+          {%- if filter_label contains 'shape' -%}{%- assign has_shape_filter = true -%}{%- endif -%}
+          {%- if filter_label contains 'material' -%}{%- assign has_material_filter = true -%}{%- endif -%}
+          {%- if filter_label contains 'gender' -%}{%- assign has_gender_filter = true -%}{%- endif -%}
+          {%- if filter_label contains 'size' -%}{%- assign has_size_filter = true -%}{%- endif -%}
           {% if filter.type == 'list' and filter.active_values.size > 0 %}
             {% assign has_active_filters = true %}
           {% elsif filter.type == 'price_range' %}
@@ -132,8 +141,16 @@
             {% endcase %}
           </details>
         {% endfor %}
+        {% render 'collection-fallback-filters',
+          current_tags: current_tags,
+          hide_shape: has_shape_filter,
+          hide_material: has_material_filter,
+          hide_gender: has_gender_filter,
+          hide_size: has_size_filter,
+          show_price: false
+        %}
       {% else %}
-        {% render 'collection-fallback-filters', current_tags: current_tags %}
+        {% render 'collection-fallback-filters', current_tags: current_tags, show_price: true %}
       {% endif %}
     </form>
   </aside>
@@ -154,6 +171,9 @@
                 </a>
               {% endif %}
             {% endif %}
+          {% endfor %}
+          {% for tag in current_tags %}
+            <span class="zcoll-filter-chip">{{ tag | remove: '.' }}</span>
           {% endfor %}
         {% else %}
           {% for tag in current_tags %}

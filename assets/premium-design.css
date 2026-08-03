@@ -1363,6 +1363,155 @@ main,
   font-weight: 700;
 }
 
+/* Product page layout */
+product-info {
+  overflow: clip;
+}
+
+product-info > .page-width {
+  max-width: 1320px;
+}
+
+product-info .product__media-wrapper,
+product-info .product__media-list,
+product-info .product__media-item,
+product-info .product-media-container,
+product-info .product__media,
+product-info .product__media .media {
+  min-width: 0;
+  max-width: 100%;
+}
+
+product-info .product__media img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.product__info-wrapper,
+.product__info-container,
+.zpf-product-form,
+.zpf-wrapper,
+.zpf-toggle-row,
+.zpf-toggle-btn {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.product__info-container {
+  padding: clamp(8px, 2vw, 24px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.product__title h1,
+.product__title > * {
+  max-width: 18ch;
+  font-size: clamp(3rem, 3vw, 4.2rem) !important;
+  overflow-wrap: anywhere;
+}
+
+.zaman-product-about,
+.zaman-product-specifications {
+  margin-top: 24px;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--zaman-border);
+  border-radius: 14px;
+  background: var(--zaman-white);
+}
+
+.zaman-about-title,
+.zaman-product-specifications h2 {
+  margin: 0 0 14px;
+  color: var(--zaman-black);
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.zaman-about-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.zaman-about-content > :first-child {
+  margin-top: 0;
+}
+
+.zaman-about-content > :last-child {
+  margin-bottom: 0;
+}
+
+.zaman-specs-table {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--zaman-border) !important;
+  border-radius: 10px !important;
+}
+
+.zaman-specs-table > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.8fr) 1.2fr;
+  gap: 16px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--zaman-border);
+}
+
+.zaman-specs-table > div:last-child {
+  border-bottom: 0;
+}
+
+.zaman-specs-table dt {
+  color: var(--zaman-muted);
+}
+
+.zaman-specs-table dd {
+  margin: 0;
+  color: var(--zaman-black);
+  font-weight: 700;
+}
+
+@media screen and (min-width: 990px) {
+  .product--medium:not(.product--no-media) .product__media-wrapper {
+    width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2) !important;
+    max-width: 50% !important;
+  }
+
+  .product--medium:not(.product--no-media) .product__info-wrapper {
+    width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2) !important;
+    max-width: 50% !important;
+    padding-left: clamp(28px, 3vw, 48px) !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .product__info-wrapper {
+    padding: 22px 0 0 !important;
+  }
+
+  .product__info-container {
+    padding: 0 !important;
+  }
+
+  product-info .product__media .media {
+    aspect-ratio: 1 / 1;
+    padding-bottom: 0 !important;
+  }
+
+  .zaman-product-about,
+  .zaman-product-specifications {
+    margin-top: 16px;
+    padding: 18px;
+  }
+
+  .zaman-specs-table > div {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

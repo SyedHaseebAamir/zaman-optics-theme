@@ -32,9 +32,9 @@
         <ul class="footer-custom__link-list">
           <li><a href="/collections/eyeglasses">Eyeglasses</a></li>
           <li><a href="/collections/sunglasses">Sunglasses</a></li>
-          <li><a href="/collections/blue-light-glasses">Blue Light Glasses</a></li>
+          {% if collections['blue-light-glasses'] != blank %}<li><a href="{{ collections['blue-light-glasses'].url }}">Blue Light Glasses</a></li>{% endif %}
           <li><a href="/collections/kids-glasses">Kids Glasses</a></li>
-          <li><a href="/collections/contact-lenses">Contact Lenses</a></li>
+          {% if collections['contact-lenses'] != blank %}<li><a href="{{ collections['contact-lenses'].url }}">Contact Lenses</a></li>{% endif %}
         </ul>
       </nav>
 
@@ -54,7 +54,7 @@
         <ul class="footer-custom__link-list">
           <li><a href="/pages/prescription-guide">Prescription Guide</a></li>
           <li><a href="/pages/faq">FAQ</a></li>
-          <li><a href="/pages/about">About</a></li>
+          {% if pages['about'] != blank %}<li><a href="{{ pages['about'].url }}">About</a></li>{% endif %}
           <li><a href="/pages/contact">Contact</a></li>
           <li><a href="/policies/refund-policy">Return Policy</a></li>
         </ul>
