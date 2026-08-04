@@ -466,6 +466,11 @@
   margin-top: 0.15rem;
 }
 
+.facet-checkbox > svg,
+.facet-checkbox > .svg-wrapper {
+  display: none;
+}
+
 .facet-checkbox input[type="checkbox"]:hover {
   border-color: var(--filter-blue);
 }
@@ -501,6 +506,28 @@
 
 .facet-checkbox.disabled input[type="checkbox"] {
   cursor: not-allowed;
+}
+
+.facets__apply-wrapper {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  padding: 1rem 0 0;
+  background: var(--filter-bg);
+}
+
+.facets__apply-button {
+  width: 100%;
+  min-height: 4.4rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.facets__apply-button:hover {
+  background-color: var(--filter-blue-hover);
+}
+
+.facets__apply-button:active {
+  transform: translateY(1px);
 }
 
 /* ============================================

@@ -335,6 +335,11 @@
               {% endcase %}
             {%- endfor -%}
           </div>
+          <div class="facets__apply-wrapper">
+            <button type="submit" class="button button--primary facets__apply-button">
+              {{ 'products.facets.apply' | t }}
+            </button>
+          </div>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
           {%- if filter_type == 'horizontal' -%}
             <div class="active-facets active-facets-desktop">
@@ -759,9 +764,8 @@
                   </a>
                 </facet-remove>
                 <button
-                  type="button"
+                  type="submit"
                   class="button button--primary"
-                  onclick="this.closest('.mobile-facets__wrapper').querySelector('summary').click()"
                 >
                   {{ 'products.facets.apply' | t }}
                 </button>

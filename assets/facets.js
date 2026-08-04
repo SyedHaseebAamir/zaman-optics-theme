@@ -8,7 +8,12 @@ class FacetFiltersForm extends HTMLElement {
     }, 800);
 
     const facetForm = this.querySelector('form');
-    facetForm.addEventListener('input', this.debouncedOnSubmit.bind(this));
+    facetForm.addEventListener('submit', this.onSubmitHandler.bind(this));
+    facetForm.addEventListener('input', (event) => {
+      if (event.target.matches('select[name="sort_by"]')) {
+        this.debouncedOnSubmit(event);
+      }
+    });
 
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
