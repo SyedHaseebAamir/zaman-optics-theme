@@ -16,7 +16,7 @@
 <div class="zcoll-hero">
   <div class="zcoll-hero-inner">
     <nav class="zcoll-breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a>
+      <a href="{{ routes.root_url }}">Home</a>
       <span>/</span>
       <span>{{ collection.title }}</span>
     </nav>
@@ -48,7 +48,7 @@
   <aside class="zcoll-sidebar" id="zamanSidebar" aria-label="Collection filters">
     <button class="zcoll-sidebar-close" type="button" onclick="zamanCloseFilter()">Close filters</button>
 
-    <form id="ZCF" action="{{ request.path }}" method="get" class="zcf-form">
+    <form id="ZCF" action="{{ request.path }}" method="get" class="zcf-form" onsubmit="event.preventDefault(); applyCollectionFilters()">
       <input type="hidden" name="sort_by" value="{{ sort_by }}">
 
       <div class="zcf-head">
@@ -89,8 +89,7 @@
                           name="{{ value.param_name }}"
                           value="{{ value.value }}"
                           {% if value.active %}checked{% endif %}
-                          {% if value.count == 0 and value.active == false %}disabled{% endif %}
-                          onchange="this.form.submit()">
+                          {% if value.count == 0 and value.active == false %}disabled{% endif %}>
                         <span class="zcf-custom-cb"></span>
                         <span class="zcf-text">{{ value.label }}</span>
                         <span class="zcf-count">{{ value.count }}</span>
@@ -136,7 +135,6 @@
                         class="zcf-price-input">
                     </div>
                   </div>
-                  <button type="submit" class="zcf-apply-btn">Apply Price</button>
                 </div>
             {% endcase %}
           </details>
@@ -152,6 +150,11 @@
       {% else %}
         {% render 'collection-fallback-filters', current_tags: current_tags, show_price: true %}
       {% endif %}
+      <div class="zcf-actions">
+        <button type="button" class="zcf-apply-btn" onclick="applyCollectionFilters()">
+          {{ 'products.facets.apply' | t }}
+        </button>
+      </div>
     </form>
   </aside>
 
@@ -323,7 +326,7 @@ function zamanApplySort(value) {
   window.location.href = url.toString();
 }
 
-function updateTagFilters() {
+function applyCollectionFilters() {
   const checkedTags = Array.from(document.querySelectorAll('.zcf-tag-filter:checked'))
     .map((cb) => cb.dataset.tag.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
 
@@ -332,10 +335,15 @@ function updateTagFilters() {
     url = url.replace(/\/$/, '') + '/' + checkedTags.map(encodeURIComponent).join('+');
   }
 
-  const currentUrl = new URL(window.location.href);
-  const sortBy = currentUrl.searchParams.get('sort_by') || '{{ sort_by }}';
-  if (sortBy) {
-    url += '?sort_by=' + encodeURIComponent(sortBy);
+  const filterForm = document.getElementById('ZCF');
+  const searchParams = new URLSearchParams(new FormData(filterForm));
+  Array.from(searchParams.entries()).forEach(([key, value]) => {
+    if (!value) searchParams.delete(key);
+  });
+
+  const queryString = searchParams.toString();
+  if (queryString) {
+    url += '?' + queryString;
   }
 
   window.location.href = url;

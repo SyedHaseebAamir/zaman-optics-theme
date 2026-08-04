@@ -4502,7 +4502,15 @@ details-disclosure > details {
   transition: background 0.15s;
 }
 .zcf-label:hover { background: #F0FDFA; }
-.zcf-cb { display: none; }
+.zcf-label > input.zcf-cb {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
 .zcf-custom-cb {
   width: 18px;
   height: 18px;
@@ -4518,6 +4526,10 @@ details-disclosure > details {
 .zcf-cb:checked + .zcf-custom-cb {
   background: #0F766E;
   border-color: #0F766E;
+}
+.zcf-cb:focus-visible + .zcf-custom-cb {
+  outline: 2px solid #0F766E;
+  outline-offset: 2px;
 }
 .zcf-cb:checked + .zcf-custom-cb::after {
   content: '✓';
@@ -4595,6 +4607,15 @@ details-disclosure > details {
   transition: background 0.2s;
 }
 .zcf-apply-btn:hover { background: #0B5F59; }
+
+.zcf-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  padding: 16px 20px 20px;
+  border-top: 1px solid #E8E8E8;
+  background: #FFFFFF;
+}
 
 /* ---- COLLECTION GRID HEADER WITH BRANDING ---- */
 .zcoll-grid-header {
