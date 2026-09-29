@@ -4,7 +4,7 @@
 {% endcomment %}
 
 {{ 'page-faq.css' | asset_url | stylesheet_tag }}
-{{ 'page-faq.js' | asset_url | script_tag }}
+<script src="{{ 'page-faq.js' | asset_url }}" defer></script>
 
 <div class="faq-page">
   <div class="faq-page__container">

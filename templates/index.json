@@ -2,30 +2,6 @@
   "sections": {
     "image_banner": {
       "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Glasses that fit your life.",
-            "heading_size": "h0"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop eyeglasses",
-            "button_link_1": "/collections/eyeglasses",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "button"
-      ],
       "settings": {
         "image_overlay_opacity": 40,
         "image_height": "large",
@@ -37,12 +13,12 @@
         "mobile_content_alignment": "center",
         "stack_images_on_mobile": false,
         "show_text_below": false,
-        "hero_label": "Optical care in Gujar Khan",
-        "hero_headline": "Glasses that fit your life.",
-        "hero_subtext": "Shop everyday frames, sunglasses, screen glasses, and prescription-ready options with guidance from a local optical team.",
+        "hero_label": "Zaman Optics / Gujar Khan",
+        "hero_headline": "Eyewear for every day.",
+        "hero_subtext": "Find your next pair of eyeglasses or sunglasses, with personal guidance on fit and prescription lenses.",
         "btn_primary_text": "Shop eyeglasses",
         "btn_primary_url": "/collections/eyeglasses",
-        "btn_secondary_text": "Explore sunglasses",
+        "btn_secondary_text": "Shop sunglasses",
         "btn_secondary_url": "/collections/sunglasses",
         "trust_1": "Prescription support",
         "trust_2": "Online payments available",
@@ -51,64 +27,6 @@
     },
     "category_grid": {
       "type": "category-grid",
-      "blocks": {
-        "eyeglasses": {
-          "type": "category",
-          "settings": {
-            "category_name": "Eyeglasses",
-            "category_subtitle": "Everyday optical frames",
-            "category_link": "/collections/eyeglasses"
-          }
-        },
-        "sunglasses": {
-          "type": "category",
-          "settings": {
-            "category_name": "Sunglasses",
-            "category_subtitle": "Sun-ready styles",
-            "category_link": "/collections/sunglasses"
-          }
-        },
-        "blue_light": {
-          "type": "category",
-          "settings": {
-            "category_name": "Blue Light Glasses",
-            "category_subtitle": "Comfort for screen time",
-            "category_link": "/collections/blue-light-glasses"
-          }
-        },
-        "kids": {
-          "type": "category",
-          "settings": {
-            "category_name": "Kids Glasses",
-            "category_subtitle": "Lightweight kids frames",
-            "category_link": "/collections/kids-glasses"
-          }
-        },
-        "new_arrivals": {
-          "type": "category",
-          "settings": {
-            "category_name": "New Arrivals",
-            "category_subtitle": "Fresh styles",
-            "category_link": "/collections/all?sort_by=created-descending"
-          }
-        },
-        "best_sellers": {
-          "type": "category",
-          "settings": {
-            "category_name": "Best Sellers",
-            "category_subtitle": "Customer favorites",
-            "category_link": "/collections/all?sort_by=best-selling"
-          }
-        }
-      },
-      "block_order": [
-        "eyeglasses",
-        "sunglasses",
-        "blue_light",
-        "kids",
-        "new_arrivals",
-        "best_sellers"
-      ],
       "settings": {
         "section_title": "Shop by Category"
       }
@@ -157,17 +75,18 @@
       ],
       "settings": {
         "section_title": "Why Choose Zaman Optics?"
-      }
+      },
+      "disabled": true
     },
     "featured_products": {
       "type": "featured-products",
       "settings": {
-        "kicker": "Shop the edit",
-        "section_title": "Featured Frames",
-        "subtitle": "A focused selection of everyday eyewear with clear product details and prescription-ready options.",
-        "collection_handle": "all",
-        "products_to_show": 8,
-        "view_all_link": "/collections/all?sort_by=best-selling"
+        "kicker": "A closer look",
+        "section_title": "Frames to make your own",
+        "subtitle": "Explore the shapes and details. Choose your lenses on the product page.",
+        "collection_handle": "eyeglasses",
+        "products_to_show": 4,
+        "view_all_link": "/collections/eyeglasses"
       }
     },
     "lens_options": {
@@ -220,7 +139,8 @@
         "kicker": "Lens Options",
         "title": "Lens choices made simple.",
         "subtitle": "Compare everyday lens upgrades before you customize your frame."
-      }
+      },
+      "disabled": true
     },
     "shop_guide": {
       "type": "shop-guide",
@@ -256,7 +176,8 @@
         "kicker": "How It Works",
         "title": "Build your glasses in three clear steps.",
         "subtitle": "The product page keeps frame, lens, and prescription details together so the order is easy to review."
-      }
+      },
+      "disabled": true
     },
     "featured_collection": {
       "type": "featured-collection",
@@ -284,7 +205,8 @@
         "columns_mobile": "2",
         "padding_top": 44,
         "padding_bottom": 36
-      }
+      },
+      "disabled": true
     },
     "why_choose_us": {
       "type": "why-choose-us",
@@ -313,7 +235,8 @@
         "stat3_label": "Local Pricing",
         "stat4_num": "Online",
         "stat4_label": "Order Support"
-      }
+      },
+      "disabled": true
     },
     "reviews": {
       "type": "reviews",
@@ -353,7 +276,8 @@
         "tag_text": "CUSTOMER NOTES",
         "title": "What shoppers look for.",
         "subtitle": "Simple ordering, clear prescription guidance, and everyday frames for work, study, sun, and screens."
-      }
+      },
+      "disabled": true
     },
     "faq": {
       "type": "faq",
@@ -376,7 +300,7 @@
           "type": "faq_item",
           "settings": {
             "question": "How long does delivery take?",
-            "answer": "Delivery timelines are shown during checkout and may vary by city, courier availability, and lens customization needs."
+            "answer": "Delivery time depends on your location and whether you need custom lenses. Contact our team for an estimate before ordering."
           }
         },
         "faq4": {
@@ -397,7 +321,7 @@
           "type": "faq_item",
           "settings": {
             "question": "Do you offer progressive lenses?",
-            "answer": "Yes. Select the lens type on the product page and add your prescription details before adding the frame to cart."
+            "answer": "You can request progressive lenses through the prescription form. Our team needs to confirm the prescription, fitting measurements and final lens price."
           }
         }
       },
@@ -417,16 +341,49 @@
         "cta_button": "Contact support",
         "cta_url": "/pages/contact"
       }
+    },
+    "eyewear_guidance": {
+      "type": "eyewear-guidance",
+      "settings": {
+        "heading": "Your glasses, made personal."
+      }
+    },
+    "sunglasses_edit": {
+      "type": "featured-products",
+      "settings": {
+        "kicker": "For brighter days",
+        "section_title": "Find your sunny-day pair",
+        "subtitle": "From classic silhouettes to a bolder look. Explore our sunglasses collection.",
+        "collection_handle": "sunglasses",
+        "products_to_show": 4,
+        "view_all_link": "/collections/sunglasses"
+      }
+    },
+    "contact_lenses_edit": {
+      "type": "featured-products",
+      "settings": {
+        "kicker": "Contact lenses",
+        "section_title": "A different way to see",
+        "subtitle": "Compare the brand, colour, pack size and replacement schedule before choosing your lenses.",
+        "collection_handle": "contact-lenses",
+        "products_to_show": 4,
+        "view_all_link": "/collections/contact-lenses"
+      }
     }
   },
   "order": [
     "image_banner",
     "category_grid",
     "featured_products",
+    "eyewear_guidance",
+    "sunglasses_edit",
+    "contact_lenses_edit",
+    "faq",
+    "trust_features",
     "lens_options",
     "shop_guide",
+    "featured_collection",
     "why_choose_us",
-    "reviews",
-    "faq"
+    "reviews"
   ]
 }

@@ -1,119 +1,28 @@
-{{ 'section-featured-products.css' | asset_url | stylesheet_tag }}
-
-{%- liquid
+{% liquid
   assign featured_collection = section.settings.collection
   if featured_collection == blank and section.settings.collection_handle != blank
     assign featured_collection = collections[section.settings.collection_handle]
   endif
-  if featured_collection == blank
+  if featured_collection == blank and section.settings.collection_handle == blank
     assign featured_collection = collections.all
   endif
--%}
-
-<section class="featured-products-section">
-  <div class="featured-products-inner">
-    <div class="featured-products-header">
-      <div class="featured-products-heading">
-        <span class="featured-products-kicker">{{ section.settings.kicker }}</span>
-        <h2 class="featured-products-title">{{ section.settings.section_title }}</h2>
-        {%- if section.settings.subtitle != blank -%}
-          <p class="featured-products-subtitle">{{ section.settings.subtitle }}</p>
-        {%- endif -%}
-      </div>
-
-      {%- if section.settings.view_all_link != blank -%}
-        <a href="{{ section.settings.view_all_link }}" class="featured-products-link">
-          View collection
-          {% render 'zaman-premium-icon', icon: 'arrow-right', size: 15 %}
-        </a>
-      {%- elsif featured_collection != blank -%}
-        <a href="{{ featured_collection.url }}" class="featured-products-link">
-          View collection
-          {% render 'zaman-premium-icon', icon: 'arrow-right', size: 15 %}
-        </a>
-      {%- endif -%}
-    </div>
-
-    {%- if featured_collection != blank and featured_collection.products.size > 0 -%}
-      <div class="featured-products-grid">
-        {%- for product in featured_collection.products limit: section.settings.products_to_show -%}
-          {%- assign current_variant = product.selected_or_first_available_variant -%}
-          <article class="featured-product-card">
-            <a href="{{ product.url }}" class="featured-product-card__media" aria-label="{{ product.title | escape }}">
-              {%- if product.featured_image -%}
-                {%- assign product_image_alt = product.featured_image.alt | default: product.title -%}
-                {{
-                  product.featured_image
-                  | image_url: width: 720
-                  | image_tag:
-                    width: 720,
-                    height: 540,
-                    class: 'featured-product-card__image',
-                    sizes: '(min-width: 1200px) 330px, (min-width: 750px) calc(50vw - 48px), calc(100vw - 40px)',
-                    alt: product_image_alt,
-                    loading: 'lazy'
-                }}
-              {%- else -%}
-                <div class="featured-product-card__empty">
-                  {% render 'zaman-premium-icon', icon: 'image', size: 44 %}
-                </div>
-              {%- endif -%}
-
-              {%- if product.compare_at_price > product.price -%}
-                <span class="featured-product-card__badge">Sale</span>
-              {%- elsif product.tags contains 'new' or product.tags contains 'New' -%}
-                <span class="featured-product-card__badge">New</span>
-              {%- endif -%}
-            </a>
-
-            <div class="featured-product-card__body">
-              <p class="featured-product-card__type">
-                {{ featured_collection.title | default: 'Zaman Optics' }}
-              </p>
-
-              <h3 class="featured-product-card__title">
-                <a href="{{ product.url }}">{{ product.title }}</a>
-              </h3>
-
-              <div class="featured-product-card__meta">
-                <div class="featured-product-card__price">
-                  {%- if product.price == 0 -%}
-                    Price coming soon
-                  {%- elsif product.price_varies -%}
-                    From {{ product.price_min | money }}
-                  {%- else -%}
-                    {{ product.price | money }}
-                  {%- endif -%}
-                  {%- if product.compare_at_price > product.price -%}
-                    <s>{{ product.compare_at_price | money }}</s>
-                  {%- endif -%}
-                </div>
-
-                <span class="featured-product-card__stock">
-                  {%- if current_variant.available -%}
-                    In stock
-                  {%- else -%}
-                    Sold out
-                  {%- endif -%}
-                </span>
-              </div>
-
-              <a href="{{ product.url }}" class="featured-product-card__cta">
-                View details
-                {% render 'zaman-premium-icon', icon: 'arrow-right', size: 14 %}
-              </a>
-            </div>
-          </article>
-        {%- endfor -%}
-      </div>
-    {%- else -%}
-      <div class="featured-products-empty">
-        {% render 'zaman-premium-icon', icon: 'glasses', size: 42 %}
-        <p>Select a collection with products to show featured items here.</p>
-      </div>
-    {%- endif -%}
+  assign collection_url = section.settings.view_all_link | default: featured_collection.url
+%}
+{% if featured_collection.products.size > 0 %}
+<section class="zo-section zo-container">
+  <div class="zo-section-heading">
+    <div><p class="zo-eyebrow">{{ section.settings.kicker | escape }}</p><h2>{{ section.settings.section_title | escape }}</h2>{% if section.settings.subtitle != blank %}<p>{{ section.settings.subtitle | escape }}</p>{% endif %}</div>
+    <a class="zo-text-link" href="{{ collection_url }}">View collection {% render 'zaman-premium-icon', icon: 'arrow-right', size: 16 %}</a>
+  </div>
+  <div class="zo-product-grid">
+    {% for product in featured_collection.products limit: section.settings.products_to_show %}
+      {% render 'zaman-product-card', card_product: product, show_secondary_image: true %}
+    {% endfor %}
   </div>
 </section>
+{% elsif request.design_mode %}
+  <div class="zo-container zo-section"><p>Select a collection with published products.</p></div>
+{% endif %}
 
 {% schema %}
 {
@@ -164,8 +73,7 @@
       "type": "url",
       "id": "view_all_link",
       "label": "View collection link",
-      "info": "Optional custom URL. Leave blank to use the selected collection URL.",
-      "placeholder": "/collections/all"
+      "info": "Optional custom URL. Leave blank to use the selected collection URL."
     }
   ],
   "presets": [

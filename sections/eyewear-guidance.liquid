@@ -1,0 +1,16 @@
+<div class="zo-service-strip"><div class="zo-container">
+  <p>{% render 'zaman-premium-icon', icon: 'glasses', size: 21 %} Frames with clearly listed prices</p>
+  <p>{% render 'zaman-premium-icon', icon: 'lens', size: 21 %} Prescription options, explained</p>
+  <p>{% render 'zaman-premium-icon', icon: 'support', size: 21 %} Local support in Gujar Khan</p>
+</div></div>
+<section class="zo-guide-band zo-section"><div class="zo-container">
+  <div class="zo-section-heading"><div><p class="zo-eyebrow">From frame to fit</p><h2>{{ section.settings.heading | escape }}</h2><p>A little guidance makes choosing your glasses easier.</p></div></div>
+  <div class="zo-guide-steps">
+    <article><span>01 / THE FRAME</span><h3>Start with a comfortable fit.</h3><p>Compare the measurements on your current pair with the frame details. Shape is a style choice; fit is personal.</p><a href="/pages/size-guide">Read the size guide</a></article>
+    <article><span>02 / THE LENSES</span><h3>Know what you are choosing.</h3><p>Explore single vision, progressive and photochromic options. Ask our team to confirm suitability and lens pricing.</p><a href="/pages/lens-guide">Explore lens options</a></article>
+    <article><span>03 / YOUR PRESCRIPTION</span><h3>Keep the details together.</h3><p>Choose Prescription Glasses on a frame page, then enter your details or upload your prescription for review.</p><a href="/pages/prescription-guide">Understand your prescription</a></article>
+  </div>
+</div></section>
+{% schema %}
+{"name":"Eyewear guidance","settings":[{"type":"text","id":"heading","label":"Heading","default":"Your glasses, made personal."}],"presets":[{"name":"Eyewear guidance"}]}
+{% endschema %}

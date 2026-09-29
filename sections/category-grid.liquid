@@ -1,156 +1,33 @@
-﻿{{ 'section-category-grid.css' | asset_url | stylesheet_tag }}
-
-{%- liquid
-  assign blue_screen_url = collections['blue-light-glasses'].url
-  if blue_screen_url == blank
-    assign blue_screen_url = routes.search_url | append: '?type=product&q=screen'
-  endif
--%}
-
-<div class="category-grid-section">
-  <h2 class="category-grid-title">Shop by Category</h2>
-  <div class="category-grid">
-    
-    <a href="/collections/eyeglasses" class="cat-card">
-      <div class="cat-card-image">
-        {% if section.settings.eyeglasses_image %}
-          <img src="{{ section.settings.eyeglasses_image | img_url: '400x400' }}" 
-               alt="Eyeglasses">
-        {% else %}
-          <div class="cat-card-placeholder">{% render 'zaman-premium-icon', icon: 'glasses', size: 42 %}</div>
-        {% endif %}
-      </div>
-      <div class="cat-card-body">
-        <h3 class="cat-card-title">Eyeglasses</h3>
-        <p class="cat-card-sub">Everyday optical frames</p>
-        <span class="cat-card-link">Explore</span>
-      </div>
-    </a>
-
-    <a href="/collections/sunglasses" class="cat-card">
-      <div class="cat-card-image">
-        {% if section.settings.sunglasses_image %}
-          <img src="{{ section.settings.sunglasses_image | img_url: '400x400' }}" 
-               alt="Sunglasses">
-        {% else %}
-          <div class="cat-card-placeholder">{% render 'zaman-premium-icon', icon: 'sunglasses', size: 42 %}</div>
-        {% endif %}
-      </div>
-      <div class="cat-card-body">
-        <h3 class="cat-card-title">Sunglasses</h3>
-        <p class="cat-card-sub">Sun-ready styles</p>
-        <span class="cat-card-link">Explore</span>
-      </div>
-    </a>
-
-    <a href="{{ blue_screen_url }}" class="cat-card">
-      <div class="cat-card-image">
-        {% if section.settings.bluelight_image %}
-          <img src="{{ section.settings.bluelight_image | img_url: '400x400' }}" 
-               alt="Blue Light Glasses">
-        {% else %}
-          <div class="cat-card-placeholder">{% render 'zaman-premium-icon', icon: 'screen', size: 42 %}</div>
-        {% endif %}
-      </div>
-      <div class="cat-card-body">
-        <h3 class="cat-card-title">Blue Light Glasses</h3>
-        <p class="cat-card-sub">Comfort for screen time</p>
-        <span class="cat-card-link">Explore</span>
-      </div>
-    </a>
-
-    <a href="/collections/kids-glasses" class="cat-card">
-      <div class="cat-card-image">
-        {% if section.settings.kids_image %}
-          <img src="{{ section.settings.kids_image | img_url: '400x400' }}" 
-               alt="Kids Glasses">
-        {% else %}
-          <div class="cat-card-placeholder">{% render 'zaman-premium-icon', icon: 'kids', size: 42 %}</div>
-        {% endif %}
-      </div>
-      <div class="cat-card-body">
-        <h3 class="cat-card-title">Kids Glasses</h3>
-        <p class="cat-card-sub">Lightweight kids frames</p>
-        <span class="cat-card-link">Explore</span>
-      </div>
-    </a>
-
-    <a href="/collections/all?sort_by=created-descending" class="cat-card">
-      <div class="cat-card-image">
-        {% if section.settings.new_image %}
-          <img src="{{ section.settings.new_image | img_url: '400x400' }}" 
-               alt="New Arrivals">
-        {% else %}
-          <div class="cat-card-placeholder">{% render 'zaman-premium-icon', icon: 'sparkle', size: 42 %}</div>
-        {% endif %}
-      </div>
-      <div class="cat-card-body">
-        <h3 class="cat-card-title">New Arrivals</h3>
-        <p class="cat-card-sub">Fresh styles</p>
-        <span class="cat-card-link">Explore</span>
-      </div>
-    </a>
-
-    <a href="/collections/all?sort_by=best-selling" class="cat-card">
-      <div class="cat-card-image">
-        {% if section.settings.bestsellers_image %}
-          <img src="{{ section.settings.bestsellers_image | img_url: '400x400' }}" 
-               alt="Best Sellers">
-        {% else %}
-          <div class="cat-card-placeholder">{% render 'zaman-premium-icon', icon: 'star', size: 42 %}</div>
-        {% endif %}
-      </div>
-      <div class="cat-card-body">
-        <h3 class="cat-card-title">Best Sellers</h3>
-        <p class="cat-card-sub">Customer favorites</p>
-        <span class="cat-card-link">Explore</span>
-      </div>
-    </a>
-
+<section class="zo-section zo-container">
+  <div class="zo-section-heading"><div><p class="zo-eyebrow">Find your next pair</p><h2>{{ section.settings.section_title | default: 'Shop by category' | escape }}</h2><p>Everyday frames, sunny-day favourites, and lens options for your routine.</p></div><a class="zo-text-link" href="{{ routes.collections_url }}">All collections {% render 'zaman-premium-icon', icon: 'arrow-right', size: 16 %}</a></div>
+  <div class="zo-categories">
+    {% assign handles = 'eyeglasses,sunglasses,blue-light-glasses,kids-glasses,contact-lenses' | split: ',' %}
+    {% assign image_keys = 'eyeglasses_image,sunglasses_image,bluelight_image,kids_image,contacts_image' | split: ',' %}
+    {% for handle in handles %}
+      {% assign catalog = collections[handle] %}
+      {% if catalog != blank and catalog.all_products_count > 0 %}
+        {% assign image_key = image_keys[forloop.index0] %}
+        {% assign category_image = section.settings[image_key] | default: catalog.image | default: catalog.products.first.featured_image %}
+        <a class="zo-category" href="{{ catalog.url }}">
+          <div class="zo-category__image">{% if category_image %}{{ category_image | image_url: width: 720 | image_tag: widths: '240, 400, 720', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: catalog.title }}{% else %}<div class="zo-product__placeholder">{% render 'zaman-premium-icon', icon: 'glasses', size: 42 %}</div>{% endif %}</div>
+          <div class="zo-category__label"><h3>{% if handle == 'blue-light-glasses' %}Blue Screen Glasses{% else %}{{ catalog.title | escape }}{% endif %}</h3>{% render 'zaman-premium-icon', icon: 'arrow-right', size: 17 %}</div>
+          <p>{{ catalog.all_products_count }} {% if catalog.all_products_count == 1 %}style{% else %}styles{% endif %} to explore</p>
+        </a>
+      {% endif %}
+    {% endfor %}
   </div>
-</div>
-
+</section>
 {% schema %}
 {
   "name": "Category Grid",
-  "tag": "section",
-  "class": "section",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "eyeglasses_image",
-      "label": "Eyeglasses Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "sunglasses_image",
-      "label": "Sunglasses Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "bluelight_image",
-      "label": "Blue Light Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "kids_image",
-      "label": "Kids Glasses Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "new_image",
-      "label": "New Arrivals Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "bestsellers_image",
-      "label": "Best Sellers Image"
-    }
+    {"type":"text","id":"section_title","label":"Heading","default":"Shop by category"},
+    {"type":"image_picker","id":"eyeglasses_image","label":"Eyeglasses image"},
+    {"type":"image_picker","id":"sunglasses_image","label":"Sunglasses image"},
+    {"type":"image_picker","id":"bluelight_image","label":"Blue screen glasses image"},
+    {"type":"image_picker","id":"kids_image","label":"Kids image"},
+    {"type":"image_picker","id":"contacts_image","label":"Contact lenses image"}
   ],
-  "presets": [
-    {
-      "name": "Shop by Category"
-    }
-  ]
+  "presets":[{"name":"Shop by category"}]
 }
 {% endschema %}

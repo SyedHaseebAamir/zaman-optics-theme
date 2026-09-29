@@ -22,7 +22,7 @@
     </nav>
     <h1 class="zcoll-hero-title">{{ collection.title }}</h1>
     {% if collection.description != blank %}
-      <p class="zcoll-hero-desc">{{ collection.description }}</p>
+      <div class="zcoll-hero-desc rte">{{ collection.description }}</div>
     {% endif %}
     <span class="zcoll-hero-count">{{ collection.products_count }} Products</span>
   </div>
@@ -34,11 +34,7 @@
     Filters
   </button>
   <select class="zcoll-mobile-sort" aria-label="Sort products" onchange="zamanApplySort(this.value)">
-    <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
-    <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
-    <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
-    <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
-    <option value="title-ascending" {% if sort_by == 'title-ascending' %}selected{% endif %}>Name: A-Z</option>
+    {% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if sort_by == option.value %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}
   </select>
 </div>
 
@@ -48,7 +44,7 @@
   <aside class="zcoll-sidebar" id="zamanSidebar" aria-label="Collection filters">
     <button class="zcoll-sidebar-close" type="button" onclick="zamanCloseFilter()">Close filters</button>
 
-    <form id="ZCF" action="{{ request.path }}" method="get" class="zcf-form" onsubmit="event.preventDefault(); applyCollectionFilters()">
+    <form id="ZCF" action="{{ request.path }}" method="get" class="zcf-form" data-collection-url="{{ collection.url }}">
       <input type="hidden" name="sort_by" value="{{ sort_by }}">
 
       <div class="zcf-head">
@@ -78,7 +74,7 @@
             </summary>
 
             {% case filter.type %}
-              {% when 'list' %}
+              {% when 'list', 'boolean' %}
                 <ul class="zcf-list">
                   {% for value in filter.values %}
                     <li class="zcf-item">
@@ -105,7 +101,7 @@
                       <label for="Filter-{{ filter.min_value.param_name | escape }}">Min (Rs)</label>
                       <input
                         id="Filter-{{ filter.min_value.param_name | escape }}"
-                        type="number"
+                        type="number" step="0.01"
                         name="{{ filter.min_value.param_name }}"
                         min="0"
                         {% if filter.range_max != blank %}
@@ -122,7 +118,7 @@
                       <label for="Filter-{{ filter.max_value.param_name | escape }}">Max (Rs)</label>
                       <input
                         id="Filter-{{ filter.max_value.param_name | escape }}"
-                        type="number"
+                        type="number" step="0.01"
                         name="{{ filter.max_value.param_name }}"
                         min="0"
                         {% if filter.range_max != blank %}
@@ -131,7 +127,7 @@
                         {% if filter.max_value.value != nil %}
                           value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
                         {% endif %}
-                        placeholder="15000"
+                        placeholder="{{ filter.range_max | divided_by: 100.0 }}"
                         class="zcf-price-input">
                     </div>
                   </div>
@@ -148,10 +144,10 @@
           show_price: false
         %}
       {% else %}
-        {% render 'collection-fallback-filters', current_tags: current_tags, show_price: true %}
+        {% render 'collection-fallback-filters', current_tags: current_tags, show_price: false %}
       {% endif %}
       <div class="zcf-actions">
-        <button type="button" class="zcf-apply-btn" onclick="applyCollectionFilters()">
+        <button type="submit" class="zcf-apply-btn">
           {{ 'products.facets.apply' | t }}
         </button>
       </div>
@@ -176,11 +172,11 @@
             {% endif %}
           {% endfor %}
           {% for tag in current_tags %}
-            <span class="zcoll-filter-chip">{{ tag | remove: '.' }}</span>
+            {{ tag | link_to_remove_tag: tag | replace: '<a ', '<a class="zcoll-filter-chip" ' }}
           {% endfor %}
         {% else %}
           {% for tag in current_tags %}
-            <span class="zcoll-filter-chip">{{ tag }}</span>
+            {{ tag | link_to_remove_tag: tag | replace: '<a ', '<a class="zcoll-filter-chip" ' }}
           {% endfor %}
         {% endif %}
         <a class="zcoll-clear-filters" href="{{ collection.url }}">Clear all</a>
@@ -194,85 +190,14 @@
       <div class="zcoll-sort-wrap">
         <label class="zcoll-sort-label" for="SortByDesktop">Sort by:</label>
         <select id="SortByDesktop" class="zcoll-sort-select" onchange="zamanApplySort(this.value)">
-          <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
-          <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
-          <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
-          <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest First</option>
-          <option value="title-ascending" {% if sort_by == 'title-ascending' %}selected{% endif %}>Name: A-Z</option>
-        </select>
+          {% for option in collection.sort_options %}<option value="{{ option.value | escape }}"{% if sort_by == option.value %} selected{% endif %}>{{ option.name | escape }}</option>{% endfor %}
+  </select>
       </div>
     </div>
 
     {% if collection.products.size > 0 %}
       <div class="zcoll-grid">
-        {% for product in collection.products %}
-          {%- assign first_img = product.images[0] -%}
-          {%- assign second_img = product.images[1] -%}
-
-          <a href="{{ product.url }}" class="zcard" aria-label="{{ product.title }}">
-            <div class="zcard-badge {% if product.available == false %}zcard-badge--sold{% elsif product.compare_at_price > product.price %}zcard-badge--sale{% else %}zcard-badge--new{% endif %}">
-              {% if product.available == false %}
-                Sold Out
-              {% elsif product.compare_at_price > product.price %}
-                Sale
-              {% else %}
-                New
-              {% endif %}
-            </div>
-
-            <div class="zcard-images">
-              {% if first_img %}
-                <img
-                  src="{{ first_img | image_url: width: 640 }}"
-                  alt="{{ product.title }}"
-                  class="zcard-img zcard-img--primary"
-                  width="640"
-                  height="480"
-                  loading="lazy">
-              {% endif %}
-              {% if second_img %}
-                <img
-                  src="{{ second_img | image_url: width: 640 }}"
-                  alt="{{ product.title }} alternate view"
-                  class="zcard-img zcard-img--secondary"
-                  width="640"
-                  height="480"
-                  loading="lazy">
-              {% endif %}
-              {% unless first_img %}
-                <div class="zcard-no-img">
-                  {% render 'zaman-premium-icon', icon: 'image', size: 48 %}
-                  <span>No image</span>
-                </div>
-              {% endunless %}
-            </div>
-
-            <div class="zcard-info">
-              <span class="zcard-collection-tag">{{ collection.title }}</span>
-              <h3 class="zcard-title">{{ product.title }}</h3>
-              <div class="zcard-pricing">
-                <span class="zcard-price">
-                  {%- if product.price == 0 -%}
-                    Price coming soon
-                  {%- else -%}
-                    {{ product.price | money }}
-                  {%- endif -%}
-                </span>
-                {% if product.compare_at_price > product.price %}
-                  <span class="zcard-compare-price">{{ product.compare_at_price | money }}</span>
-                {% endif %}
-              </div>
-              <div class="zcard-bottom">
-                <span class="zcard-cta-text">
-                  View Details
-                  {% render 'zaman-premium-icon', icon: 'arrow-right', size: 12 %}
-                </span>
-                {% if product.images.size > 1 %}
-                  <span class="zcard-photo-count">{{ product.images.size }} photos</span>
-                {% endif %}
-              </div>
-            </div>
-          </a>
+        {% for product in collection.products %}{% render 'zaman-product-card', card_product: product, show_secondary_image: true %}
         {% endfor %}
       </div>
 
@@ -304,58 +229,7 @@
   </div>
 </div>
 
-<script>
-function zamanOpenFilter() {
-  document.getElementById('zamanSidebar').classList.add('zcoll-sidebar--open');
-  document.getElementById('zamanFilterOverlay').classList.add('zcoll-overlay--open');
-  document.querySelector('.zcoll-filter-toggle').setAttribute('aria-expanded', 'true');
-  document.body.style.overflow = 'hidden';
-  document.querySelector('.zcoll-sidebar-close').focus();
-}
-
-function zamanCloseFilter() {
-  document.getElementById('zamanSidebar').classList.remove('zcoll-sidebar--open');
-  document.getElementById('zamanFilterOverlay').classList.remove('zcoll-overlay--open');
-  document.querySelector('.zcoll-filter-toggle').setAttribute('aria-expanded', 'false');
-  document.body.style.overflow = '';
-}
-
-function zamanApplySort(value) {
-  const url = new URL(window.location.href);
-  url.searchParams.set('sort_by', value);
-  window.location.href = url.toString();
-}
-
-function applyCollectionFilters() {
-  const checkedTags = Array.from(document.querySelectorAll('.zcf-tag-filter:checked'))
-    .map((cb) => cb.dataset.tag.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
-
-  let url = '{{ collection.url }}';
-  if (checkedTags.length > 0) {
-    url = url.replace(/\/$/, '') + '/' + checkedTags.map(encodeURIComponent).join('+');
-  }
-
-  const filterForm = document.getElementById('ZCF');
-  const searchParams = new URLSearchParams(new FormData(filterForm));
-  Array.from(searchParams.entries()).forEach(([key, value]) => {
-    if (!value) searchParams.delete(key);
-  });
-
-  const queryString = searchParams.toString();
-  if (queryString) {
-    url += '?' + queryString;
-  }
-
-  window.location.href = url;
-}
-
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape' && document.getElementById('zamanSidebar').classList.contains('zcoll-sidebar--open')) {
-    zamanCloseFilter();
-    document.querySelector('.zcoll-filter-toggle').focus();
-  }
-});
-</script>
+<script src="{{ 'zaman-collection.js' | asset_url }}" defer></script>
 
 {%- endpaginate -%}
 

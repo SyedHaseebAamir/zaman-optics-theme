@@ -1,0 +1,11 @@
+{% doc %}
+  Core catalog links. Only published, nonempty collections are shown.
+{% enddoc %}
+{% assign handles = 'eyeglasses,sunglasses,blue-light-glasses,kids-glasses,contact-lenses' | split: ',' %}
+{% for handle in handles %}
+  {% assign catalog = collections[handle] %}
+  {% if catalog != blank and catalog.all_products_count > 0 %}
+    <a href="{{ catalog.url }}"{% if collection.handle == handle %} aria-current="page"{% endif %}>{% if handle == 'blue-light-glasses' %}Blue Screen Glasses{% else %}{{ catalog.title | escape }}{% endif %}</a>
+  {% endif %}
+{% endfor %}
+<a href="{{ routes.all_products_collection_url }}?sort_by=created-descending">New Arrivals</a>

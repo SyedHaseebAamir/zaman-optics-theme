@@ -169,6 +169,7 @@ if (!customElements.get('product-info')) {
           this.updateOptionValues(html);
           this.updateURL(productUrl, variant?.id);
           this.updateVariantInputs(variant?.id);
+          this.dispatchEvent(new CustomEvent('zaman:variant-change', { detail: { variant } }));
 
           if (!variant) {
             this.setUnavailable();

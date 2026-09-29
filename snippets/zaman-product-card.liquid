@@ -1,0 +1,38 @@
+{% doc %}
+  Shared product card for browsing, search and recommendations.
+  @param {product} card_product - Product to display.
+  @param {boolean} [show_secondary_image] - Enable the alternate image on hover.
+  @param {boolean} [lazy_load] - Use eager loading when explicitly false.
+{% enddoc %}
+{% liquid
+  assign card_image = card_product.featured_image
+  assign image_alt = card_image.alt | default: card_product.title
+  assign image_loading = 'lazy'
+  if lazy_load == false
+    assign image_loading = 'eager'
+  endif
+%}
+{% if card_product != blank %}
+<article class="zo-product">
+  <a class="zo-product__media{% if show_secondary_image and card_product.images.size > 1 %} zo-product__media--swap{% endif %}" href="{{ card_product.url }}" aria-label="View {{ card_product.title | escape }}">
+    {% if card_image %}
+      {{ card_image | image_url: width: 900 | image_tag: class: 'zo-product__image', widths: '240, 360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', loading: image_loading, alt: image_alt }}
+      {% if show_secondary_image and card_product.images.size > 1 %}
+        {{ card_product.images[1] | image_url: width: 900 | image_tag: class: 'zo-product__alternate', widths: '240, 360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: '' }}
+      {% endif %}
+    {% else %}<div class="zo-product__placeholder">{% render 'zaman-premium-icon', icon: 'glasses', size: 48 %}<span>Photo coming soon</span></div>{% endif %}
+    {% if card_product.available == false %}<span class="zo-product__badge">Sold out</span>
+    {% elsif card_product.price > 0 and card_product.compare_at_price > card_product.price %}<span class="zo-product__badge">Sale</span>
+    {% elsif card_product.tags contains 'New' or card_product.tags contains 'new' %}<span class="zo-product__badge">New</span>{% endif %}
+  </a>
+  <div class="zo-product__info">
+    {% if card_product.type != blank %}<p class="zo-product__type">{{ card_product.type | escape }}</p>{% endif %}
+    <h3 class="zo-product__title"><a href="{{ card_product.url }}">{{ card_product.title | escape }}</a></h3>
+    <div class="zo-product__price">
+      <span>{% if card_product.price == 0 %}Price to be confirmed{% else %}{% if card_product.price_varies %}From {% endif %}{{ card_product.price | money }}{% endif %}</span>
+      {% if card_product.price > 0 and card_product.compare_at_price > card_product.price and card_product.price_varies == false %}<s><span class="visually-hidden">Previous price </span>{{ card_product.compare_at_price | money }}</s>{% endif %}
+    </div>
+    <a class="zo-product__link" href="{{ card_product.url }}">View details {% render 'zaman-premium-icon', icon: 'arrow-right', size: 16 %}</a>
+  </div>
+</article>
+{% endif %}

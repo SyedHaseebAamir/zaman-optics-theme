@@ -52,13 +52,11 @@
       data-prescription-base="{{ prescription_base_fee | times: 100 }}"
       data-pricing-ready="{% if prescription_base_fee > 0 %}true{% else %}false{% endif %}"
     >
-      <div class="zpf-toggle-row" role="radiogroup" aria-label="Choose frame only or prescription lenses">
+      <div class="zpf-toggle-row" role="group" aria-label="Choose frame only or prescription lenses">
         <button
           type="button"
           class="zpf-toggle-btn zpf-toggle-active"
           data-zpf-mode="frame"
-          role="radio"
-          aria-checked="true"
           aria-pressed="true"
         >
           <span class="zpf-toggle-title">Frame Only</span>
@@ -68,8 +66,6 @@
           type="button"
           class="zpf-toggle-btn"
           data-zpf-mode="prescription"
-          role="radio"
-          aria-checked="false"
           aria-pressed="false"
         >
           <span class="zpf-toggle-title">Prescription Glasses</span>
@@ -83,7 +79,7 @@
       <input type="hidden" name="properties[Estimated Configuration Total Rs]" id="zpfTotalHidden" value="">
       <input type="hidden" name="properties[Lens Pricing Status]" id="zpfPricingStatus" value="">
 
-      <div class="zpf-rx-panel" id="zpfRxPanel" aria-hidden="true">
+      <div class="zpf-rx-panel" id="zpfRxPanel" aria-hidden="true" inert>
         <div class="zpf-panel-block">
           <div class="zpf-block-title">
             Your Prescription
@@ -102,7 +98,7 @@
 
           <div id="zpfManual" class="zpf-tab-panel">
             <div class="zpf-hint-bar">
-              Enter the values exactly as they appear on your prescription. If a field is blank, leave it blank or use 0.00 when required.
+              Enter the values exactly as written on your current prescription, including plus or minus signs. Unsure about a value? Upload the prescription instead.
             </div>
 
             <div class="zpf-rx-grid">
@@ -149,7 +145,7 @@
             <div class="zpf-pd-bar">
               <span class="zpf-pd-label">
                 PD (Pupillary Distance)
-                <span class="zpf-pd-hint">Usually 58-68mm</span>
+                <span class="zpf-pd-hint">Use your measured PD</span>
               </span>
               <span class="zpf-pd-right">
                 <input type="number" step="0.5" min="45" max="80" name="properties[PD]" placeholder="62.0" class="zpf-pd-input zpf-rx-required">
@@ -183,7 +179,7 @@
                 <span class="zpf-opt-name">Single Vision</span>
                 <span class="zpf-opt-note">Distance or near correction</span>
               </span>
-              <span class="zpf-opt-price">Included</span>
+              <span class="zpf-opt-price">Quote after review</span>
             </label>
 
             <label class="zpf-opt">
@@ -207,7 +203,7 @@
         </div>
 
         <div class="zpf-panel-block">
-          <div class="zpf-block-title">Lens Material</div>
+          <div class="zpf-block-title">Lens Options</div>
           <div class="zpf-material-grid">
             <label class="zpf-mat zpf-mat-on">
               <input type="radio" name="zpf_lens_material" value="Standard Plastic" data-fee="0" checked>
@@ -216,7 +212,7 @@
                 <span class="zpf-mat-name">Standard Plastic</span>
                 <span class="zpf-mat-note">Lightweight and affordable</span>
               </span>
-              <span class="zpf-mat-p">Included</span>
+              <span class="zpf-mat-p">Quote after review</span>
             </label>
 
             <label class="zpf-mat">
@@ -293,13 +289,13 @@
       <div class="zpf-summary" id="zpfSummary" hidden>
         <div class="zpf-summary-rows" id="zpfSummaryRows"></div>
         <div class="zpf-summary-total">
-          <span>Estimated configuration total</span>
+          <span>Frame and quoted options</span>
           <span class="zpf-total-num" id="zpfTotal">
             {{ product.selected_or_first_available_variant.price | money }}
           </span>
         </div>
         <p class="zpf-summary-note">
-          Lens selections are saved with the order. Shopify checkout currently charges the frame only; the team must confirm and collect any lens charges separately until lens add-on products or an options app are connected.
+          Checkout charges the frame only. Prescription lenses cost extra. Our team will review your prescription and confirm the lens price with you before making your glasses.
         </p>
       </div>
 
@@ -346,7 +342,7 @@
 
   const wrapper = root.querySelector('.zpf-wrapper');
   const form = root.querySelector('form');
-  const base = parseInt(wrapper.dataset.base || '0', 10);
+  let base = parseInt(wrapper.dataset.base || '0', 10);
   const prescriptionBase = parseInt(wrapper.dataset.prescriptionBase || '0', 10);
   const pricingReady = wrapper.dataset.pricingReady === 'true';
   let mode = 'frame';
@@ -455,12 +451,12 @@
         const isActive = item === button;
         item.classList.toggle('zpf-toggle-active', isActive);
         item.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-        item.setAttribute('aria-checked', isActive ? 'true' : 'false');
       });
 
       const isPrescription = mode === 'prescription';
       root.querySelector('#zpfRxPanel').classList.toggle('zpf-panel-open', isPrescription);
       root.querySelector('#zpfRxPanel').setAttribute('aria-hidden', isPrescription ? 'false' : 'true');
+      root.querySelector('#zpfRxPanel').inert = !isPrescription;
       root.querySelector('#zpfSummary').hidden = !isPrescription;
       const buyNowLabel = root.querySelector('#zpfBuyNow span');
       if (buyNowLabel) buyNowLabel.textContent = isPrescription ? 'Review cart' : 'Buy Now';
@@ -512,6 +508,12 @@
   if (fileInput) {
     fileInput.addEventListener('change', () => {
       const filename = root.querySelector('#zpfFilename');
+      fileInput.setCustomValidity('');
+      const file = fileInput.files?.[0];
+      if (file && (!/\.(pdf|jpe?g|png|webp)$/i.test(file.name) || file.size > 10 * 1024 * 1024)) {
+        fileInput.setCustomValidity('Choose a PDF, JPG, PNG or WebP file smaller than 10 MB.');
+        fileInput.reportValidity();
+      }
       if (fileInput.files && fileInput.files[0]) {
         filename.textContent = fileInput.files[0].name;
         filename.hidden = false;
@@ -552,11 +554,36 @@
         })
         .catch(() => {
           buyNow.removeAttribute('disabled');
-          form.requestSubmit();
+          const error = root.querySelector('.product-form__error-message-wrapper');
+          const message = root.querySelector('.product-form__error-message');
+          if (error && message) {
+            message.textContent = 'We could not confirm the cart update. Please check your cart before trying again.';
+            error.hidden = false;
+          }
         });
     });
   }
 
+  root.querySelectorAll('input[name^="properties["]').forEach((input) => {
+    if (input.type !== 'hidden' && !input.labels?.length) {
+      input.setAttribute('aria-label', input.name.slice(11, -1));
+    }
+  });
+  const productInfo = root.closest('product-info');
+  productInfo?.addEventListener('zaman:variant-change', (event) => {
+    const variant = event.detail.variant;
+    base = variant?.price || 0;
+    const buy = root.querySelector('#zpfBuyNow');
+    if (buy) buy.disabled = !variant?.available || base === 0;
+    recalc();
+  });
+  form.addEventListener('input', () => {
+    for (const eye of ['Right', 'Left']) {
+      const cylinder = root.querySelector('[name="properties[' + eye + ' Eye CYL]"]');
+      const axis = root.querySelector('[name="properties[' + eye + ' Eye Axis]"]');
+      if (axis && cylinder) axis.required = !axis.disabled && Number(cylinder.value) !== 0;
+    }
+  });
   recalc();
 })();
 </script>

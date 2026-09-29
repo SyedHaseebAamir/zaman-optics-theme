@@ -18,9 +18,8 @@
         </p>
       </div>
 
-      <div class="footer-custom__payment-methods" aria-label="Payment methods">
-        <span class="footer-custom__payment-badge">Online Payments</span>
-        <span class="footer-custom__payment-badge">Secure Checkout</span>
+      <div class="footer-custom__payment-methods" aria-label="Store information">
+        <span class="footer-custom__payment-badge">Payment options shown at checkout</span>
         <span class="footer-custom__payment-badge">PKR Pricing</span>
         <span class="footer-custom__payment-badge">Pakistan Delivery</span>
       </div>
@@ -56,7 +55,7 @@
           <li><a href="/pages/faq">FAQ</a></li>
           {% if pages['about'] != blank %}<li><a href="{{ pages['about'].url }}">About</a></li>{% endif %}
           <li><a href="/pages/contact">Contact</a></li>
-          <li><a href="/policies/refund-policy">Return Policy</a></li>
+          {% if shop.refund_policy.body != blank %}<li><a href="{{ shop.refund_policy.url }}">Return Policy</a></li>{% endif %}
         </ul>
       </nav>
 
@@ -87,8 +86,8 @@
     <div class="footer-custom__bottom">
       <p>Copyright {{ 'now' | date: '%Y' }} Zaman Optics. All rights reserved.</p>
       <div class="footer-custom__bottom-links">
-        <a href="/policies/privacy-policy">Privacy</a>
-        <a href="/policies/terms-of-service">Terms</a>
+        {% if shop.privacy_policy.body != blank %}<a href="{{ shop.privacy_policy.url }}">Privacy</a>{% endif %}
+        {% if shop.terms_of_service.body != blank %}<a href="{{ shop.terms_of_service.url }}">Terms</a>{% endif %}
         <a href="/pages/contact">Support</a>
       </div>
     </div>

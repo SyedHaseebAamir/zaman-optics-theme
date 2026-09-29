@@ -20,9 +20,9 @@
 {%- assign product_mode = product.metafields.custom.product_mode.value -%}
 
 {%- if product_mode == blank -%}
-  {%- assign prescription_collections = 'Prescription Products,Eyeglasses,Blue Light,Kids' | split: ',' -%}
+  {%- assign prescription_collections = 'prescription-products,eyeglasses,blue-light-glasses,kids-glasses' | split: ',' -%}
   {%- for collection in product.collections -%}
-    {%- if prescription_collections contains collection.title -%}
+    {%- if prescription_collections contains collection.handle -%}
       {%- assign product_mode = 'prescription' -%}
       {%- break -%}
     {%- endif -%}
@@ -2210,7 +2210,7 @@
     },
     {
       "type": "prescription",
-      "name": "Prescription Lens Selection",
+      "name": "Prescription lenses",
       "limit": 1
     }
   ],

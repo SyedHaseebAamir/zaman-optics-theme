@@ -1,0 +1,8 @@
+{% doc %}
+  Guide navigation with no links to unpublished pages.
+{% enddoc %}
+{% assign handles = 'lens-guide,size-guide,prescription-guide,faq' | split: ',' %}
+{% for handle in handles %}
+  {% assign guide = pages[handle] %}
+  {% if guide != blank %}<a href="{{ guide.url }}"{% if page.handle == handle %} aria-current="page"{% endif %}>{{ guide.title | escape }}</a>{% endif %}
+{% endfor %}

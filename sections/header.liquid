@@ -1,187 +1,51 @@
-{{ 'zaman-header.css' | asset_url | stylesheet_tag }}
-{{ 'zaman-header-nav.css' | asset_url | stylesheet_tag }}
-
-<div class="zaman-announcement">
-  <div class="zaman-announcement__inner">
-    <span>Pakistan-wide delivery options</span>
-    <span>Secure checkout</span>
-    <span>Prescription support available</span>
-  </div>
-</div>
-
-<header class="zaman-header">
-  <div class="zaman-header-inner">
-    <button class="zaman-burger zaman-burger--desktop" type="button" onclick="openMobileMenu(this)" aria-label="Open menu" aria-controls="zamanDrawer" aria-expanded="false">
-      {% render 'zaman-premium-icon', icon: 'menu', size: 22 %}
-    </button>
-
-    <a href="/" class="zaman-logo" aria-label="Zaman Optics home">
-      {% render 'zaman-premium-icon', icon: 'glasses', size: 32 %}
-      <span class="zaman-logo-name">Zaman Optics</span>
+{{ 'zaman-storefront.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'zaman-storefront.js' | asset_url }}" defer></script>
+<div class="zo-announcement"><div class="zo-container"><span>{{ section.settings.announcement | escape }}</span><a href="/pages/contact">Talk to our team {% render 'zaman-premium-icon', icon: 'arrow-right', size: 14 %}</a></div></div>
+<header class="zo-header">
+  <div class="zo-container zo-header__main">
+    <button class="zo-icon-button" type="button" data-zo-open="ZoMenu" aria-label="Open menu" aria-controls="ZoMenu" aria-expanded="false" title="Menu">{% render 'zaman-premium-icon', icon: 'menu', size: 24 %}</button>
+    <a class="zo-logo" href="{{ routes.root_url }}" aria-label="Zaman Optics home">
+      {% if section.settings.logo != blank %}{{ section.settings.logo | image_url: width: 360 | image_tag: width: 180, loading: 'eager', alt: shop.name }}
+      {% else %}{% render 'zaman-premium-icon', icon: 'glasses', size: 32 %}<span>Zaman Optics</span>{% endif %}
     </a>
-
-    <nav class="zaman-header-nav" aria-label="Main">
-      <a href="/collections" class="zaman-header-navlink">Collections</a>
-      <a href="/collections/all" class="zaman-header-navlink">All Products</a>
-      <a href="/pages/contact" class="zaman-header-navlink">Contact</a>
-    </nav>
-
-    <form action="{{ routes.search_url }}" method="get" class="zaman-search" role="search">
-      <input
-        type="search"
-        name="q"
-        placeholder="Search frames, lenses, sunglasses"
-        class="zaman-search-input"
-        autocomplete="off">
-      <input type="hidden" name="type" value="product">
-      <input type="hidden" name="options[prefix]" value="last">
-      <button type="submit" class="zaman-search-btn" aria-label="Search">
-        {% render 'zaman-premium-icon', icon: 'search', size: 18 %}
-      </button>
+    <nav class="zo-header__links" aria-label="Main navigation"><a href="{{ routes.collections_url }}">Collections</a><a href="{{ routes.all_products_collection_url }}">All Products</a><a href="/pages/contact">Contact</a></nav>
+    <form action="{{ routes.search_url }}" method="get" class="zo-search" role="search">
+      <label class="visually-hidden" for="ZoSearch-{{ section.id }}">Search products</label>
+      <input id="ZoSearch-{{ section.id }}" type="search" name="q" placeholder="Search frames, sunglasses, lenses" value="{{ search.terms | escape }}">
+      <input type="hidden" name="type" value="product"><input type="hidden" name="options[prefix]" value="last">
+      <button class="zo-icon-button" aria-label="Search" title="Search" type="submit">{% render 'zaman-premium-icon', icon: 'search', size: 21 %}</button>
     </form>
-
-    <div class="zaman-header-icons">
-      <a href="/account" class="zaman-icon-btn" aria-label="Account">
-        {% render 'zaman-premium-icon', icon: 'account', size: 22 %}
-      </a>
-      <a href="/cart" class="zaman-cart-btn" aria-label="Cart">
-        {% render 'zaman-premium-icon', icon: 'cart', size: 22 %}
-        {% if cart.item_count > 0 %}
-          <span class="zaman-cart-count">{{ cart.item_count }}</span>
+    {% if shop.customer_accounts_enabled %}<a class="zo-icon-button zo-account" href="{{ routes.account_url }}" aria-label="Account" title="Account">{% render 'zaman-premium-icon', icon: 'account', size: 23 %}</a>{% endif %}
+    <a class="zo-icon-button zo-cart" href="{{ routes.cart_url }}" aria-label="Cart" title="Cart">{% render 'zaman-premium-icon', icon: 'cart', size: 23 %}<span data-zo-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span></a>
+  </div>
+  <nav class="zo-header__categories zo-container" aria-label="Shop and guides">{% render 'zaman-shop-links' %}<span class="zo-nav-divider" aria-hidden="true"></span>{% render 'zaman-help-links' %}</nav>
+</header>
+<dialog id="ZoMenu" class="zo-drawer" aria-labelledby="ZoMenuTitle">
+  <div class="zo-drawer__head"><h2 id="ZoMenuTitle">Explore Zaman Optics</h2><button class="zo-icon-button" type="button" data-zo-close aria-label="Close menu" autofocus>{% render 'zaman-premium-icon', icon: 'close', size: 22 %}</button></div>
+  <form action="{{ routes.search_url }}" method="get" class="zo-search" role="search">
+    <label class="visually-hidden" for="ZoDrawerSearch">Search products</label><input id="ZoDrawerSearch" type="search" name="q" placeholder="What are you looking for?">
+    <input type="hidden" name="type" value="product"><button type="submit" class="zo-icon-button" aria-label="Search">{% render 'zaman-premium-icon', icon: 'search', size: 20 %}</button>
+  </form>
+  <nav aria-label="Full store menu">
+    <details open class="zo-drawer__group"><summary>Shop eyewear {% render 'zaman-premium-icon', icon: 'chevron-down', size: 16 %}</summary><div class="zo-drawer__links">{% render 'zaman-shop-links' %}<a href="{{ routes.all_products_collection_url }}">All Products</a><a href="{{ routes.collections_url }}">All Collections</a></div></details>
+    {% if section.settings.menu != blank %}
+      {% for link in section.settings.menu.links %}
+        {% if link.links != blank %}
+          <details class="zo-drawer__group"><summary>{{ link.title | escape }} {% render 'zaman-premium-icon', icon: 'chevron-down', size: 16 %}</summary><div class="zo-drawer__links"><a href="{{ link.url }}">View all {{ link.title | escape }}</a>{% for child in link.links %}<a href="{{ child.url }}">{{ child.title | escape }}</a>{% for grandchild in child.links %}<a class="zo-drawer__nested" href="{{ grandchild.url }}">{{ grandchild.title | escape }}</a>{% endfor %}{% endfor %}</div></details>
         {% endif %}
-      </a>
-    </div>
-  </div>
-</header>
-
-<nav class="zaman-nav" aria-label="Collections">
-  <div class="zaman-nav-inner">
-    <a href="/collections/eyeglasses" class="zaman-nav-link">Eyeglasses</a>
-    <a href="/collections/sunglasses" class="zaman-nav-link">Sunglasses</a>
-    {% if collections['blue-light-glasses'] != blank %}<a href="{{ collections['blue-light-glasses'].url }}" class="zaman-nav-link">Blue Screen Glasses</a>{% endif %}
-    <a href="/collections/kids-glasses" class="zaman-nav-link">Kids Glasses</a>
-    {% if collections['contact-lenses'] != blank %}<a href="{{ collections['contact-lenses'].url }}" class="zaman-nav-link">Contact Lenses</a>{% endif %}
-    <a href="/collections/new-arrivals" class="zaman-nav-link">New Arrivals</a>
-    <a href="/collections/best-sellers" class="zaman-nav-link">Best Sellers</a>
-    <a href="/pages/lens-guide" class="zaman-nav-link">Lens Guide</a>
-    <a href="/pages/size-guide" class="zaman-nav-link">Size Guide</a>
-    <a href="/pages/prescription-guide" class="zaman-nav-link">Prescription Guide</a>
-    <a href="/pages/faq" class="zaman-nav-link">FAQ</a>
-  </div>
-</nav>
-
-<header class="zaman-mobile-header">
-  <button class="zaman-burger" id="zamanBurger" type="button" onclick="openMobileMenu(this)" aria-label="Open menu" aria-controls="zamanDrawer" aria-expanded="false">
-    {% render 'zaman-premium-icon', icon: 'menu', size: 24 %}
-  </button>
-  <a href="/" class="zaman-mobile-logo">Zaman Optics</a>
-  <a href="/cart" class="zaman-mobile-cart" aria-label="Cart">
-    {% render 'zaman-premium-icon', icon: 'cart', size: 24 %}
-    {% if cart.item_count > 0 %}
-      <span class="zaman-cart-count">{{ cart.item_count }}</span>
+      {% endfor %}
     {% endif %}
-  </a>
-</header>
-
-<button class="zaman-overlay" id="zamanOverlay" type="button" onclick="closeMobileMenu()" aria-label="Close menu" tabindex="-1"></button>
-
-<aside class="zaman-drawer" id="zamanDrawer" aria-label="Mobile menu" aria-hidden="true">
-  <div class="zdrawer-head">
-    <a href="/" class="zdrawer-brand">
-      <span>Zaman Optics</span>
-    </a>
-    <button class="zdrawer-close" type="button" onclick="closeMobileMenu()" aria-label="Close menu">
-      {% render 'zaman-premium-icon', icon: 'close', size: 18 %}
-    </button>
-  </div>
-
-  <div class="zdrawer-search-wrap">
-    <form action="{{ routes.search_url }}" method="get" class="zdrawer-search-form" role="search">
-      <input type="search" name="q" placeholder="Search frames" class="zdrawer-search-input">
-      <input type="hidden" name="type" value="product">
-      <input type="hidden" name="options[prefix]" value="last">
-    </form>
-  </div>
-
-  <p class="zdrawer-section-label">Shop</p>
-  <a href="/collections/eyeglasses" class="zdrawer-link"><span>Prescription Glasses</span><small>Frames ready for custom lenses</small></a>
-  <a href="/collections/sunglasses" class="zdrawer-link"><span>Sunglasses</span><small>Clean styles for bright days</small></a>
-  {% if collections['blue-light-glasses'] != blank %}<a href="{{ collections['blue-light-glasses'].url }}" class="zdrawer-link"><span>Blue Screen Glasses</span><small>Comfort for long screen hours</small></a>{% endif %}
-  <a href="/collections/kids-glasses" class="zdrawer-link"><span>Kids Glasses</span><small>Lightweight daily frames</small></a>
-  {% if collections['contact-lenses'] != blank %}<a href="{{ collections['contact-lenses'].url }}" class="zdrawer-link"><span>Contact Lenses</span><small>Daily and monthly options</small></a>{% endif %}
-
-  <p class="zdrawer-section-label">Help</p>
-  <a href="/pages/lens-guide" class="zdrawer-link zdrawer-link-plain"><span>Lens Guide</span></a>
-  <a href="/pages/size-guide" class="zdrawer-link zdrawer-link-plain"><span>Size Guide</span></a>
-  <a href="/pages/prescription-guide" class="zdrawer-link zdrawer-link-plain"><span>Prescription Guide</span></a>
-  <a href="/pages/contact" class="zdrawer-link zdrawer-link-plain"><span>Contact</span></a>
-  <a href="/account" class="zdrawer-link zdrawer-link-plain"><span>Account</span></a>
-</aside>
-
-<script>
-function openMobileMenu(trigger) {
-  var drawer = document.getElementById('zamanDrawer');
-  var overlay = document.getElementById('zamanOverlay');
-  if (drawer) drawer.classList.add('open');
-  if (drawer) drawer.setAttribute('aria-hidden', 'false');
-  if (overlay) overlay.classList.add('open');
-  document.querySelectorAll('[aria-controls="zamanDrawer"]').forEach(function(button) {
-    button.setAttribute('aria-expanded', 'true');
-  });
-  document.body.style.overflow = 'hidden';
-  var closeButton = drawer && drawer.querySelector('.zdrawer-close');
-  if (closeButton) closeButton.focus();
-}
-
-function closeMobileMenu() {
-  var drawer = document.getElementById('zamanDrawer');
-  var overlay = document.getElementById('zamanOverlay');
-  if (drawer) drawer.classList.remove('open');
-  if (drawer) drawer.setAttribute('aria-hidden', 'true');
-  if (overlay) overlay.classList.remove('open');
-  document.querySelectorAll('[aria-controls="zamanDrawer"]').forEach(function(button) {
-    button.setAttribute('aria-expanded', 'false');
-  });
-  document.body.style.overflow = '';
-  var menuButton = document.getElementById('zamanBurger');
-  if (menuButton && window.innerWidth < 990) menuButton.focus();
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  var links = document.querySelectorAll('.zaman-nav-link, .zaman-header-navlink');
-  links.forEach(function(link) {
-    if (link.pathname === window.location.pathname) {
-      link.classList.add('active');
-    }
-  });
-
-  document.querySelectorAll('.zdrawer-link').forEach(function(link) {
-    link.addEventListener('click', closeMobileMenu);
-  });
-
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && document.getElementById('zamanDrawer').classList.contains('open')) {
-      closeMobileMenu();
-    }
-  });
-});
-</script>
-
+    <details class="zo-drawer__group" open><summary>Guides &amp; support {% render 'zaman-premium-icon', icon: 'chevron-down', size: 16 %}</summary><div class="zo-drawer__links">{% render 'zaman-help-links' %}<a href="/pages/contact">Contact our team</a>{% if pages.about != blank %}<a href="{{ pages.about.url }}">About Zaman Optics</a>{% endif %}{% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">My account</a>{% endif %}</div></details>
+  </nav>
+  <p class="zo-drawer__foot">Your local optical store in Gujar Khan.</p>
+</dialog>
 {% schema %}
 {
   "name": "Header",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
-    },
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Menu",
-      "default": "main-menu"
-    }
+    {"type": "image_picker", "id": "logo", "label": "Logo"},
+    {"type": "text", "id": "announcement", "label": "Announcement", "default": "Eyewear for everyday life. Optical support from Gujar Khan."},
+    {"type": "link_list", "id": "menu", "label": "Additional grouped drawer links", "default": "main-menu", "info": "Nested menu groups appear below Shop eyewear."}
   ]
 }
 {% endschema %}
