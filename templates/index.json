@@ -363,11 +363,57 @@
       "type": "featured-products",
       "settings": {
         "kicker": "Contact lenses",
-        "section_title": "A different way to see",
+        "section_title": "Contact Lenses",
         "subtitle": "Compare the brand, colour, pack size and replacement schedule before choosing your lenses.",
         "collection_handle": "contact-lenses",
         "products_to_show": 4,
-        "view_all_link": "/collections/contact-lenses"
+        "view_all_link": "/collections/contact-lenses",
+        "show_empty": true,
+        "empty_text": "Our online contact lens selection is coming soon. Ask our team about power, toric and fashion lenses, available shades and pack sizes."
+      }
+    },
+    "kids_edit": {
+      "type": "featured-products",
+      "settings": {
+        "kicker": "Explore the collection",
+        "section_title": "Kids Glasses",
+        "subtitle": "Frames for their everyday adventures.",
+        "collection_handle": "kids-glasses",
+        "products_to_show": 4,
+        "view_all_link": "/collections/kids-glasses"
+      }
+    },
+    "blue_screen_edit": {
+      "type": "featured-products",
+      "settings": {
+        "kicker": "Explore the collection",
+        "section_title": "Blue Screen Glasses",
+        "subtitle": "Explore our frames and ask about blue-cut lens options.",
+        "collection_handle": "blue-light-glasses",
+        "products_to_show": 4,
+        "view_all_link": "/collections/blue-light-glasses"
+      }
+    },
+    "new_arrivals_edit": {
+      "type": "featured-products",
+      "settings": {
+        "kicker": "Explore the collection",
+        "section_title": "New Arrivals",
+        "subtitle": "Discover the latest additions to our collection.",
+        "collection_handle": "new-arrivals",
+        "products_to_show": 4,
+        "view_all_link": "/collections/new-arrivals"
+      }
+    },
+    "best_sellers_edit": {
+      "type": "featured-products",
+      "settings": {
+        "kicker": "Explore the collection",
+        "section_title": "Best Sellers",
+        "subtitle": "Explore the frames in our best sellers collection.",
+        "collection_handle": "best-sellers",
+        "products_to_show": 4,
+        "view_all_link": "/collections/best-sellers"
       }
     }
   },
@@ -377,7 +423,11 @@
     "featured_products",
     "eyewear_guidance",
     "sunglasses_edit",
+    "kids_edit",
+    "blue_screen_edit",
     "contact_lenses_edit",
+    "new_arrivals_edit",
+    "best_sellers_edit",
     "faq",
     "trust_features",
     "lens_options",

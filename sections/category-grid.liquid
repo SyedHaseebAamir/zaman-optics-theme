@@ -1,19 +1,33 @@
-<section class="zo-section zo-container">
-  <div class="zo-section-heading"><div><p class="zo-eyebrow">Find your next pair</p><h2>{{ section.settings.section_title | default: 'Shop by category' | escape }}</h2><p>Everyday frames, sunny-day favourites, and lens options for your routine.</p></div><a class="zo-text-link" href="{{ routes.collections_url }}">All collections {% render 'zaman-premium-icon', icon: 'arrow-right', size: 16 %}</a></div>
-  <div class="zo-categories">
-    {% assign handles = 'eyeglasses,sunglasses,blue-light-glasses,kids-glasses,contact-lenses' | split: ',' %}
-    {% assign image_keys = 'eyeglasses_image,sunglasses_image,bluelight_image,kids_image,contacts_image' | split: ',' %}
-    {% for handle in handles %}
-      {% assign catalog = collections[handle] %}
-      {% if catalog != blank and catalog.all_products_count > 0 %}
-        {% assign image_key = image_keys[forloop.index0] %}
-        {% assign category_image = section.settings[image_key] | default: catalog.image | default: catalog.products.first.featured_image %}
-        <a class="zo-category" href="{{ catalog.url }}">
-          <div class="zo-category__image">{% if category_image %}{{ category_image | image_url: width: 720 | image_tag: widths: '240, 400, 720', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: catalog.title }}{% else %}<div class="zo-product__placeholder">{% render 'zaman-premium-icon', icon: 'glasses', size: 42 %}</div>{% endif %}</div>
-          <div class="zo-category__label"><h3>{% if handle == 'blue-light-glasses' %}Blue Screen Glasses{% else %}{{ catalog.title | escape }}{% endif %}</h3>{% render 'zaman-premium-icon', icon: 'arrow-right', size: 17 %}</div>
-          <p>{{ catalog.all_products_count }} {% if catalog.all_products_count == 1 %}style{% else %}styles{% endif %} to explore</p>
-        </a>
-      {% endif %}
+<section class="zo-section zo-container" data-zo-carousel>
+  <div class="zo-section-heading">
+    <div><p class="zo-eyebrow">Find your next pair</p><h2>{{ section.settings.section_title | default: 'Shop by category' | escape }}</h2><p>Everyday frames, sunny-day favourites, and lens options for your routine.</p></div>
+    <div class="zo-carousel-actions"><a class="zo-text-link" href="{{ routes.collections_url }}">All collections</a>
+      <button type="button" class="zo-icon-button" data-zo-slide="-1" aria-label="Previous collections" aria-controls="Categories-{{ section.id }}" title="Previous collections">{% render 'zaman-premium-icon', icon: 'arrow-right', size: 20 %}</button>
+      <button type="button" class="zo-icon-button" data-zo-slide="1" aria-label="Next collections" aria-controls="Categories-{{ section.id }}" title="Next collections">{% render 'zaman-premium-icon', icon: 'arrow-right', size: 20 %}</button>
+    </div>
+  </div>
+  <div class="zo-categories zo-category-slider" id="Categories-{{ section.id }}" tabindex="0" role="region" aria-label="Shop collections">
+    {% for catalog in collections %}
+      {% liquid
+        assign category_image = catalog.image | default: catalog.products.first.featured_image
+        case catalog.handle
+          when 'eyeglasses'
+            assign category_image = section.settings.eyeglasses_image | default: category_image
+          when 'sunglasses'
+            assign category_image = section.settings.sunglasses_image | default: category_image
+          when 'blue-light-glasses'
+            assign category_image = section.settings.bluelight_image | default: category_image
+          when 'kids-glasses'
+            assign category_image = section.settings.kids_image | default: category_image
+          when 'contact-lenses'
+            assign category_image = section.settings.contacts_image | default: category_image
+        endcase
+      %}
+      <a class="zo-category" href="{{ catalog.url }}">
+        <div class="zo-category__image">{% if category_image %}{{ category_image | image_url: width: 720 | image_tag: widths: '240, 400, 720', sizes: '(min-width: 990px) 25vw, 75vw', loading: 'lazy', alt: catalog.title }}{% else %}<div class="zo-product__placeholder">{% render 'zaman-premium-icon', icon: 'lens', size: 48 %}<span>{{ catalog.title | escape }}</span></div>{% endif %}</div>
+        <div class="zo-category__label"><h3>{{ catalog.title | escape }}</h3>{% render 'zaman-premium-icon', icon: 'arrow-right', size: 17 %}</div>
+        <p>{% if catalog.all_products_count > 0 %}{{ catalog.all_products_count }} {% if catalog.all_products_count == 1 %}style{% else %}styles{% endif %} to explore{% else %}Enquire about availability{% endif %}</p>
+      </a>
     {% endfor %}
   </div>
 </section>

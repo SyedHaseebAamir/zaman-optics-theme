@@ -2,6 +2,30 @@
   if (window.zoStorefrontInitialized) return;
   window.zoStorefrontInitialized = true;
   const triggers = new WeakMap();
+  function initCarousels(root = document) {
+    root.querySelectorAll('[data-zo-carousel]').forEach((carousel) => {
+      if (carousel.dataset.ready) return;
+      carousel.dataset.ready = 'true';
+      const track = carousel.querySelector('.zo-category-slider');
+      const previous = carousel.querySelector('[data-zo-slide="-1"]');
+      const next = carousel.querySelector('[data-zo-slide="1"]');
+      const update = () => {
+        previous.disabled = track.scrollLeft <= 1;
+        next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+      };
+      carousel.querySelectorAll('[data-zo-slide]').forEach((button) => button.addEventListener('click', () => {
+        track.scrollBy({left: Number(button.dataset.zoSlide) * (track.clientWidth + 24), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+      }));
+      track.addEventListener('scroll', update, {passive: true});
+      const observer = new ResizeObserver(update);
+      observer.observe(track);
+      const section = carousel.closest('.shopify-section');
+      section?.addEventListener('shopify:section:unload', () => observer.disconnect(), {once: true});
+      update();
+    });
+  }
+  initCarousels();
+  document.addEventListener('shopify:section:load', (event) => initCarousels(event.target));
   document.addEventListener('click', (event) => {
     const opener = event.target.closest('[data-zo-open]');
     if (opener) {

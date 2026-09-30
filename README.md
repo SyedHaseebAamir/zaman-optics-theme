@@ -6,6 +6,16 @@ The theme is built around a premium minimalist eyewear shopping experience with 
 
 ## Current Status
 
+### September 30 Navigation Update
+- Removed the lower header navigation strip in favour of the side menu.
+- Added Men and Women groups with gender-tagged eyeglasses/sunglasses links and separate unisex links, plus Kids and Contact Lenses navigation.
+- Category carousel lists all published collections, with arrow controls, native touch scrolling, and responsive card widths.
+- Homepage includes Eyeglasses, Sunglasses, Kids, Blue Screen Glasses, Contact Lenses, New Arrivals, and Best Sellers sections.
+- Created and published the Contact Lenses collection (automatic `Contact Lenses` tag rule) and Blue Screen Glasses collection (Digital Lite and Focus Modern).
+- All 20 contact-lens products remain drafts. Its homepage section shows an availability enquiry until products are published; it then displays product cards automatically.
+- Liquid validation and JavaScript syntax checks passed. Preview checks confirmed slider movement, submenu links, all section headings, and no horizontal page overflow on mobile.
+- GitHub publication and Shopify deployment are separate. Confirm the live theme contains the latest files before declaring an update live.
+
 Last updated: August 2, 2026
 
 ### Built

@@ -20,6 +20,11 @@
     {% endfor %}
   </div>
 </section>
+{% elsif section.settings.show_empty %}
+  <section class="zo-section zo-container">
+    <div class="zo-section-heading"><div><p class="zo-eyebrow">{{ section.settings.kicker | escape }}</p><h2>{{ section.settings.section_title | escape }}</h2><p>{{ section.settings.subtitle | escape }}</p></div></div>
+    <div class="zo-collection-empty"><p>{{ section.settings.empty_text | escape }}</p><a class="zo-text-link" href="/pages/contact">Ask about availability {% render 'zaman-premium-icon', icon: 'arrow-right', size: 16 %}</a></div>
+  </section>
 {% elsif request.design_mode %}
   <div class="zo-container zo-section"><p>Select a collection with published products.</p></div>
 {% endif %}
@@ -30,6 +35,8 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {"type":"checkbox","id":"show_empty","label":"Show section before products are published","default":false},
+    {"type":"text","id":"empty_text","label":"Availability message","default":"Our online selection is being prepared. Contact our team for current availability."},
     {
       "type": "text",
       "id": "kicker",
