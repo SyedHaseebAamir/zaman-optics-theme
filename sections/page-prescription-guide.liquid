@@ -9,10 +9,12 @@
   <div class="prescription-guide__container">
     <header class="prescription-guide__header">
       <h1 class="prescription-guide__title">{{ page.title }}</h1>
-      {% if page.content %}
+      {% if page.content != blank %}
         <div class="prescription-guide__intro">
           {{ page.content }}
         </div>
+      {% else %}
+        <p class="prescription-guide__intro">Get familiar with the values on your prescription. When ordering, enter them exactly as written or upload a clear copy for our team to review.</p>
       {% endif %}
     </header>
 
@@ -231,27 +233,4 @@
   </div>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const triggers = document.querySelectorAll('.prescription-faq__trigger');
-    
-    triggers.forEach(trigger => {
-      trigger.addEventListener('click', function() {
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-        const content = this.nextElementSibling;
-        
-        // Close all other items
-        triggers.forEach(otherTrigger => {
-          if (otherTrigger !== this) {
-            otherTrigger.setAttribute('aria-expanded', 'false');
-            otherTrigger.nextElementSibling.hidden = true;
-          }
-        });
-        
-        // Toggle current item
-        this.setAttribute('aria-expanded', !isExpanded);
-        content.hidden = isExpanded;
-      });
-    });
-  });
-</script>
+<script src="{{ 'page-faq.js' | asset_url }}" defer></script>

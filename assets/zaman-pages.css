@@ -1,0 +1,90 @@
+/* Inner pages share storefront spacing without changing product-card layouts. */
+#MainContent :is(.lens-guide, .size-guide, .prescription-guide, .faq-page, .zaman-about-page) {
+  padding: 64px var(--zo-gutter, 24px) 80px;
+  background: #fff;
+  color: var(--zo-ink, #1d1d1f);
+  letter-spacing: 0;
+}
+#MainContent :is(.lens-guide__container, .size-guide__container, .prescription-guide__container, .faq-page__container, .zaman-about-page__inner) { max-width: 1120px; margin-inline: auto; min-width: 0; }
+#MainContent :is(.lens-guide__header, .size-guide__header, .prescription-guide__header, .faq-page__header, .zaman-about-page__hero) {
+  text-align: left;
+  margin: 0 0 48px;
+  padding: 0 0 32px;
+  border-bottom: 1px solid var(--zo-line, #e3e5e5);
+  max-width: none;
+}
+#MainContent :is(.lens-guide__title, .size-guide__title, .prescription-guide__title, .faq-page__title, .zaman-about-page h1, .zcont-hero-title, .template-search__header h1, .template-404 h1) {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: 0;
+  margin: 0 0 20px;
+  overflow-wrap: anywhere;
+}
+#MainContent :is(.lens-guide, .size-guide, .prescription-guide, .faq-page, .zaman-about-page) :is(p, li) { font-size: 16px; line-height: 1.75; letter-spacing: 0; color: #535b5d; }
+#MainContent :is(.lens-guide__intro, .size-guide__intro, .prescription-guide__intro, .faq-page__intro) { margin: 0; max-width: 68ch; font-size: 17px; line-height: 1.75; }
+#MainContent :is(.size-guide__section, .prescription-guide__section, .faq-page__section) { margin-bottom: 48px; }
+#MainContent :is(.size-guide__section-title, .prescription-guide__section-title, .faq-page__section-title) { font-size: 24px; line-height: 1.3; font-weight: 600; letter-spacing: 0; margin: 0 0 24px; border-bottom-width: 1px; text-align: left; }
+#MainContent :is(.lens-guide__cards, .prescription-definitions, .size-guide__breakdown, .size-guide__face-shapes, .zaman-about-page__grid) { gap: 24px; }
+#MainContent :is(.lens-guide__card, .prescription-definitions__card, .size-guide__breakdown-item, .size-guide__face-shape-card) { border: 1px solid var(--zo-line, #e3e5e5); border-radius: 8px; box-shadow: none; transform: none; min-width: 0; }
+#MainContent :is(.lens-guide__card-header, .lens-guide__card-content, .prescription-definitions__card, .size-guide__breakdown-item, .size-guide__face-shape-card) { padding: 24px; }
+#MainContent .lens-guide__card-header { background: #f5f5f7; border-bottom: 1px solid var(--zo-line, #e3e5e5); }
+#MainContent :is(.lens-guide__card-title, .prescription-definitions__label, .size-guide__breakdown-title, .size-guide__face-shape-title, .size-guide__tip-title) { font-size: 20px; line-height: 1.4; font-weight: 600; letter-spacing: 0; }
+#MainContent .lens-guide__section-title { font-size: 14px; letter-spacing: 0; margin-top: 20px; }
+#MainContent .lens-guide__list li { padding-left: 24px; }
+#MainContent .lens-guide__card-content > .lens-guide__section:last-child { margin-top: auto; padding-top: 16px; }
+#MainContent .main-list-collections-page__header { padding-block: 48px 32px; }
+#MainContent .main-list-collections-page__header h1 { font-size: 40px; font-weight: 600; letter-spacing: 0; }
+#MainContent :is(.main-list-collections-page__eyebrow, .main-list-collections-page .card__collection-count) { font-size: 14px; letter-spacing: 0; }
+#MainContent :is(.lens-guide__button, .size-guide__button) { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 24px; font-size: 16px; color: #fff; border-radius: 4px; line-height: 1.4; text-align: center; }
+#MainContent :is(.lens-guide__cta, .size-guide__cta, .zaman-about-page__cta) { border: 0; border-top: 1px solid var(--zo-line, #e3e5e5); border-radius: 0; box-shadow: none; background: #fff; padding: 32px 0 0; margin-top: 40px; text-align: left; }
+#MainContent .zaman-about-page__tag { padding: 0; background: none; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+#MainContent .zaman-about-page__grid article { padding: 24px 0; }
+#MainContent :is(.zaman-about-page__grid h2, .zaman-about-page__cta h2) { font-weight: 600; letter-spacing: 0; }
+#MainContent :is(.size-guide__table-wrapper, .prescription-guide__sample) { max-width: 100%; overflow-x: auto; }
+#MainContent .size-guide__table :is(th, td) { font-size: 15px; line-height: 1.6; padding: 16px; }
+#MainContent :is(.faq-accordion, .prescription-faq) { gap: 0; }
+#MainContent :is(.faq-accordion__item, .prescription-faq__item) { border: 0; border-bottom: 1px solid var(--zo-line, #e3e5e5); border-radius: 0; box-shadow: none; }
+#MainContent :is(.faq-accordion__trigger, .prescription-faq__trigger) { padding: 22px 12px; min-height: 60px; font: inherit; background: #fff; gap: 20px; }
+#MainContent :is(.faq-accordion__question, .prescription-faq__question) { font-size: 17px; font-weight: 500; line-height: 1.5; }
+#MainContent :is(.faq-accordion__trigger, .prescription-faq__trigger):hover { background: #f5f5f7; color: #1d1d1f; }
+#MainContent :is(.faq-accordion__content, .prescription-faq__content):not([hidden]) { padding: 0 12px 24px; max-height: none; animation: none; }
+#MainContent .zcont-hero { padding: 64px var(--zo-gutter, 24px) 32px; background: #fff; border: 0; text-align: left; }
+#MainContent .zcont-hero-inner { max-width: 1120px; }
+#MainContent .zcont-hero-desc { max-width: 65ch; color: #535b5d; }
+#MainContent .zcont-hero-badges { justify-content: flex-start; }
+#MainContent .zcont-badge { border: 0; padding: 0; background: none; }
+#MainContent .zcont-wrapper { max-width: 1200px; padding-inline: var(--zo-gutter, 24px); grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 64px; }
+#MainContent .zcont-info-sidebar { gap: 0; }
+#MainContent .zcont-info-card { text-align: left; border: 0; border-bottom: 1px solid var(--zo-line, #e3e5e5); border-radius: 0; box-shadow: none; padding: 24px 0; background: #fff; transform: none; }
+#MainContent .zcont-info-icon { width: auto; height: auto; background: none; border: 0; }
+#MainContent .zcont-info-title { text-transform: none; font-size: 17px; font-weight: 600; letter-spacing: 0; }
+#MainContent .zcont-info-text { font-size: 15px; overflow-wrap: anywhere; }
+#MainContent .zcont-form-container { min-width: 0; }
+#MainContent .zcont-form-title { font-size: 26px; font-weight: 600; letter-spacing: 0; margin-bottom: 28px; }
+#MainContent .zcont-input { font-size: 16px; }
+#MainContent .zcont-submit-btn { border-radius: 4px; min-height: 48px; transform: none; }
+#MainContent .template-search__header { padding-top: 32px; }
+#MainContent .template-search--empty { padding-bottom: 64px; }
+#MainContent .zaman-404 { padding: 48px 0; margin-block: 32px 64px; border: 0; box-shadow: none; border-radius: 0; }
+#MainContent .zaman-404__code { background: none; padding: 0; font-size: 16px; letter-spacing: 0; font-weight: 500; }
+#MainContent .cart-item__details :is(a, .product-option) { overflow-wrap: anywhere; }
+#MainContent .cart__warnings { padding-block: 48px; }
+#MainContent :is(.lens-guide, .size-guide, .prescription-guide, .faq-page) a:focus-visible { outline: 2px solid #0f766e; outline-offset: 4px; }
+@media (max-width: 749px) {
+  body .footer-custom__container { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; }
+  body .footer-custom__column { min-width: 0; overflow-wrap: anywhere; }
+  #MainContent .main-list-collections-page__header h1 { font-size: 30px; }
+  #MainContent :is(.lens-guide, .size-guide, .prescription-guide, .faq-page, .zaman-about-page) { padding-block: 36px 48px; }
+  #MainContent :is(.lens-guide__title, .size-guide__title, .prescription-guide__title, .faq-page__title, .zaman-about-page h1, .zcont-hero-title, .template-search__header h1, .template-404 h1) { font-size: 30px; }
+  #MainContent :is(.lens-guide__header, .size-guide__header, .prescription-guide__header, .faq-page__header, .zaman-about-page__hero) { margin-bottom: 32px; padding-bottom: 24px; }
+  #MainContent .zcont-hero { padding-top: 36px; }
+  #MainContent .zcont-wrapper { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  #MainContent .zcont-form-container { grid-row: 1; }
+  #MainContent .zcont-info-sidebar { display: flex; flex-direction: column; }
+  #MainContent .zaman-404__actions { flex-direction: column; }
+  #MainContent :is(.faq-accordion__question, .prescription-faq__question) { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #MainContent :is(.faq-accordion__content, .prescription-faq__content, .zcont-form) { animation: none; transition: none; }
+}

@@ -1,4 +1,5 @@
 {{ 'zaman-storefront.css' | asset_url | stylesheet_tag }}
+{{ 'zaman-pages.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'zaman-storefront.js' | asset_url }}" defer></script>
 <div class="zo-announcement"><div class="zo-container"><span>{{ section.settings.announcement | escape }}</span><a href="/pages/contact">Talk to our team {% render 'zaman-premium-icon', icon: 'arrow-right', size: 14 %}</a></div></div>
 <header class="zo-header">

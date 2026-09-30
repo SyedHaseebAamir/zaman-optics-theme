@@ -6,6 +6,15 @@ The theme is built around a premium minimalist eyewear shopping experience with 
 
 ## Current Status
 
+### September 30 Inner Pages Update
+- Shared inner-page styling in `assets/zaman-pages.css`: readable guide typography, consistent headings and gutters, restrained cards, clearer contact layout, and a two-column mobile footer.
+- FAQ and prescription-guide accordions share an accessible handler that also initializes after theme-editor section reloads.
+- Contact form accepts international phone formatting and requires an email and message. Validation was tested without sending a support message.
+- Search filter-reset links URL-encode search terms and retain product-only results. Empty search results offer a link back to the catalog.
+- Created the missing published About page with the `about` template in Shopify.
+- Desktop (1440px) and mobile (390px) preview checks cover About, Contact, FAQ, guides, search, collection directory, cart, and 404. Full-theme validation still reports pre-existing locale and legacy-template issues.
+- An isolated browser session verified product search, add to cart, line-item properties, quantity changes, and removal. No checkout or contact message was submitted.
+
 ### September 30 Navigation Update
 - Removed the lower header navigation strip in favour of the side menu.
 - Added Men and Women groups with gender-tagged eyeglasses/sunglasses links and separate unisex links, plus Kids and Contact Lenses navigation.
@@ -107,7 +116,6 @@ git push origin main
 - Enable the store's supported checkout payment methods
 - Use generic storefront copy such as "secure online payments available" unless a method is confirmed live
 - Upload real hero, category, and product photography
-- Create and assign the About page in Shopify Admin
 - Add confirmed WhatsApp number, email, and opening hours through the theme editor
 - Replace every zero-priced product before launch
 - Test a complete live order from product page to Shopify Admin

@@ -45,8 +45,8 @@
 
 {%- liquid
   assign sort_by = search.sort_by | default: search.default_sort_by
-  assign terms = search.terms | escape
-  assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+  assign terms = search.terms | url_encode
+  assign search_url = routes.search_url | append: '?q=' | append: terms | append: '&type=product&options%5Bprefix%5D=last&sort_by=' | append: sort_by
 -%}
 
 {%- style -%}
@@ -142,6 +142,8 @@
         {%- endunless -%}
         {%- if search.results_count == 0 and search.filters == empty -%}
           <p role="status">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
+          <p>Try a frame name, a brand, or a broader search.</p>
+          <a class="button button--secondary" href="{{ routes.all_products_collection_url }}">Browse all eyewear</a>
         {%- endif -%}
       {%- endif -%}
     </div>
@@ -271,7 +273,6 @@
                   >
                     {%- case item.object_type -%}
                       {%- when 'product' -%}
-                        {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
                         {% render 'zaman-product-card',
                           card_product: item,
                           media_aspect_ratio: section.settings.image_ratio,

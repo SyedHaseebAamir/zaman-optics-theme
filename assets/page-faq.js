@@ -1,105 +1,41 @@
-/**
- * FAQ Page Accordion Functionality
- * Vanilla JavaScript implementation for smooth open/close animations
- */
-
-document.addEventListener('DOMContentLoaded', function() {
-  const accordionTriggers = document.querySelectorAll('.faq-accordion__trigger');
-
-  accordionTriggers.forEach(trigger => {
-    trigger.addEventListener('click', function() {
-      const isExpanded = this.getAttribute('aria-expanded') === 'true';
-      const content = this.nextElementSibling;
-
-      // Get the current section (parent of parent)
-      const section = this.closest('.faq-page__section');
-      const otherTriggers = section.querySelectorAll('.faq-accordion__trigger');
-
-      // Close all other items in the same section
-      otherTriggers.forEach(otherTrigger => {
-        if (otherTrigger !== this && otherTrigger.getAttribute('aria-expanded') === 'true') {
-          otherTrigger.setAttribute('aria-expanded', 'false');
-          otherTrigger.nextElementSibling.hidden = true;
-        }
-      });
-
-      // Toggle current item
-      this.setAttribute('aria-expanded', !isExpanded);
-      content.hidden = isExpanded;
-
-      // Handle animation
-      if (!isExpanded) {
-        // Opening
-        content.hidden = false;
-        // Trigger reflow to enable transition
-        content.offsetHeight;
-      }
+(() => {
+  // Shared by both guides, including sections reloaded by the theme editor.
+  if (window.zamanFaqInitialized) return;
+  window.zamanFaqInitialized = true;
+  const selector = '.faq-accordion__trigger, .prescription-faq__trigger';
+  let nextId = 0;
+  function initialize(root = document) {
+    root.querySelectorAll(selector).forEach((trigger) => {
+      const panel = trigger.nextElementSibling;
+      if (!panel) return;
+      trigger.type = 'button';
+      if (!trigger.id) trigger.id = `zaman-faq-trigger-${++nextId}`;
+      if (!panel.id) panel.id = `${trigger.id}-panel`;
+      trigger.setAttribute('aria-controls', panel.id);
+      panel.setAttribute('aria-labelledby', trigger.id);
+      panel.hidden = trigger.getAttribute('aria-expanded') !== 'true';
     });
-
-    // Keyboard support
-    trigger.addEventListener('keydown', function(event) {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        this.click();
-      }
-    });
-  });
-
-  // Optional: Support for opening accordion from URL hash
-  if (window.location.hash) {
-    const targetId = window.location.hash.substring(1);
-    const targetElement = document.getElementById(targetId);
-
-    if (targetElement && targetElement.classList.contains('faq-accordion__item')) {
-      const trigger = targetElement.querySelector('.faq-accordion__trigger');
-      if (trigger && trigger.getAttribute('aria-expanded') === 'false') {
-        trigger.click();
-        setTimeout(() => {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
-      }
-    }
   }
-});
-
-/**
- * Optional: Helper function to programmatically open/close accordion items
- * Usage: toggleAccordionItem('my-item-id', true)
- */
-function toggleAccordionItem(itemId, shouldOpen) {
-  const item = document.getElementById(itemId);
-  if (!item) return false;
-
-  const trigger = item.querySelector('.faq-accordion__trigger');
-  const isCurrentlyOpen = trigger.getAttribute('aria-expanded') === 'true';
-
-  if ((shouldOpen && !isCurrentlyOpen) || (!shouldOpen && isCurrentlyOpen)) {
-    trigger.click();
-    return true;
+  function setExpanded(trigger, expanded) {
+    trigger.setAttribute('aria-expanded', String(expanded));
+    trigger.nextElementSibling.hidden = !expanded;
   }
-  return false;
-}
-
-/**
- * Optional: Close all accordion items
- */
-function closeAllAccordions() {
-  const allTriggers = document.querySelectorAll('.faq-accordion__trigger');
-  allTriggers.forEach(trigger => {
-    if (trigger.getAttribute('aria-expanded') === 'true') {
-      trigger.click();
-    }
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest(selector);
+    if (!trigger || !trigger.nextElementSibling) return;
+    const expanded = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.closest('.faq-accordion, .prescription-faq')?.querySelectorAll(selector)
+      .forEach((other) => setExpanded(other, false));
+    setExpanded(trigger, !expanded);
   });
-}
-
-/**
- * Optional: Open all accordion items
- */
-function openAllAccordions() {
-  const allTriggers = document.querySelectorAll('.faq-accordion__trigger');
-  allTriggers.forEach(trigger => {
-    if (trigger.getAttribute('aria-expanded') === 'false') {
-      trigger.click();
-    }
-  });
-}
+  function openHash() {
+    const item = document.getElementById(window.location.hash.slice(1));
+    const trigger = item?.matches(selector) ? item : item?.querySelector(selector);
+    if (trigger) setExpanded(trigger, true);
+  }
+  function ready() { initialize(); openHash(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready, { once: true });
+  else ready();
+  document.addEventListener('shopify:section:load', (event) => initialize(event.target));
+  window.addEventListener('hashchange', openHash);
+})();
