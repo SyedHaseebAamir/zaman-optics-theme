@@ -23,8 +23,8 @@
   if results.url
     assign results_url = results.url
   else
-    assign terms = results.terms | escape
-    assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+    assign terms = results.terms | url_encode
+    assign results_url = routes.search_url | append: '?q=' | append: terms | append: '&type=product&options%5Bprefix%5D=last&sort_by=' | append: sort_by
   endif
 -%}
 
@@ -38,6 +38,7 @@
         {%- if results.terms -%}
           <input type="hidden" name="q" value="{{ results.terms | escape }}">
           <input name="options[prefix]" type="hidden" value="last">
+          <input name="type" type="hidden" value="product">
         {%- endif -%}
 
         {% if enable_filtering %}
@@ -779,6 +780,7 @@
             {%- if results.terms -%}
               <input type="hidden" name="q" value="{{ results.terms | escape }}">
               <input name="options[prefix]" type="hidden" value="last">
+              <input name="type" type="hidden" value="product">
             {%- endif -%}
           </div>
         </form>
@@ -868,6 +870,7 @@
         {%- if results.terms -%}
           <input type="hidden" name="q" value="{{ results.terms | escape }}">
           <input name="options[prefix]" type="hidden" value="last">
+          <input name="type" type="hidden" value="product">
         {%- endif -%}
       </form>
     </facet-filters-form>
