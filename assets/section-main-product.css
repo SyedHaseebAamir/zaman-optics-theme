@@ -19,6 +19,12 @@ product-info {
   padding-left: 0;
 }
 
+/* The gallery shares this column with About and frame details. */
+.product__media-wrapper > media-gallery.product__column-sticky {
+  display: block;
+  position: static;
+}
+
 @media screen and (min-width: 750px) {
   .product__column-sticky {
     display: block;
