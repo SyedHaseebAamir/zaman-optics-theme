@@ -7,7 +7,7 @@
     <button class="zo-icon-button" type="button" data-zo-open="ZoMenu" aria-label="Open menu" aria-controls="ZoMenu" aria-expanded="false" title="Menu">{% render 'zaman-premium-icon', icon: 'menu', size: 24 %}</button>
     <a class="zo-logo" href="{{ routes.root_url }}" aria-label="Zaman Optics home">
       {% if section.settings.logo != blank %}{{ section.settings.logo | image_url: width: 360 | image_tag: width: 180, loading: 'eager', alt: shop.name }}
-      {% else %}{% render 'zaman-premium-icon', icon: 'glasses', size: 32 %}<span>Zaman Optics</span>{% endif %}
+      {% else %}<img class="zo-logo__brand" src="{{ 'zaman-optics-logo.png' | asset_url }}" width="2172" height="724" alt="Zaman Optics" loading="eager" fetchpriority="high">{% endif %}
     </a>
     <nav class="zo-header__links" aria-label="Main navigation"><a href="{{ routes.collections_url }}">Collections</a><a href="{{ routes.all_products_collection_url }}">All Products</a><a href="/pages/contact">Contact</a></nav>
     <form action="{{ routes.search_url }}" method="get" class="zo-search" role="search">
